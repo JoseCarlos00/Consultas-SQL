@@ -1,0 +1,20 @@
+SELECT
+TH.REFERENCE_ID,
+TH.LOCATION,
+TH.ITEM,
+CAST(TH.QUANTITY AS INT) AS QUANTITY,
+I.DESCRIPTION
+
+FROM Transaction_history TH
+INNER JOIN ITEM I 
+ON TH.ITEM=I.ITEM
+
+WHERE TH.user_name='JoseCarlos'  
+AND TH.transaction_type='120' 
+AND TH.reference_id like '%-i-%143183'
+AND I.company='FM'
+AND TH.LOCATION<>'EMP-01'
+
+ORDER BY TH.LOCATION
+
+-- Surtido Confirm
