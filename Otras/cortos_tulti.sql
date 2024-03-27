@@ -45,9 +45,9 @@ SELECT
   WHERE SD.status1=100 
   AND SD.ALLOCATION_REJECTED_QTY > 0
   AND SD.company='FM'
-  AND SD.warehouse='Mariano'
+  AND SD.warehouse='Tultitlan'
   
-  AND LI.warehouse='Mariano'
+  AND LI.warehouse='Tultitlan'
 
   AND (L.location_type<>'Muelle' OR L.location IN ('PRE-01', 'REC-01'))
   AND L.location_class<>'Shipping Dock' 
@@ -77,7 +77,8 @@ LEFT OUTER JOIN
   ITEM, WORK_ZONE, LOCATION, AV, OH, AL, IT, SU, NumFila
 FROM (
   SELECT
-        CASE WHEN (l.work_zone LIKE 'W-Mar Bodega%' OR l.work_zone = 'W-Mar No Banda') AND l.work_zone <> 'W-Mar Bodega Fiscal' THEN l.work_zone ELSE '' END AS WORK_ZONE,
+  WORK_ZONE,
+        -- CASE WHEN (l.work_zone LIKE 'W-Mar Bodega%' OR l.work_zone = 'W-Mar No Banda') AND l.work_zone <> 'W-Mar Bodega Fiscal' THEN l.work_zone ELSE '' END AS WORK_ZONE,
         li.item AS ITEM,
         CASE 
             WHEN l.location_type LIKE 'Generica%S' THEN l.location 
@@ -97,7 +98,7 @@ FROM (
     FROM location_inventory li
     INNER JOIN location l ON l.location = li.location
 
-    WHERE li.warehouse = 'Mariano'
+    WHERE li.warehouse = 'Tultitlan'
       -- AND (((on_hand_qty + in_transit_qty) - (allocated_qty + suspense_qty)) > 0 )
       AND l.location_class <> 'Shipping Dock' 
       AND (l.location_type <> 'Muelle' OR l.location IN ('PRE-01', 'REC-01'))
@@ -119,8 +120,8 @@ FROM (
         WHERE SD.status1=100 
         AND SD.ALLOCATION_REJECTED_QTY > 0
         AND SD.company='FM'
-        AND SD.warehouse='Mariano'
-        AND LI.warehouse='Mariano'
+        AND SD.warehouse='Tultitlan'
+        AND LI.warehouse='Tultitlan'
         AND (L.location_type<>'Muelle' OR L.location IN ('PRE-01', 'REC-01'))
         AND L.location_class<>'Shipping Dock' 
         AND (L.location_type<>'Piso' OR L.location IN ('ELEVADOR', 'REC-01', 'HOT-01', 'HOT-02', 'LISTONES-00', 'LISTONES-01'))
@@ -168,7 +169,7 @@ LEFT OUTER JOIN (
     WHERE SD.status1=100
     AND SD.ALLOCATION_REJECTED_QTY > 0
     AND SD.company='FM'
-    AND SD.warehouse='Mariano'
+    AND SD.warehouse='Tultitlan'
 
     GROUP BY ITEM
   ) AS TIPO_PEDIDOS

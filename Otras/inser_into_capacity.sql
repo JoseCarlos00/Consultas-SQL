@@ -1,0 +1,8 @@
+INSERT INTO item_location_capacity  (ITEM, COMPANY, LOCATION_TYPE, MAXIMUM_QTY, QUANTITY_UM, MINIMUM_RPLN_PCT, USER_STAMP, DATE_TIME_STAMP, MAXIMUM_RPLN_FILL_PCT, MINIMUM_TOPOFF_RPLN_PCT)
+VALUES 
+-- ('valor1 ', 'FM', 'Generica Permanente S', 'valor2', 'CJ', 'valor3', 'JoseCarlos', DATEADD(HOUR, 6, GETDATE()), '100', '0'),
+
+
+
+-- DATEADD(HOUR, 6, GETDATE())
+
