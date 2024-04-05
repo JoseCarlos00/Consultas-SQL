@@ -16,27 +16,27 @@ ORDER BY lista.location;
 
 
 --- consultar ubicaciones por asignar
-select distinct item, allocation_loc from item_location_assignment
--- where allocation_loc 
-where item
+SELECT DISTINCT item, allocation_loc FROM item_location_assignment
+-- WHERE allocation_loc 
+WHERE item
 in (
 
 )
 
 ---
-select distinct item, location, on_hand_qty from location_inventory
-where location 
+SELECT DISTINCT item, location, on_hand_qty FROM location_inventory
+WHERE location 
 
 
 
 -- Estatus del pedido
 UPDATE shipment_header
 SET trailing_sts=650, leading_sts=650
-where internal_shipment_num='1715542'
+WHERE internal_shipment_num='1715542'
 
 UPDATE shipment_detail
 SET status1=650
-where internal_shipment_line_num IN ('18884200')
+WHERE internal_shipment_line_num IN ('18884200')
 -- AND internal_shipment_num='1731141'
 
 UPDATE shipping_container
@@ -46,23 +46,6 @@ WHERE
 --  internal_container_num IN ('1652908')
 
 
---__________________________________________________________________________
---Ubicaciones sin capacidad
-SELECT   
-	C.work_zone, C.location, D.item, D.ITEM_COLOR, B.MAXIMUM_QTY, B.quantity_um, B.location_type 
-
-FROM location_inventory A 
-LEFT JOIN item_location_capacity B  ON  B.item = A.item 
-INNER JOIN location C   ON C.location = A.location    
-INNER JOIN item D  ON D.item = A.item   
-
-WHERE D.company='FM'    
-AND (B.location_type NOT LIKE 'Generica Permanente R' 
-        OR  B.location_type IS NULL)
-AND C.location_type = 'Generica Permanente S'
-and B.location_type IS NULL
-and c.work_zone LIKE 'W-Mar Bodega%'
-order by 1, 2
 --___________________________________________________________________________
 
 -- HUELLA
@@ -72,7 +55,7 @@ WHERE UOM.company='FM'
 AND UOM.sequence=2
 
 
---- CASE Surtidos
+--- CASE Surtidos Original
 CASE
         WHEN status1 = 100 AND ALLOCATION_REJECTED_QTY = 0 THEN 'In Pool'
         WHEN status1 = 200 AND ALLOCATION_REJECTED_QTY = 0 THEN 'Wave Pending'
@@ -91,7 +74,7 @@ CASE
   END AS ESTATUS
 
 	--- Status de pedidos
-	select distinct 
+	SELECT DISTINCT 
 shipment_id,
 erp_order,
 status1,
@@ -118,11 +101,11 @@ AND status1 <> 999
 AND erp_order LIKE '3408-141%'
 
 
--- Verificar item
+-- Verificar items
 SELECT lista.item
 FROM (
     VALUES
-    
+    -- ('item'),
     
 ) AS lista(item)
 WHERE NOT EXISTS (
@@ -131,11 +114,3 @@ WHERE NOT EXISTS (
     WHERE item.item = lista.item
 );
 
-
--- Ubicaciones
-SELECT distinct 
-item, allocation_loc from item_location_assignment
-where item
-in (
-
-)
