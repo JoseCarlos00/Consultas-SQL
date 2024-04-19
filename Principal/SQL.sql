@@ -17,7 +17,7 @@ ORDER BY lista.location;
 
 --- consultar ubicaciones por asignar
 SELECT DISTINCT item, allocation_loc FROM item_location_assignment
--- WHERE allocation_loc 
+-- WHERE allocation_loc
 WHERE item
 in (
 
@@ -110,7 +110,7 @@ FROM (
 ) AS lista(item)
 WHERE NOT EXISTS (
     SELECT 1
-    FROM item
+    -- FROM item
+    FROM item_location_assignment item
     WHERE item.item = lista.item
 );
-
