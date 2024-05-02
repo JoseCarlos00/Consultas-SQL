@@ -36,14 +36,14 @@ WHERE internal_shipment_num='1715542'
 
 UPDATE shipment_detail
 SET status1=650
-WHERE internal_shipment_line_num IN ('18884200')
+WHERE internal_shipment_line_num IN ('19443403')
 -- AND internal_shipment_num='1731141'
 
 UPDATE shipping_container
 SET status=650
 WHERE  
- internal_shipment_num='1753115'
---  internal_container_num IN ('1652908')
+--  internal_shipment_num='1753115'
+ internal_container_num IN ('19245906')
 
 
 --___________________________________________________________________________
