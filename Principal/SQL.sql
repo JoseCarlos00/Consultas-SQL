@@ -10,7 +10,6 @@ RIGHT JOIN (
     -- ('2-10-07-AA-01'),
 
 ) AS lista(location) ON lista.location = L.location
-
 WHERE (L.location = lista.location OR l.location IS NULL)
 ORDER BY lista.location;
 
