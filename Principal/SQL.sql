@@ -2,7 +2,7 @@
 SELECT
 L.warehouse, 
     lista.location,
- L.location_type, L.allocation_zone, L.work_zone, L.multi_item, L.track_containers, L.location_sts AS status
+ L.location_type, L.allocation_zone, L.work_zone, L.locating_zone, L.multi_item, L.track_containers, L.location_sts AS status
 
 FROM location L
 RIGHT JOIN (
