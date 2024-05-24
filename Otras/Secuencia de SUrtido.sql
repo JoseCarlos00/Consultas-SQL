@@ -12,4 +12,5 @@ SELECT  location
 FROM LOCATION
 WHERE warehouse = 'Mariano'
 AND work_zone = 'W-Mar Bodega 2'
+AND location_type LIKE 'Generica%S'
 ORDER BY picking_seq
