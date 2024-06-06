@@ -42,7 +42,7 @@ UPDATE shipping_container
 SET status=650
 WHERE  
 --  internal_shipment_num='1753115'
- internal_container_num IN ('19245906')
+ internal_container_num IN ('19490406', '19490407')
 
 
 --___________________________________________________________________________
