@@ -2,7 +2,7 @@ SELECT
   l.work_zone,
   l.location,
   li.item,
-  SUBSTRING(li.item_desc, 1, 15) as description,
+  REPLACE(li.item_desc, ',', '.') as description,
   ((li.on_hand_qty + li.in_transit_qty) - (li.allocated_qty + li.suspense_qty)) AS AV,
   li.on_hand_qty as OH,
   li.allocated_qty as AL,
