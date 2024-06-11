@@ -98,7 +98,17 @@ WHERE company='FM'
 AND warehouse='Mariano'
 AND status1 <> 999
 AND erp_order LIKE '3408-141%'
+	
+--------------------------
+DELETE item_location_assignment
+WHERE QUANTITY_UM = 'CJ'
+AND ALLOCATION_LOC LIKE '2-19-%'
 
+
+UPDATE location_inventory 
+SET LOGISTICS_UNIT = 'FMA0002772080', VOLUME_UM = 'CM3'
+WHERE   warehouse='Mariano'  AND internal_location_inv IN ('56217267')
+-----------------------------	
 
 -- Verificar items
 SELECT lista.item
