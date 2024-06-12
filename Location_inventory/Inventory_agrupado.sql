@@ -1,0 +1,63 @@
+SELECT 
+  WORk_ZONE, LOCATION, ITEM, ITEM_DESC, COMPANY,
+  CAST(SUM(AV) AS INT) AS AV,
+  CAST(SUM(OH) AS INT) AS OH,
+  CAST(SUM(AL) AS INT) AS AL,
+  CAST(SUM(IT) AS INT) AS IT,
+  CAST(SUM(SU) AS INT) AS SU,
+  CASE
+        WHEN COUNT(LICENCE_PLATE) = 0 THEN ''
+        WHEN COUNT(LICENCE_PLATE) > 1 THEN 'Multiple'
+        ELSE MAX(LICENCE_PLATE)
+    END AS LICENCE_PLATE
+
+FROM (
+ SELECT
+  L.WORk_ZONE,
+  LI.LOCATION,
+  LI.ITEM,
+  REPLACE(LI.ITEM_DESC, ',', '.') AS ITEM_DESC,
+  LI.COMPANY,
+  ((LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY) -  (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)) AS AV,
+  LI.ON_HAND_QTY AS OH,
+  LI.ALLOCATED_QTY AS AL,
+  LI.IN_TRANSIT_QTY AS IT,
+  LI.SUSPENSE_QTY AS SU,
+  LI.logistics_Unit AS LICENCE_PLATE,
+  LI.internal_location_inv
+ 
+
+FROM location_inventory LI
+INNER JOIN location L
+ ON L.location = LI.location
+
+WHERE L.location_type LIKE 'Gene%'
+AND L.warehouse='Mariano'
+AND L.work_zone = 'W-Mar Bodega 2' 
+-- AND L.location LIKE '1%'
+-- AND item IN ( )
+
+GROUP BY
+  LI.LOCATION,
+  LI.ITEM,
+  LI.ITEM_DESC,
+  LI.COMPANY,
+  LI.ON_HAND_QTY,
+  LI.ALLOCATED_QTY,
+  LI.IN_TRANSIT_QTY,
+  LI.SUSPENSE_QTY,
+  LI.internal_location_inv,
+  L.work_zone,
+  L.warehouse,
+  L.location_type,
+  LI.logistics_Unit
+
+) AS PRINCIPAL
+
+GROUP BY WORk_ZONE, LOCATION, ITEM, ITEM_DESC, COMPANY
+
+ORDER BY WORk_ZONE, LOCATION, ITEM
+
+-- LOCATION,ITEM,ITEM_COLOR,COMPANY,AV,OH, AL, IT, SU, LICENCE_PLATE,
+
+

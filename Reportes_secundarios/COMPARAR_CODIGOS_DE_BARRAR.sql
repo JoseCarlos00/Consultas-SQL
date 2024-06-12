@@ -22,14 +22,12 @@ FROM (
 ) AS PRINCIPAL
 
 GROUP BY ITEM, COMPANY
-ORDER BY ITEM
+ORDER BY ITEM;
 
 ----------------------------
-
-
 UPDATE item_cross_reference
 SET X_REF_ITEM = CONCAT('0', X_REF_ITEM)
 WHERE company <> 'AMD'
     AND X_REF_ITEM LIKE '7%'
-    AND X_REF_ITEM NOT LIKE '07%'
+    AND X_REF_ITEM NOT LIKE '07%';
 

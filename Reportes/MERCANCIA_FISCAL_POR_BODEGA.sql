@@ -1,14 +1,21 @@
 SELECT 
-  LOCATION, ITEM, ITEM_DESC, COMPANY,
+  LOCATION, 
+  ITEM, 
+  ITEM_DESC, 
+  COMPANY,
   CAST(SUM(AV) AS INT) AS AV,
   CAST(SUM(OH) AS INT) AS OH,
   CAST(SUM(AL) AS INT) AS AL,
   CAST(SUM(IT) AS INT) AS IT,
   CAST(SUM(SU) AS INT) AS SU,
   CAST(SUM(CAJAS) AS DECIMAL(5, 2)) AS CAJAS
+  -- ,CASE
+  --       WHEN COUNT(LICENCE_PLATE) = 0 THEN ''
+  --       WHEN COUNT(LICENCE_PLATE) > 1 THEN 'Multiple'
+  --       ELSE MAX(LICENCE_PLATE)
+  --   END AS LICENCE_PLATE
 
-FROM 
-(
+FROM (
 SELECT
   LI.LOCATION,
   LI.ITEM,
@@ -20,7 +27,8 @@ SELECT
   LI.IN_TRANSIT_QTY AS IT,
   LI.SUSPENSE_QTY AS SU,
   LI.internal_location_inv,
-  (LI.on_hand_qty / UOM.conversion_qty) AS CAJAS
+  (LI.on_hand_qty / UOM.conversion_qty) AS CAJAS,
+  LI.logistics_Unit AS LICENCE_PLATE
  
 
 FROM location_inventory LI
@@ -43,6 +51,7 @@ AND LI.item IN (
   INNER JOIN location L
  ON L.location = LI.location
  WHERE L.work_zone = 'W-Mar Bodega 6'
+ AND L.location_type LIKE 'Generica%S'
 )
 
 GROUP BY
@@ -55,7 +64,8 @@ GROUP BY
   LI.IN_TRANSIT_QTY,
   LI.SUSPENSE_QTY,
   LI.internal_location_inv,
-  UOM.conversion_qty
+  UOM.conversion_qty,
+  LI.logistics_Unit
 
 ) AS PRINCIPAL
 

@@ -1,14 +1,15 @@
-SELECT  location
-       ,location_type
-       ,allocation_zone
-       ,picking_seq
-       ,putaway_seq
-       ,work_zone
-       ,multi_item
-       ,track_containers
-       ,location_sts, as status
-       ,allocate_in_transit
-       ,warehouse
+SELECT  
+       location,
+       location_type,
+       allocation_zone,
+       picking_seq,
+       putaway_seq,
+       work_zone,
+       multi_item,
+       track_containers,
+       location_sts, as status,
+       allocate_in_transit,
+       warehouse
 
 FROM LOCATION
 
