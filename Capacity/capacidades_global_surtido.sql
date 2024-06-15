@@ -12,7 +12,7 @@ SELECT DISTINCT
     ELSE '' END AS TIPO
 
 FROM location_inventory LI
-LEFT JOIN item_location_capacity ILC  ON  ILC.item = li.item 
+LEFT OUTER JOIN item_location_capacity ILC  ON  ILC.item = li.item 
 INNER JOIN location L  ON L.location = LI.location    
 INNER JOIN item I  ON I.item = LI.item   
 

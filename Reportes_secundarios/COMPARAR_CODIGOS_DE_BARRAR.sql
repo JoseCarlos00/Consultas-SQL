@@ -15,19 +15,19 @@ FROM (
     ICR.internal_item_cross_num
   FROM item_cross_reference ICR
   WHERE ICR.company <> 'AMD'
-    AND ICR.X_REF_ITEM LIKE '7%'
-    AND ICR.X_REF_ITEM NOT LIKE '07%'
-    -- AND ICR.item LIKE '9320-%' 
+    AND ( ICR.X_REF_ITEM LIKE '7%' OR ICR.X_REF_ITEM LIKE '07%')
+    
+    AND ICR.item LIKE '6040-%' 
     -- AND (ICR.item LIKE '9320-%' OR ICR.item LIKE '9311-%')
 ) AS PRINCIPAL
 
 GROUP BY ITEM, COMPANY
 ORDER BY ITEM;
 
-----------------------------
-UPDATE item_cross_reference
-SET X_REF_ITEM = CONCAT('0', X_REF_ITEM)
-WHERE company <> 'AMD'
-    AND X_REF_ITEM LIKE '7%'
-    AND X_REF_ITEM NOT LIKE '07%';
+-- ----------------------------
+-- UPDATE item_cross_reference
+-- SET X_REF_ITEM = CONCAT('0', X_REF_ITEM)
+-- WHERE company <> 'AMD'
+--     AND X_REF_ITEM LIKE '7%'
+--     AND X_REF_ITEM NOT LIKE '07%';
 
