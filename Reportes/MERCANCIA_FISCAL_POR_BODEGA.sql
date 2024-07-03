@@ -29,22 +29,16 @@ SELECT
   LI.internal_location_inv,
   (LI.on_hand_qty / UOM.conversion_qty) AS CAJAS,
   LI.logistics_Unit AS LICENCE_PLATE
- 
 
 FROM location_inventory LI
-INNER JOIN location L
-    ON L.location = LI.location
-
-INNER JOIN Item_unit_of_measure UOM
-    ON LI.item = UOM.item
-
+INNER JOIN location L ON L.location = LI.location
+INNER JOIN Item_unit_of_measure UOM ON LI.item = UOM.item
 
 WHERE LI.warehouse='Mariano'
 AND L.warehouse = 'Mariano'
 AND L.location LIKE '3%'
-
 AND UOM.sequence = '2'
-
+  
 AND LI.item IN (
   SELECT ITEM
   FROM location_inventory LI
@@ -73,4 +67,4 @@ GROUP BY LOCATION, ITEM, ITEM_DESC, COMPANY
 
 ORDER BY LOCATION
 
--- LOCATION,ITEM,ITEM_DESC,COMPANY,AV,OH, AL, IT, SU, CAJAS
+-- LOCATION,ITEM,ITEM_DESC,COMPANY,AV,OH,AL,IT,SU,CAJAS,
