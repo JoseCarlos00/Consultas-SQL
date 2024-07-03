@@ -7,7 +7,7 @@ SELECT
        work_zone,
        multi_item,
        track_containers,
-       location_sts, as status,
+       location_sts AS status,
        allocate_in_transit,
        warehouse
 
