@@ -35,7 +35,7 @@ WHERE L.location_type LIKE 'Gene%'
 AND L.warehouse='Mariano'
 AND L.work_zone = 'W-Mar Bodega 2' 
 -- AND L.location LIKE '1%'
--- AND item IN ( )
+-- AND LI.item IN ( )
 
 GROUP BY
   LI.LOCATION,
