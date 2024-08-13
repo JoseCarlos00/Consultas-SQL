@@ -2,7 +2,7 @@ SELECT DISTINCT
     L.work_zone, 
     L.location,
     I.item,
-    I.ITEM_COLOR,
+    REPLACE(I.description, ',', '.') AD DESCRIPTION,
     CAST(ILC.MAXIMUM_QTY AS INT) AS QTY,
     NUEVA = NULL,
     ILC.quantity_um AS UM
@@ -20,4 +20,4 @@ AND L.work_zone='W-mar Bodega 1'
 
 ORDER BY  L.location
 
--- WORK_ZONE,LOCATION,ITEM,COLOR,QTY,NUEVA,UM,
+-- WORK_ZONE,LOCATION,ITEM,description,QTY,NUEVA,UM,
