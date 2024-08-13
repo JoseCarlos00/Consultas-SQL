@@ -2,7 +2,7 @@ SELECT DISTINCT
     L.work_zone, 
     L.location,
     I.item,
-    REPLACE(I.description, ',', '.') AD DESCRIPTION,
+    REPLACE(I.description, ',', '.') AS DESCRIPTION,
     CAST(ILC.MAXIMUM_QTY AS INT) AS QTY,
     NUEVA = NULL,
     ILC.quantity_um AS UM
