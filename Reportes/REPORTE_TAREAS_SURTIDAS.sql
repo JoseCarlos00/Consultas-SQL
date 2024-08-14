@@ -1,7 +1,8 @@
 SELECT
   ZONA, TIPO,
   COUNT(DISTINCT WORK_UNIT) AS TAREAS_SURTIDAS,
-  COUNT(*) AS LINEAS_SURTIDAS
+  COUNT(*) AS LINEAS_SURTIDAS,
+  FEHCA
 
 FROM (
     SELECT
@@ -23,7 +24,8 @@ FROM (
          WHEN TH.reference_id LIKE '%-I-%' THEN 'INTERNET'
          WHEN TH.reference_id LIKE '%-M-%' THEN 'MAYOREO'
          ELSE ''
-        END AS TIPO
+        END AS TIPO,
+        CONVERT(varchar, DATEADD(hour, -6, TH.date_time_stamp), 101) AS FECHA
 
     FROM
         Transaction_history TH
@@ -42,10 +44,7 @@ FROM (
     GROUP BY TH.INTERNAL_ID, TH.WORK_UNIT, TH.WORK_ZONE, TH.reference_id, TH.warehouse, TH.transaction_Type, TH.direction, TH.date_time_stamp, L.location_type
 
 ) AS subconsulta
-
-
-GROUP BY ZONA, TIPO
-
+GROUP BY ZONA, TIPO, FEHCA
 ORDER BY ZONA, TIPO
 
 
