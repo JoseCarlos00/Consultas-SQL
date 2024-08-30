@@ -35,8 +35,9 @@ FROM (
         TH.warehouse = 'Mariano'
         AND TH.transaction_Type = '130'
         AND TH.direction='FROM'
-        
+        --- FECHA
         AND CONVERT(date, DATEADD(hour, -6, TH.date_time_stamp)) = CONVERT(date, GETDATE())
+        ---  AND CONVERT(date, DATEADD(hour, -6, TH.date_time_stamp)) = 'AAAAMMDD'
         AND TH.WORK_ZONE IS NOT NULL
         AND L.location_type LIKE 'Generica%'
         AND TH.reference_id LIKE '%-T-%' 
