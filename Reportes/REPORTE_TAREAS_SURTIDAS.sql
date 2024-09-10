@@ -25,7 +25,7 @@ FROM (
          WHEN TH.reference_id LIKE '%-M-%' THEN 'MAYOREO'
          ELSE ''
         END AS TIPO,
-        CONVERT(varchar, DATEADD(hour, -6, TH.date_time_stamp), 103) AS FECHA
+        CONVERT(varchar, DATEADD(hour, -6, TH.date_time_stamp), 6) AS FECHA
 
     FROM
         Transaction_history TH
