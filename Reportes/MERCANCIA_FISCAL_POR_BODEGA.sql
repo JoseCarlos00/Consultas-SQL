@@ -44,6 +44,8 @@ AND LI.item IN (
   FROM location_inventory LI
   INNER JOIN location L
  ON L.location = LI.location
+
+  --- SELECIONAR BODEGA
  WHERE L.work_zone = 'W-Mar Bodega 6'
  AND L.location_type LIKE 'Generica%S'
 )
