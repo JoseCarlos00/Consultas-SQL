@@ -6,11 +6,11 @@ SELECT
     LOCATING_ZONE,
     MULTI_ITEM,
     TRACK_CONTAINERS,
+    ALLOCATE_IN_TRANSIT,
     STATUS,
     PERMANENTE,
     DINAMICO,
-    RESERVA,
-    ALLOCATE_IN_TRANSIT
+    RESERVA
 
 FROM (
     SELECT 
@@ -30,34 +30,31 @@ FROM (
             WHEN LOCATION_TYPE = 'Generica Permanente S' AND (ALLOCATION_ZONE = 'A-Surtido Permanente' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'Y' THEN 'Multi Item - Track'
             WHEN LOCATION_TYPE = 'Generica Permanente S' AND (ALLOCATION_ZONE = 'A-Surtido Permanente' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'N' THEN 'Multi Item - Track - Transit'
             WHEN LOCATION_TYPE = 'Generica Permanente S' AND (ALLOCATION_ZONE = 'A-Surtido Permanente' OR MULTI_ITEM = 'N') AND TRACK_CONTAINERS = 'Y' THEN 'Track Container'
-            WHEN LOCATION_TYPE = 'Generica Permanente S' AND ALLOCATION_ZONE <> 'A-Surtido Permanente' AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'N' THEN 'Allocation Zone - Item'
-            WHEN LOCATION_TYPE = 'Generica Permanente S' AND ALLOCATION_ZONE <> 'A-Surtido Permanente' AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'Y' THEN 'Allocation Zone - Track'
-            WHEN LOCATION_TYPE = 'Generica Permanente S' AND ALLOCATION_ZONE <> 'A-Surtido Permanente' THEN 'Allocation Zone'
+            WHEN LOCATION_TYPE = 'Generica Permanente S' AND ( ALLOCATION_ZONE <> 'A-Surtido Permanente' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'N' THEN 'Allocation Zone'
+            WHEN LOCATION_TYPE = 'Generica Permanente S' THEN 'Error Desconocido'
             ELSE '' 
         END AS 'PERMANENTE',
-        CASE 
+
+         CASE
             WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'N' AND ALLOCATE_IN_TRANSIT = 'N' THEN 'Correcto'
             WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'N' AND ALLOCATE_IN_TRANSIT = 'Y' THEN 'Transit'
             WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'N' AND ALLOCATE_IN_TRANSIT = 'N' THEN 'Multi Item'
-            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'N' THEN 'Multi Item - Track'
+            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'Y' THEN 'Multi Item - Track'
             WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'Y' THEN 'Multi Item - Track - Transit'
-            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR MULTI_ITEM = 'Y') AND TRACK_CONTAINERS = 'Y' THEN 'Track Container'
-            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND ALLOCATION_ZONE <> 'A-Surtido Dinamico' AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'N' THEN 'Allocation Zone - Item'
-            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND ALLOCATION_ZONE <> 'A-Surtido Dinamico' AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'Y' THEN 'Allocation Zone - Track'
-            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND ALLOCATION_ZONE <> 'A-Surtido Dinamico' THEN 'Allocation Zone'
+            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND (ALLOCATION_ZONE = 'A-Surtido Dinamico' OR MULTI_ITEM = 'N') AND TRACK_CONTAINERS = 'Y' THEN 'Track Container'
+            WHEN LOCATION_TYPE = 'Generica Dinamico S' AND ( ALLOCATION_ZONE <> 'A-Surtido Dinamico' OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'N' THEN 'Allocation Zone'
+            WHEN LOCATION_TYPE = 'Generica Dinamico S' THEN 'Error Desconocido'
             ELSE '' 
         END AS 'DINAMICO',
 
-        CASE 
+         CASE 
             WHEN LOCATION_TYPE = 'Generica Dinamico R' AND (ALLOCATION_ZONE NOT IN ('A-Surtido Dinamico', 'A-Surtido Permanente') OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'N' THEN 'Correcto'
             WHEN LOCATION_TYPE = 'Generica Dinamico R' AND (ALLOCATION_ZONE NOT IN ('A-Surtido Dinamico', 'A-Surtido Permanente') OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'Y' THEN 'Transit'
             WHEN LOCATION_TYPE = 'Generica Dinamico R' AND (ALLOCATION_ZONE NOT IN ('A-Surtido Dinamico', 'A-Surtido Permanente') OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'Y' AND ALLOCATE_IN_TRANSIT = 'N' THEN 'Multi Item'
             WHEN LOCATION_TYPE = 'Generica Dinamico R' AND (ALLOCATION_ZONE NOT IN ('A-Surtido Dinamico', 'A-Surtido Permanente') OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'N' AND ALLOCATE_IN_TRANSIT = 'N' THEN 'Multi Item - Track'
             WHEN LOCATION_TYPE = 'Generica Dinamico R' AND (ALLOCATION_ZONE NOT IN ('A-Surtido Dinamico', 'A-Surtido Permanente') OR ALLOCATION_ZONE IS NULL) AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'N' AND ALLOCATE_IN_TRANSIT = 'Y' THEN 'Multi Item - Track - Transit'
             WHEN LOCATION_TYPE = 'Generica Dinamico R' AND (ALLOCATION_ZONE NOT IN ('A-Surtido Dinamico', 'A-Surtido Permanente') OR MULTI_ITEM = 'Y') AND TRACK_CONTAINERS = 'N' THEN 'Track Container'
-            WHEN LOCATION_TYPE = 'Generica Dinamico R' AND ALLOCATION_ZONE  IN ('A-Surtido Dinamico', 'A-Surtido Permanente') AND MULTI_ITEM = 'N' AND TRACK_CONTAINERS = 'Y' THEN 'Allocation Zone - Item'
-            WHEN LOCATION_TYPE = 'Generica Dinamico R' AND ALLOCATION_ZONE  IN ('A-Surtido Dinamico', 'A-Surtido Permanente') AND MULTI_ITEM = 'Y' AND TRACK_CONTAINERS = 'N' THEN 'Allocation Zone- Track'
-            WHEN LOCATION_TYPE = 'Generica Dinamico R' AND ALLOCATION_ZONE  IN ('A-Surtido Dinamico', 'A-Surtido Permanente')  THEN 'Allocation Zone'
+            WHEN LOCATION_TYPE = 'Generica Dinamico R' THEN 'Error Desconocido'
             ELSE '' 
         END AS 'RESERVA'
 
@@ -75,4 +72,4 @@ WHERE
 
 ORDER BY LOCATION_TYPE, PERMANENTE, DINAMICO, RESERVA, LOCATION
 
--- LOCATION,LOCATION_TYPE,ALLOCATION_ZONE,WORK_ZONE, LOCATING_ZONE,MULTI_ITEM,TRACK_CONTAINERS,STATUS,PERMANENTE,DINAMICO,RESERVA,
+-- LOCATION,LOCATION_TYPE,ALLOCATION_ZONE,WORK_ZONE, LOCATING_ZONE,MULTI_ITEM,TRACK_CONTAINERS,STATUS,ALLOCATE_IN_TRANSIT,PERMANENTE,DINAMICO,RESERVA,
