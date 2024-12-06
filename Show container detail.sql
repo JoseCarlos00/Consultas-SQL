@@ -1,5 +1,4 @@
 SELECT 
-  CONCAT('''',SD.internal_shipment_line_num,'''', ',')  AS  Detail_internal_shipment_line_num0,
   SH.trailing_sts AS Header_trailing_sts,
   SH.leading_sts  AS Header_leading_sts,
   SH.internal_shipment_num As  Header_internal_shipment_num,
