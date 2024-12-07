@@ -12,6 +12,8 @@ SELECT
 
   SC.status AS Container_status,  
   SC.item  AS Container_item,
+  SD.total_qty AS  Detail_QTY,
+  SC.location AS Container_location,
   SC.internal_container_num   AS Container_internal_container_num,
   SC.parent_container_id  AS Container_parent_container_id
 
@@ -23,7 +25,7 @@ INNER JOIN shipping_container SC ON SD.internal_shipment_num = SC.internal_shipm
 WHERE SD.status1 <> '999'
 -- AND (SH.trailing_sts <> 700 OR SD.status1 <> 700)
 
---  SQL,Header_trailing_sts,Header_leading_sts,Header_internal_shipment_num,Header_shipment_id,Header_shipping_load_num,Detail_item,Detail_status1,Detail_internal_shipment_line_num,Container_status,Container_item,Container_internal_container_num,Container_parent_container_id,
+-- Header_trailing_sts,Header_leading_sts,Header_internal_shipment_num,Header_shipment_id,Header_shipping_load_num,Detail_item,Detail_status1,Detail_internal_shipment_line_num,Container_status,Container_item,Detail_QTY,Container_location,Container_internal_container_num,Container_parent_container_id,
 
 AND SC.parent_container_id IN (
 -- 'AMD0001242181 ',
