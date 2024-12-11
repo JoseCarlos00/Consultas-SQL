@@ -3,9 +3,8 @@ SELECT DISTINCT
     L.location,
     I.item,
     I.ITEM_COLOR,
-    CAST(ILC.MAXIMUM_QTY AS INT) AS QTY,
+    CONCAT(CAST(ILC.MAXIMUM_QTY AS INT), ' ', ILC.quantity_um) AS CAPACIDAD,
     NUEVA = NULL,
-    ILC.quantity_um AS UM
     CASE
         WHEN L.location_type = 'Generica Permanente S' THEN 'PERMANENTE'
         WHEN L.location_type = 'Generica Dinamico S' THEN 'DINAMICO'
