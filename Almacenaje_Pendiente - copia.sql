@@ -35,6 +35,7 @@ FROM (
   WHERE WI.WORK_TYPE LIKE 'Almacenaje%'
   AND WI.INSTRUCTION_TYPE = 'Detail'
   AND WI.FROM_WHS = 'Mariano'
+  AND WI.CONDITION <> 'Closed'
   AND RH.WAREHOUSE = 'Mariano'
 
   GROUP BY 
