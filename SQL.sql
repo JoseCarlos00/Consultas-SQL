@@ -15,3 +15,9 @@ UPDATE location_inventory
 SET LOGISTICS_UNIT = 'FMA0002772080', VOLUME_UM = 'CM3'
 WHERE   warehouse='Mariano'  AND internal_location_inv IN ('56217267')
 -----------------------------	
+
+
+SELECT * FROM WORK_INSTRUCTION
+-- UPDATE WORK_INSTRUCTION
+SET CONDITION = 'Closed'
+WHERE FROM_WHS = 'Mariano' AND  WORK_UNIT = 'T1911240624'
