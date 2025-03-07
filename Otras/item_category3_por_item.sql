@@ -13,7 +13,7 @@ WHERE I.company='FM'
 AND LI.warehouse = 'Mariano'
 AND L.warehouse  = 'Mariano'
 
-AND L.location_type 'Generica%S'
+AND L.location_type LIKE 'Generica%S'
 -- AND L.WORK_ZONE = 'W-Mar Bodega 5'
 
 ORDER BY 1
