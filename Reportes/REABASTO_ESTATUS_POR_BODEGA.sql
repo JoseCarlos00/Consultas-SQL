@@ -1,4 +1,4 @@
-SELECT
+SELECT DISTINCT
   L.work_zone,
   L.location,
   I.item,
@@ -16,7 +16,38 @@ FROM location_inventory LI
   LEFT OUTER JOIN item_location_capacity ILC ON ILC.item = LI.item
   INNER JOIN location L ON L.location = LI.location
   INNER JOIN item I ON I.item = LI.item AND I.company = 'FM'
-  INNER JOIN Item_unit_of_measure UOM ON I.ITEM=UOM.item AND UOM.sequence='2' AND UOM.company='FM'
+
+INNER JOIN (
+  SELECT
+  ILC.ITEM AS ITEM, 
+  ILC.quantity_um AS CAPACIDAD_TYPE, 
+  ILC.MAXIMUM_QTY AS CAPACIDAD_QTY,
+  UOM.conversion_qty AS HUELLA_CJ, 
+  UOM.sequence AS HUELLA_UM,
+  CONCAT(
+    CAST(ILC.MAXIMUM_QTY AS INT),
+    ' ',
+    ILC.quantity_um
+  ) AS CAPACIDAD,
+
+  -- CAPACIDAD TOTAL
+  CASE 
+    WHEN ILC.quantity_um = 'PZ' THEN ILC.MAXIMUM_QTY
+    WHEN ILC.quantity_um = 'CJ' THEN ILC.MAXIMUM_QTY * UOM.conversion_qty
+    ELSE NULL END AS CAPACIDAD_TOTAL
+
+  FROM Item_unit_of_measure UOM
+  LEFT JOIN item_location_capacity ILC  ON  ILC.item = UOM.item 
+
+  WHERE UOM.sequence='2'
+  AND ILC.company='FM'
+  AND UOM.company='FM'
+  AND ILC.ITEM IN ('8015-62-14216','10349-10941-12701','4919-3203-7828','6220-342-29711','8095-5347-34273','1707-11395-29589','10606-8024-28824','1960-4850-5646','1953-4851-12111','1954-5009-12256','4728-7873-3217')
+  
+) AS UOM ON UOM.ITEM = LI.ITEM
+
+
+
 
 WHERE LI.warehouse = 'Mariano'
   AND L.warehouse = 'Mariano'
