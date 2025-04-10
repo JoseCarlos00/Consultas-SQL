@@ -34,7 +34,7 @@ INNER JOIN Item_unit_of_measure UOM
 
 WHERE UOM.sequence = '2'
 AND LI.warehouse = 'Mariano'
-AND  L.location_type NOT LIKE 'Gene%S'
+-- AND  L.location_type  LIKE 'Gene%S'
 AND L.work_zone = 'W-Mar Bodega 6'
 
 
