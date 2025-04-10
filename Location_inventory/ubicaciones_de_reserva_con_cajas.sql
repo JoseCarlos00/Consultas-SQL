@@ -20,6 +20,7 @@ SELECT
   LI.IN_TRANSIT_QTY AS IT,
   LI.SUSPENSE_QTY AS SU,
   LI.internal_location_inv,
+  LI.logistics_Unit AS LP,
   UOM.conversion_qty AS HUELLA,
   CAST((LI.on_hand_qty / UOM.conversion_qty) AS DECIMAL(5, 2)) AS CAJAS
  
