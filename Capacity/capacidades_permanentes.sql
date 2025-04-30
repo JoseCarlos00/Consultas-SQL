@@ -3,9 +3,8 @@ SELECT DISTINCT
     L.location,
     I.item,
     REPLACE(I.description, ',', '.') AS DESCRIPTION,
-    CAST(ILC.MAXIMUM_QTY AS INT) AS QTY,
-    NUEVA = NULL,
-    ILC.quantity_um AS UM
+    CONCAT( CAST(ILC.MAXIMUM_QTY AS INT), ' ', ILC.quantity_um),
+    NUEVA = NULL
 
 FROM item_location_assignment ILA
 LEFT JOIN item_location_capacity ILC  ON  ILC.item = ILA.item 
@@ -16,8 +15,8 @@ WHERE I.company='FM'
 AND (ILC.location_type NOT LIKE 'Generica Permanente R' 
         OR  ILC.location_type IS NULL)
 AND L.warehouse='Mariano'   
-AND L.work_zone='W-mar Bodega 1'   
+AND L.work_zone='W-mar Bodega 1'
 
-ORDER BY  L.location
+ORDER BY 1,2
 
--- WORK_ZONE,LOCATION,ITEM,description,QTY,NUEVA,UM,
+-- WORK_ZONE,LOCATION,ITEM,description,CAPACIDAD,NUEVA,
