@@ -3,9 +3,9 @@ SELECT DISTINCT
   L.location,
   I.item,
   I.ITEM_COLOR,
-  LI.ON_HAND_QTY,
-  LI.ALLOCATED_QTY
-
+ CAST( LI.ON_HAND_QTY AS INT) AS OH,
+  CAST(LI.ALLOCATED_QTY AS INT) AS AL
+ 
 
 FROM location_inventory LI
   LEFT OUTER JOIN item_location_capacity ILC ON ILC.item = LI.item
