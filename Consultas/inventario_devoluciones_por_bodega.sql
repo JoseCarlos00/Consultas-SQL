@@ -1,21 +1,32 @@
-SELECT
-    ZONAS.WORK_ZONE AS WORK_ZONE,
-    LI.LOCATION, 
-    LI.ITEM, 
-    REPLACE(LI.ITEM_DESC, ',', '.') AS DESCRIPTION, 
-    LI.COMPANY, 
-    CAST(LI.ON_HAND_QTY AS INT) AS OH,
-    CAST((LI.on_hand_qty / UOM.conversion_qty) AS DECIMAL(10, 2)) AS CAJAS,
-    ILA.allocation_loc AS PICKING
+SELECT 
+  WORK_ZONE,LOCATION,ITEM,DESCRIPTION, CAST(SUM(OH) AS INT) AS OH, SUM(CAJAS) AS CAJAS
+ 
 
-FROM 
-    LOCATION_INVENTORY LI
-INNER JOIN ITEM I ON I.ITEM = LI.ITEM AND I.COMPANY = 'FM'
-INNER JOIN Item_unit_of_measure UOM ON I.ITEM = UOM.item AND UOM.sequence='2' AND UOM.company='FM'
-INNER JOIN item_location_assignment ILA ON ILA.item = I.item AND ILA.quantity_um = 'PZ'
+FROM (
+  SELECT 
+  ZONAS.WORK_ZONE AS WORK_ZONE,
+  LI.LOCATION AS LOCATION,
+  LI.ITEM AS ITEM,
+  REPLACE(LI.ITEM_DESC, ',', '.') AS DESCRIPTION,
+  CASE
+    WHEN WORK_ZONE IN 
+      ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9', 'W-Mar Vinil', 'W-Mar Mayoreo')
+    THEN '1ER PISO'
 
+    WHEN WORK_ZONE IN 
+      ('W-Mar Bodega 10', 'W-Mar Bodega 11', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar No Banda')
+    THEN '2DO PISO'
+  ELSE '' 
+  END AS ZONA,
 
-LEFT OUTER JOIN (	 
+  SUM(LI.ON_HAND_QTY) as OH,
+  LI.internal_location_inv,
+  CAST((SUM(LI.ON_HAND_QTY) / UOM.conversion_qty) AS DECIMAL(10, 2)) AS CAJAS
+
+  FROM location_inventory LI
+  INNER JOIN Item_unit_of_measure UOM ON LI.ITEM = UOM.item AND UOM.sequence='2' AND UOM.company='FM'
+
+  LEFT OUTER JOIN (	 
     SELECT 
     ITEM, WORK_ZONE, LOCATION, AV, OH, AL, IT, SU, NumFila
     FROM (
@@ -49,16 +60,19 @@ LEFT OUTER JOIN (
 
     WHERE NumFila=1
 
-  ) 
-  AS ZONAS ON ZONAS.item = LI.ITEM
+  ) AS ZONAS ON ZONAS.item = LI.ITEM
 
 
-WHERE 
-    LI.WAREHOUSE = 'Mariano'
-    AND LI.LOCATION = 'DEVOLUCIONES'
-    -- AND I.ITEM_CATEGORY4 NOT LIKE '%NAV%MAD%'
-    -- AND ZONAS.WORK_ZONE = 'W-Mar Bodega 8'
+  WHERE LI.warehouse='Mariano'
+  AND LI.location LIKE 'HOT-%'
+  AND LI.ON_HAND_QTY > 0
 
-ORDER BY 1, 3
 
--- WORK_ZONE,LOCATION,ITEM,DESCRIPTION,COMPANY,OH,CAJAS,PICKING,
+  GROUP BY ZONAS.WORK_ZONE, LI.LOCATION, LI.ITEM, LI.ITEM_DESC,WORK_ZONE, LI.ON_HAND_QTY,  LI.internal_location_inv, UOM.conversion_qty
+) AS PRINCIPAL
+
+
+
+GROUP BY WORK_ZONE,LOCATION,ITEM,DESCRIPTION
+
+-- WORK_ZONE,LOCATION,ITEM,DESCRIPTION,OH,CAJAS,
