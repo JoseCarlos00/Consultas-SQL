@@ -1,9 +1,9 @@
 SELECT 
-  ZONAS.item,
+  ZONAS.WORK_ZONE AS WORK_ZONE,
   PRINCIPAL.ITEM,
   PRINCIPAL.DESCRIPTION,
-  SUM(PRINCIPAL.CANTIDAD) AS PRINCIPAL.PIEZAS,
-  (SUM(PRINCIPAL.CANTIDAD) / PRINCIPAL.HUELLA) AS CAJAS,
+  SUM(PRINCIPAL.CANTIDAD) AS PIEZAS,
+  (SUM(PRINCIPAL.CANTIDAD) / HUELLA) AS CAJAS,
   PRINCIPAL.COMPANY,
   PRINCIPAL.TIPO_DE_RECIBO,
   CONVERT(varchar, DATEADD(hour, -6, PRINCIPAL.DATE_RECEIPT), 6) AS FECHA,
@@ -51,51 +51,53 @@ FROM (
 ) AS PRINCIPAL
 
 LEFT OUTER JOIN (	 
-  SELECT 
-  ITEM, WORK_ZONE, LOCATION, AV, OH, AL, IT, SU, NumFila
-  FROM (
-  SELECT
-      CASE WHEN (l.work_zone LIKE 'W-Mar Bodega%' OR l.work_zone = 'W-Mar No Banda') AND l.work_zone <> 'W-Mar Bodega Fiscal' THEN l.work_zone ELSE '' END AS WORK_ZONE,
-        li.item AS ITEM,
-        CASE 
-            WHEN l.location_type LIKE 'Generica%S' AND l.location NOT LIKE '0-%' THEN l.location 
-            WHEN (li.item LIKE '4110-%' OR li.item LIKE '1310-%' OR li.item LIKE '1346-%') THEN l.location
-            ELSE '' 
-        END AS LOCATION,
-        ROW_NUMBER() OVER (PARTITION BY li.item ORDER BY
-            CASE
-                WHEN li.permanent='Y' THEN 1
-                WHEN (l.work_zone LIKE 'W-Mar Bodega%' OR l.work_zone = 'W-Mar No Banda') AND l.work_zone <> 'W-Mar Bodega Fiscal' THEN 2
-                WHEN l.work_zone IS NOT NULL THEN 3
-                ELSE 4
-            END
-        ) AS NumFila,
-        
-        ((LI.on_hand_qty + LI.in_transit_qty) - (LI.allocated_qty + LI.suspense_qty)) AS AV,
-        on_hand_qty AS OH, allocated_qty AS AL, in_transit_qty AS IT, suspense_qty AS SU
+    SELECT 
+    ITEM, WORK_ZONE, LOCATION, AV, OH, AL, IT, SU, NumFila
+    FROM (
+    SELECT
+        CASE WHEN (l.work_zone LIKE 'W-Mar Bodega%' OR l.work_zone = 'W-Mar No Banda') AND l.work_zone <> 'W-Mar Bodega Fiscal' THEN l.work_zone ELSE '' END AS WORK_ZONE,
+          li.item AS ITEM,
+          CASE 
+              WHEN l.location_type LIKE 'Generica%S' AND l.location NOT LIKE '0-%' THEN l.location 
+              WHEN (li.item LIKE '4110-%' OR li.item LIKE '1310-%' OR li.item LIKE '1346-%') THEN l.location
+              ELSE '' 
+          END AS LOCATION,
+          ROW_NUMBER() OVER (PARTITION BY li.item ORDER BY
+              CASE
+                  WHEN li.permanent='Y' THEN 1
+                  WHEN (l.work_zone LIKE 'W-Mar Bodega%' OR l.work_zone = 'W-Mar No Banda') AND l.work_zone <> 'W-Mar Bodega Fiscal' THEN 2
+                  WHEN l.work_zone IS NOT NULL THEN 3
+                  ELSE 4
+              END
+          ) AS NumFila,
+          
+          ((LI.on_hand_qty + LI.in_transit_qty) - (LI.allocated_qty + LI.suspense_qty)) AS AV,
+          on_hand_qty AS OH, allocated_qty AS AL, in_transit_qty AS IT, suspense_qty AS SU
 
-    FROM location_inventory li
-    INNER JOIN location l ON l.location = li.location
+      FROM location_inventory li
+      INNER JOIN location l ON l.location = li.location
 
-    WHERE li.warehouse = 'Mariano'
-    AND L.location_type LIKE 'Generica%S'
+      WHERE li.warehouse = 'Mariano'
+      AND L.location_type LIKE 'Generica%S'
 
-  ) AS FILAS
+    ) AS FILAS
 
-  WHERE NumFila=1
+    WHERE NumFila=1
 
-) AS ZONAS ON ZONAS.item = PRINCIPAL.ITEM
+  ) AS ZONAS ON ZONAS.item = PRINCIPAL.ITEM
+
 
 GROUP BY
- PRINCIPAL.ITEM,
- PRINCIPAL.DESCRIPTION,
- PRINCIPAL.DATE_RECEIPT,
- PRINCIPAL.TIPO_DE_RECIBO,
- PRINCIPAL.COMPANY,
- PRINCIPAL.ZONA,
- PRINCIPAL.HUELLA,
- ZONAS.item
+    ZONAS.WORK_ZONE,
+    PRINCIPAL.ITEM,
+    PRINCIPAL.DESCRIPTION,
+    PRINCIPAL.DATE_RECEIPT,
+    PRINCIPAL.TIPO_DE_RECIBO,
+    PRINCIPAL.COMPANY,
+    PRINCIPAL.ZONA,
+    PRINCIPAL.HUELLA
 
 -- ITEM,DESCRIPTION,PIEZAS,CAJAS,COMPANY,TIPO_DE_RECIBO,FECHA_DE_RECIBO,ZONA,
 
-ORDER BY ZONAS.item ASC, PRINCIPAL.DATE_RECEIPT ASC
+ORDER BY ZONAS.WORK_ZONE ASC, PRINCIPAL.DATE_RECEIPT ASC
+
