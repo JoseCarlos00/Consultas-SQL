@@ -27,7 +27,7 @@ LEFT OUTER JOIN (
         Transaction_history TH
     WHERE 
         TH.warehouse = 'Mariano'
-        AND TH.LOCATION = 'ALMACENAJE'
+        AND TH.LOCATION IN ('ALMACENAJE', 'ALMACENAJE-02', 'ALMACENAJE-01')
         AND TH.transaction_type IN (60, 140, 40)
 ) AS THR 
 ON LI.LOCATION = THR.LOCATION  
