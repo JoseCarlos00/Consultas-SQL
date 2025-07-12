@@ -64,7 +64,7 @@ FROM (
 
 
   WHERE LI.warehouse='Mariano'
-  AND LI.location LIKE 'HOT-%'
+  AND LI.location LIKE 'ALMACENAJE%'
   AND LI.ON_HAND_QTY > 0
 
 
