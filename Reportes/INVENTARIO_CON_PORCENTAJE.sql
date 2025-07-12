@@ -1,12 +1,12 @@
 SELECT 
-work_zone,
-location,
-item,
-ITEM_COLOR,
-OH AS PICKING_QTY,
-CAPACIDAD,
-CAPACIDAD_TOTAL,
-PORCENTAJE
+    work_zone,
+    location,
+    item,
+    ITEM_COLOR,
+    OH AS PICKING_QTY,
+    CAPACIDAD,
+    CAPACIDAD_TOTAL,
+    PORCENTAJE, RESULT.PORCENTAJE_NUMERIC
 
 FROM (
   SELECT DISTINCT
@@ -38,7 +38,7 @@ FROM (
         ELSE 
           NULL
       END 
-      AS DECIMAL(5, 2)
+      AS DECIMAL(10, 2)
     ), 
     ' %'
   ) AS PORCENTAJE,
@@ -51,7 +51,7 @@ FROM (
         ELSE 
           NULL
       END 
-      AS DECIMAL(5, 2)) AS PORCENTAJE_NUMERIC
+      AS DECIMAL(10, 2)) AS PORCENTAJE_NUMERIC
   
 
 FROM location_inventory LI
@@ -59,7 +59,7 @@ FROM location_inventory LI
   INNER JOIN location L ON L.location = LI.location
   INNER JOIN item I ON I.item = LI.item AND I.company = 'FM'
 
-INNER JOIN (
+  LEFT OUTER JOIN (
   SELECT
   ILC.ITEM AS ITEM, 
   ILC.quantity_um AS CAPACIDAD_TYPE, 
@@ -120,7 +120,7 @@ WHERE LI.warehouse = 'Mariano'
   AND L.work_zone = 'W-Mar Bodega 5'
 ) AS RESULT
 
-WHERE RESULT.PORCENTAJE_NUMERIC <= 50
-ORDER BY RESULT.work_zone, RESULT.location, RESULT.item;
+WHERE (RESULT.PORCENTAJE_NUMERIC <= 50 AND RESULT.PORCENTAJE_NUMERIC = 0)
+ORDER BY RESULT.work_zone, RESULT.location, RESULT.item
 
 -- WORK_ZONE,LOCATION,ITEM,ITEM_COLOR,PICKING_QTY,CAPACIDAD,CAPACIDAD_TOTAL,PORCENTAJE,
