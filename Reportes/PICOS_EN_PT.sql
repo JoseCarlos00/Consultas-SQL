@@ -41,6 +41,7 @@ FROM (
 	AND UOM.sequence = '2' AND I.company = 'FM'
 
 	AND L.WORK_ZONE = 'W-Tul Producto Terminado'
+	AND I.item_category4 <> 'ZMUEBLE TDAS'
 	-- AND L.WORK_ZONE = 'W-Tul Picos'
 	-- AND (L.WORK_ZONE = 'W-Tul Producto Terminado' OR L.WORK_ZONE = 'W-Tul Picos') 
         -- AND (I.ITEM_CATEGORY4 LIKE '%NAV%' OR I.ITEM_CATEGORY4 LIKE '%MUERTOS%' )
