@@ -9,7 +9,7 @@ SELECT DISTINCT
     ' ',
     ILC.quantity_um
   ) AS CAPACIDAD,
-  CONCAT(CAST((LI.ON_HAND_QTY / (UOM.conversion_qty * ILC.MAXIMUM_QTY)) * 100 AS DECIMAL(5, 2)), ' ', '%') AS PORCENTAJE
+  CONCAT(CAST((LI.ON_HAND_QTY / (UOM.HUELLA_CJ * ILC.MAXIMUM_QTY)) * 100 AS DECIMAL(5, 2)), ' ', '%') AS PORCENTAJE
 
 
 FROM location_inventory LI
@@ -17,7 +17,7 @@ FROM location_inventory LI
   INNER JOIN location L ON L.location = LI.location
   INNER JOIN item I ON I.item = LI.item AND I.company = 'FM'
 
-INNER JOIN (
+LEFT OUTER JOIN (
   SELECT
   ILC.ITEM AS ITEM, 
   ILC.quantity_um AS CAPACIDAD_TYPE, 
@@ -42,7 +42,6 @@ INNER JOIN (
   WHERE UOM.sequence='2'
   AND ILC.company='FM'
   AND UOM.company='FM'
-  AND ILC.ITEM IN ('8015-62-14216','10349-10941-12701','4919-3203-7828','6220-342-29711','8095-5347-34273','1707-11395-29589','10606-8024-28824','1960-4850-5646','1953-4851-12111','1954-5009-12256','4728-7873-3217')
   
 ) AS UOM ON UOM.ITEM = LI.ITEM
 
@@ -70,17 +69,17 @@ WHERE LI.warehouse = 'Mariano'
         'Generica Permanente S'
       )
       AND (
-        L.work_zone <> 'W-Mar Bodega 5' -- Cualquier ubicación fuera de Bodega 5
+        L.work_zone <> 'W-Mar Bodega 10' -- Cualquier ubicación fuera de Bodega 5
         OR (
-          L.work_zone = 'W-Mar Bodega 5'
+          L.work_zone = 'W-Mar Bodega 10'
           AND L.location_type NOT IN ('Generica Permanente S', 'Generica Dinamico S')
         )
       )
       AND LI.on_hand_qty > 0
   )
-  AND L.work_zone = 'W-Mar Bodega 5'
+  AND L.work_zone = 'W-Mar Bodega 10'
 
-AND ((LI.ON_HAND_QTY / (UOM.conversion_qty * ILC.MAXIMUM_QTY)) * 100) < 50
+AND (((LI.ON_HAND_QTY / (UOM.HUELLA_CJ * ILC.MAXIMUM_QTY)) * 100) < 50 OR ((LI.ON_HAND_QTY / (UOM.HUELLA_CJ * ILC.MAXIMUM_QTY)) * 100) IS NULL)
 
 ORDER BY L.location
 -- WORK_ZONE,LOCATION,ITEM,ITEM_COLOR,OH,CAPACIDAD,PORCENTAJE,
