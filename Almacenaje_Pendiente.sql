@@ -51,6 +51,8 @@ FROM (
   UOM.conversion_qty
 ) AS PRINCIPAL
 
+-- WHERE (ZONA = '2' OR ZONA = '-')
+
 GROUP BY
 ITEM,
 DESCRIPTION,
