@@ -33,8 +33,44 @@ WHERE UOM.sequence = 3 -- 2=CJ, 3=TARIMA
   AND UOM.item LIKE '11869-11991-%'
 
 -----------
-
-
-SELECT status1, quantity_at_sts1, status2, quantity_at_sts2, * from   shipment_detail
+SELECT status1, quantity_at_sts1, status2, quantity_at_sts2, * from  shipment_detail
   WHERE internal_shipment_line_num 
-  IN ('24416497');
+  IN ('24623514');
+
+UPDATE shipment_detail
+SET quantity_at_sts1 = 36
+WHERE internal_shipment_line_num 
+  IN ('24623514');
+
+
+--- INSERTAR PEDIMENTO EN LOCATION INVENTORY ATTRIBUTES
+SELECT TOP 1 * FROM LOCATION_INVENTORY_ATTRIBUTES
+WHERE LOC_INV_ATTRIBUTE1 = '25 16 1698 5001212'
+ORDER BY 1 desc
+
+
+INSERT INTO LOCATION_INVENTORY_ATTRIBUTES (LOC_INV_ATTRIBUTE1, USER_STAMP, PROCESS_STAMP, DATE_TIME_STAMP)
+VALUES ('25 16 1698 5001212', 'ILSSRV', 'FANT_PedimentoInvAttribute', DATEADD(HOUR, 6, GETDATE()))
+
+UPDATE location_inventory
+SET
+  COMPANY = 'BF',
+  INVENTORY_STS = 'Available',
+  LOC_INV_ATTRIBUTES_ID = '1375289'
+
+WHERE warehouse = 'Tultitlan'
+AND internal_location_inv = '72067998'
+
+---
+SELECT 
+COUNT(DISTINCT LI.item) AS TOTAL_ITEMS
+-- DISTINCT LI.ITEM, L.LOCATION, L.WORK_ZONE
+FROM location_inventory LI
+INNER JOIN location L 
+  ON L.location = LI.location
+WHERE LI.warehouse = 'Tultitlan' 
+  AND L.warehouse = 'Tultitlan'
+  AND LI.COMPANY = 'FM'
+  AND L.location_class = 'Inventory'
+  AND L.WORK_ZONE IN ('W-Tul Producto Terminado', 'W-Tul Picos', 'W-Tul Bodega Fiscal')
+  
