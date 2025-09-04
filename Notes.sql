@@ -9,20 +9,17 @@ AND location IN ()
 AND item IN ()
 
 
------
-
+----- CAMBIO DE HUELLA DE TARIMA A HUELLA DE CAJA POR UNA CANTIDAD ESPECIFICA
 UPDATE UOM
-SET UOM.conversion_qty = UMM.conversion_qty * 12
+SET UOM.conversion_qty = UMM.conversion_qty * 60 -- 60 CAJAS POR TARIMA
+
 FROM Item_unit_of_measure UOM
-INNER JOIN RECEIPT_DETAIL RD 
-    ON UOM.item = RD.item 
-    AND UOM.company = RD.company
-INNER JOIN Item_unit_of_measure UMM 
-    ON UMM.item = UOM.item
-    AND UMM.company = UOM.company
-    AND UMM.sequence = 2
+INNER JOIN RECEIPT_DETAIL RD ON UOM.item = RD.item AND UOM.company = RD.company
+
+INNER JOIN Item_unit_of_measure UMM ON UMM.item = UOM.item AND UMM.company = UOM.company AND UMM.sequence = 2
+
 WHERE UOM.sequence = 3
-  AND RD.INTERNAL_RECEIPT_NUM = 350609;
+  AND RD.INTERNAL_RECEIPT_NUM = 358034;
 
 
 --------
