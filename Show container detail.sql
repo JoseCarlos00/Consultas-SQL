@@ -25,7 +25,8 @@ INNER JOIN  shipment_detail SD ON SH.internal_shipment_num = SD.internal_shipmen
 INNER JOIN shipping_container SC ON SD.internal_shipment_num = SC.internal_shipment_num AND SD.item = SC.item 
 
 WHERE SD.status1 <> '999'
--- AND SD.status1 = 600 AND sc.status = 401
-AND SC.parent_container_id IN ()
+AND SD.status1 = 600 AND sc.status = 401
+-- AND SC.parent_container_id IN ()
 
 -- Detail_internal_shipment_line_num,Header_trailing_sts,Header_leading_sts,Header_internal_shipment_num,Header_shipment_id,Header_shipping_load_num,Detail_item,Detail_status1,Detail_internal_shipment_line_num,Container_status,Container_item,Detail_QTY,Container_location,Container_internal_container_num,Container_parent_container_id,
+
