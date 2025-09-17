@@ -38,10 +38,13 @@ WHERE TH.warehouse = 'Mariano'
   AND TH.reference_id LIKE '361-%'
     ---- CAMBIAR AQUÍ
 
+  AND CAST(TH.activity_date_time AS DATE) = CAST(GETDATE() AS DATE)
+  ---  AND CONVERT(date, DATEADD(hour, -6, TH.activity_date_time)) = 'AAAAMMDD'
+
   AND TH.transaction_type = 130
   AND TH.direction = 'From'
   AND TH.work_zone <> 'W-Mar Pick and Drop ELEV'
   AND TH.work_zone <> 'W-Mar Pick and Drop'
-  AND CAST(TH.activity_date_time AS DATE) = CAST(GETDATE() AS DATE)
 
 -- NO,INTERNAL_ID,REFERENCE_ID,ACTIVITY_DATE_TIME,LOCATION,QUANTITY,ITEM,COLOR,USER_NAME,WORK_UNIT,PARENT_CONTAINER_ID,CONTAINER_QTY,CONTAINER_ITEM,CONTAINER_STS,CONTAINER_SHIPMENT_ID,
+
