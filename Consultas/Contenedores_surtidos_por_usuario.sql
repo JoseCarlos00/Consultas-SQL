@@ -6,7 +6,7 @@ SELECT
     TH.location,
     TH.quantity,
     TH.item,
-    I.item_color,
+    I.description,
     TH.user_name,
     TH.work_unit,
     container.parent_container_id,
@@ -48,5 +48,6 @@ WHERE TH.warehouse = 'Mariano'
   AND TH.work_zone <> 'W-Mar Pick and Drop'
 
 -- NO,INTERNAL_ID,REFERENCE_ID,ACTIVITY_DATE_TIME,LOCATION,QUANTITY,ITEM,COLOR,USER_NAME,WORK_UNIT,PARENT_CONTAINER_ID,CONTAINER_QTY,CONTAINER_ITEM,CONTAINER_STS,CONTAINER_SHIPMENT_ID,
+
 
 
