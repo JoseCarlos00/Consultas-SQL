@@ -73,3 +73,21 @@ WHERE LI.warehouse = 'Tultitlan'
   
 
 -- PICK_LOK
+
+
+SELECT 
+    WI.ITEM, 
+    CAST(WI.quantity AS INT) AS QUANTITY, 
+   CASE WHEN LI.LOCATION IS NULL THEN 'BANDA' ELSE LI.LOCATION END AS LOC,
+    LI.internal_location_inv, 
+    LI.ON_HAND_QTY, 
+    LI.ALLOCATED_QTY
+FROM work_instruction WI
+LEFT JOIN LOCATION_INVENTORY LI 
+    ON WI.item = LI.item
+    AND LI.WAREHOUSE = 'Mariano'
+    AND (LI.LOCATION = 'BANDA' OR LI.LOCATION IS NULL)
+WHERE 
+  WI.instruction_type = 'Detail'
+AND (LI.on_hand_qty < WI.quantity OR LI.on_hand_qty is null )
+  AND  WI.work_unit = 'FMA0003719137';
