@@ -51,7 +51,7 @@ SELECT
   AND LI.warehouse='Mariano'
 
   AND L.location_class<>'Shipping Dock' 
-  AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'PRE-01', 'REC-01') )
+  AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01') )
 
   -- Verificar si el item existe en el inventario
   AND (((LI.on_hand_qty + LI.in_transit_qty) - (LI.allocated_qty + LI.suspense_qty)) > 0 )
@@ -94,7 +94,7 @@ SELECT DISTINCT
       AND SD.warehouse = 'Mariano'
       AND LI.warehouse = 'Mariano'
       AND L.location_class <> 'Shipping Dock' 
-      AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'PRE-01', 'REC-01') )
+      AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01') )
       AND (((LI.on_hand_qty + LI.in_transit_qty) - (LI.allocated_qty + LI.suspense_qty)) > 0 )
   ) AS localizaciones
 
@@ -126,7 +126,7 @@ SELECT DISTINCT
 
       WHERE LI.warehouse = 'Mariano'
       AND L.location_class <> 'Shipping Dock' 
-      AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'PRE-01', 'REC-01'))
+      AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01'))
   ) AS locationInventory ON locationInventory.ITEM = localizaciones.ARTICULO
 
   WHERE locationInventory.NumFila=1
