@@ -7,7 +7,7 @@ CASE
 ILA.allocation_loc, SD.status1
 
 FROM shipment_detail SD
-INNER JOIN item_location_assignment ILA ON ILA.item = SD.item AND ILA.quantity_um = 'PZ'
+LEFT JOIN item_location_assignment ILA ON ILA.item = SD.item AND ILA.quantity_um = 'PZ'
 
 WHERE SD.warehouse = 'Mariano'
   AND SD.status1 <> 999
@@ -15,4 +15,5 @@ WHERE SD.warehouse = 'Mariano'
 -- AND sd.status1 = 650
 
 -- ELIMINAR PEDIDO Y REGRESAR INVENTARIO
+
 
