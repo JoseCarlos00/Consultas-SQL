@@ -49,6 +49,7 @@ SELECT
   AND SD.warehouse='Mariano'
   
   AND LI.warehouse='Mariano'
+  AND LI.company='FM'
 
   AND L.location_class<>'Shipping Dock' 
   AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01') )
@@ -67,7 +68,8 @@ SELECT
     SD.ALLOCATION_REJECTED_QTY,
     SD.internal_shipment_line_num,
     LI.internal_location_inv,
-    LI.warehouse
+    LI.warehouse,
+    LI.company
 ) AS cosulta_principal
 
 -- ZONAS
