@@ -10,10 +10,10 @@ FROM (
         -- Definición de la zona (1ER PISO o 2DO PISO)
         CASE
             WHEN TH.WORK_ZONE IN 
-                ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9', 'W-Mar Primer piso Reserva')
+                ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9', 'W-Mar Primer piso Reserva','W-Mar Bodega 20')
             THEN '1ER PISO'
             WHEN TH.WORK_ZONE IN 
-                ('W-Mar Bodega 10', 'W-Mar Bodega 11', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar No Banda', 'W-Mar Segundo Piso Reserv', 'W-Mar Segundo Piso')
+                ('W-Mar Bodega 10', 'W-Mar Bodega 11', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar No Banda', 'W-Mar Bodega 21', 'W-Mar Segundo Piso Reserv', 'W-Mar Segundo Piso')
             THEN '2DO PISO'
             ELSE '' 
         END AS ZONA,
