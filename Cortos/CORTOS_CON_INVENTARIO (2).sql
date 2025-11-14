@@ -53,6 +53,7 @@ SELECT
 
   AND L.location_class<>'Shipping Dock' 
   AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01') )
+  AND L.location NOT IN ('MERMA-00', 'MERMA-01', 'MERMA-02', 'MERMA-03')
 
   -- Verificar si el item existe en el inventario
   AND (((LI.on_hand_qty + LI.in_transit_qty) - (LI.allocated_qty + LI.suspense_qty)) > 0 )
