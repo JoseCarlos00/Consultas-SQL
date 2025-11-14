@@ -102,7 +102,7 @@ SELECT DISTINCT
 
   INNER JOIN location_inventory AS LI ON LI.item = localizaciones.ARTICULO
   INNER JOIN location AS L ON L.location = LI.location
-  INNER JOIN (
+  LEFT JOIN (
       SELECT
           LI.ITEM,
           L.WORK_ZONE AS WORK_ZONE,
