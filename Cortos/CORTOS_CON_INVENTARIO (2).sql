@@ -12,7 +12,7 @@ SELECT
 
   CASE
     WHEN WORK_ZONE IN 
-      ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9','W-Mar Bodega 20', 'W-Mar Vinil', 'W-Mar Mayoreo', '')
+      ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9','W-Mar Bodega 20', 'W-Mar Vinil', 'W-Mar Mayoreo', 'W-Mar Primer piso Reserva')
     THEN '1ER PISO'
 
     WHEN WORK_ZONE IN 
