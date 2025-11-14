@@ -95,6 +95,7 @@ SELECT DISTINCT
       AND SD.company = 'FM'
       AND SD.warehouse = 'Mariano'
       AND LI.warehouse = 'Mariano'
+      AND LI.company = 'FM'
       AND L.location_class <> 'Shipping Dock' 
       AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01') )
       AND (((LI.on_hand_qty + LI.in_transit_qty) - (LI.allocated_qty + LI.suspense_qty)) > 0 )
