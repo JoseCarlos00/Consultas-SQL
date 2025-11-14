@@ -128,6 +128,8 @@ SELECT DISTINCT
       INNER JOIN location L ON L.location = LI.location
 
       WHERE LI.warehouse = 'Mariano'
+      AND L.warehouse = 'Mariano'
+      AND LI.company = 'FM'
       AND L.location_class <> 'Shipping Dock' 
       AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01'))
   ) AS locationInventory ON locationInventory.ITEM = localizaciones.ARTICULO
