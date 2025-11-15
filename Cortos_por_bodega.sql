@@ -3,7 +3,7 @@ SELECT
   ARTICULO,
   DESCRIPTION AS DESCRIPTION,
   CAST(RECHAZADA AS INT) AS RECHAZADA,
-  CAST(SUM(DISP) AS INT) AS DISP,
+  CAST(DISP AS INT) AS DISP,
   CAST(IT AS INT) AS IT,
 
   CASE
@@ -28,7 +28,10 @@ FROM
       WHEN SD.status1 = 100 AND SD.ALLOCATION_REJECTED_QTY > 0 THEN 'Con Inventario'
       ELSE ' ' 
     END AS ESTATUS,
-    LI.warehouse
+    LI.warehouse,
+    SD.internal_shipment_line_num,
+    LI.internal_location_inv
+
 
   FROM  shipment_detail SD
 
@@ -80,12 +83,12 @@ LEFT OUTER JOIN
 
   FROM (
     SELECT 
-      ARTICULO,
-      SUM(AV) AS DISP
+      INTERNAL_QUERY.ARTICULO AS ARTICULO,
+      SUM(INVENTORY.AV) AS DISP
 
     FROM (
-      SELECT SD.item AS ARTICULO,
-      ((LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY) -  (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)) AS AV
+      SELECT
+      DISTINCT SD.item AS ARTICULO
 
       FROM shipment_detail SD
       INNER JOIN location_inventory LI ON LI.item = SD.item
@@ -94,6 +97,24 @@ LEFT OUTER JOIN
       AND SD.ALLOCATION_REJECTED_QTY > 0
       AND SD.company = 'FM'
       AND SD.warehouse = 'Mariano'
+      AND LI.warehouse = 'Mariano'
+      AND LI.company = 'FM'
+      AND L.location_class <> 'Shipping Dock' 
+      AND (L.location_class = 'Inventory' OR L.location IN ('ELEVADOR', 'REC-01') )
+      AND (((LI.on_hand_qty + LI.in_transit_qty) - (LI.allocated_qty + LI.suspense_qty)) > 0 )
+    ) AS INTERNAL_QUERY
+
+    INNER JOIN (
+      SELECT
+      LI.item AS ARTICULO,
+      ((LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY) -  (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)) AS AV,
+      LI.internal_location_inv
+
+
+      FROM location_inventory LI
+      INNER JOIN location L ON L.location = LI.location
+
+      WHERE L.warehouse = 'Mariano'
       AND LI.warehouse = 'Mariano'
       AND LI.company = 'FM'
       AND L.location_class <> 'Shipping Dock' 
@@ -108,13 +129,11 @@ LEFT OUTER JOIN
         LI.SUSPENSE_QTY,
         LI.internal_location_inv,
         LI.warehouse,
-        SD.item,
-        SD.COMPANY,
-        SD.warehouse,
-        SD.status1,
-        SD.ALLOCATION_REJECTED_QTY
-    ) AS INTERNAL_QUERY
-    GROUP BY ARTICULO
+        LI.item
+    ) AS INVENTORY ON INVENTORY.ARTICULO = INTERNAL_QUERY.ARTICULO
+
+    -- WHERE INTERNAL_QUERY.ARTICULO = '406-4198-4014'
+    GROUP BY INTERNAL_QUERY.ARTICULO
   ) AS localizaciones
 
   INNER JOIN location_inventory AS LI ON LI.item = localizaciones.ARTICULO
@@ -151,6 +170,8 @@ LEFT OUTER JOIN
   ) AS locationInventory ON locationInventory.ITEM = localizaciones.ARTICULO
 
   WHERE locationInventory.NumFila=1
+  -- AND localizaciones.ARTICULO = '406-4198-4014'
+
 ) AS ZONAS ON ZONAS.ITEM = consulta_principal.ARTICULO
 
 --TIPO DE PEDIDOS EN CORTO
@@ -175,6 +196,8 @@ LEFT OUTER JOIN (
   ) AS TIPO_PEDIDOS
 ) AS tipos_cortos ON tipos_cortos.item = consulta_principal.ARTICULO
 
+-- WHERE ARTICULO = '406-4198-4014'
+
 GROUP BY 
   WORK_ZONE,
   ARTICULO,
@@ -188,3 +211,4 @@ ORDER BY
   WORK_ZONE,
   ARTICULO
 -- Cortos con inventario
+-- BODEGA,ARTICULO,DESCRICCION,RECHAZADA,DISP,IT,PISO,
