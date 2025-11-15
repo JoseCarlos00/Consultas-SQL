@@ -16,7 +16,7 @@ CASE
         ELSE ' ' 
   END AS ESTATUS
 
-	--- Status de pedidos
+	--- Status de pedidos -- SHIPMENT_ID,ERP_ORDER,STATUS,STATUS,
 	SELECT DISTINCT 
 shipment_id,
 erp_order,
@@ -42,4 +42,4 @@ WHERE company='FM'
 AND warehouse='Mariano'
 AND status1 <> 999
 AND erp_order LIKE '3408-141%'
-
+-- SHIPMENT_ID,ERP_ORDER,STATUS,STATUS,
