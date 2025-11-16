@@ -32,7 +32,6 @@ FROM
     SD.internal_shipment_line_num,
     LI.internal_location_inv
 
-
   FROM  shipment_detail SD
 
   INNER JOIN location_inventory LI
@@ -45,7 +44,7 @@ FROM
   AND SD.ALLOCATION_REJECTED_QTY > 0
   AND SD.company='FM'
   AND SD.warehouse='Mariano'
-  
+  AND L.warehouse='Mariano'
   AND LI.warehouse='Mariano'
   AND LI.company='FM'
 
@@ -79,7 +78,7 @@ LEFT OUTER JOIN
     locationInventory.WORK_ZONE AS WORK_ZONE,
     locationInventory.NumFila,
     localizaciones.DISP AS DISP,
-    locationInventory.IT AS IT
+    locationInventory.IT AS IT, locationInventory.location
 
   FROM (
     SELECT 
