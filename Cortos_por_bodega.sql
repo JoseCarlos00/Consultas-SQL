@@ -14,7 +14,7 @@ SELECT
     WHEN WORK_ZONE IN 
       ('W-Mar Bodega 10', 'W-Mar Bodega 11', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar No Banda', 'W-Mar Bodega 21', 'W-Mar Segundo Piso Reserv')
     THEN '2DO PISO'
-  ELSE '' 
+  ELSE '-' 
   END AS PISO
 
 -- consulta_principal
