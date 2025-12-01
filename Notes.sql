@@ -30,7 +30,7 @@ WHERE UOM.sequence = 3 -- 2=CJ, 3=TARIMA
   AND UOM.item LIKE '11869-11991-%'
 
 -----------
-SELECT status1, quantity_at_sts1, status2, quantity_at_sts2, * from  shipment_detail
+SELECT status1, total_qty, quantity_at_sts1, status2, quantity_at_sts2, * from  shipment_detail
   WHERE internal_shipment_line_num 
   IN ('24623514');
 
