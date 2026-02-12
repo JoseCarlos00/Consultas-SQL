@@ -6,7 +6,8 @@ SELECT
     LI.COMPANY, 
     CAST(LI.ON_HAND_QTY AS INT) AS OH,
     CAST((LI.on_hand_qty / UOM.conversion_qty) AS DECIMAL(10, 2)) AS CAJAS,
-    ILA.allocation_loc AS PICKING
+    ILA.allocation_loc AS PICKING,
+    ZONAS.location AS DINAMICO
 
 FROM 
     LOCATION_INVENTORY LI
