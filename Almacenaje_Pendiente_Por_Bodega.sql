@@ -35,7 +35,7 @@ FROM (
 
   FROM Work_instruction WI
   INNER JOIN receipt_header RH ON RH.RECEIPT_ID = WI.REFERENCE_ID
-  INNER JOIN Item_unit_of_measure UOM ON WI.ITEM = UOM.item AND UOM.sequence='2'
+  LEFT OUTER JOIN Item_unit_of_measure UOM ON WI.ITEM = UOM.item AND UOM.sequence='2'
 
   WHERE WI.WORK_TYPE LIKE 'Almacenaje%'
   AND WI.INSTRUCTION_TYPE = 'Detail'

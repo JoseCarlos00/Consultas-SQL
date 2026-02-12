@@ -24,7 +24,7 @@ FROM (
 ILA.allocation_loc as PICKING
 
   FROM location_inventory LI
-  INNER JOIN Item_unit_of_measure UOM ON LI.ITEM=UOM.item AND UOM.sequence='2' AND UOM.company='FM'
+  LEFT OUTER JOIN Item_unit_of_measure UOM ON LI.ITEM=UOM.item AND UOM.sequence='2' AND UOM.company='FM'
   
   LEFT OUTER JOIN (	 
     SELECT 

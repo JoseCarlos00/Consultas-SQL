@@ -11,8 +11,8 @@ SELECT
 FROM 
     LOCATION_INVENTORY LI
 INNER JOIN ITEM I ON I.ITEM = LI.ITEM AND I.COMPANY = 'FM'
-INNER JOIN Item_unit_of_measure UOM ON I.ITEM = UOM.item AND UOM.sequence='2' AND UOM.company='FM'
-INNER JOIN item_location_assignment ILA ON ILA.item = I.item AND ILA.quantity_um = 'PZ'
+LEFT OUTER JOIN Item_unit_of_measure UOM ON I.ITEM = UOM.item AND UOM.sequence='2' AND UOM.company='FM'
+LEFT OUTER JOIN item_location_assignment ILA ON ILA.item = I.item AND ILA.quantity_um = 'PZ'
 
 
 LEFT OUTER JOIN (	 
@@ -56,6 +56,7 @@ LEFT OUTER JOIN (
 WHERE 
     LI.WAREHOUSE = 'Mariano'
     AND LI.LOCATION = 'DEVOLUCIONES'
+    AND LI.ON_HAND_QTY > 0
     -- AND I.ITEM_CATEGORY4 NOT LIKE '%NAV%MAD%'
     -- AND ZONAS.WORK_ZONE = 'W-Mar Bodega 8'
 
