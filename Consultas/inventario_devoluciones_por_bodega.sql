@@ -6,8 +6,18 @@ SELECT
     LI.COMPANY, 
     CAST(LI.ON_HAND_QTY AS INT) AS OH,
     CAST((LI.on_hand_qty / UOM.conversion_qty) AS DECIMAL(10, 2)) AS CAJAS,
-    ILA.allocation_loc AS PICKING,
-    CASE WHEN ILA.allocation_loc IS NULL THEN ZONAS.location ELSE '' END AS DINAMICO
+    CASE WHEN ILA.allocation_loc IS NULL THEN ZONAS.location ELSE 
+    ILA.allocation_loc  END AS PICKING,
+  CASE
+    WHEN ZONAS.WORK_ZONE IN 
+      ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9', 'W-Mar Vinil', 'W-Mar Mayoreo')
+    THEN '1ER PISO'
+
+    WHEN ZONAS.WORK_ZONE IN 
+      ('W-Mar Bodega 10', 'W-Mar Bodega 11','W-Mar Bodega 21','W-Mar Bodega 20', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar No Banda')
+    THEN '2DO PISO'
+  ELSE '' 
+  END AS ZONA,I.ITEM_CATEGORY4
 
 FROM 
     LOCATION_INVENTORY LI
@@ -59,9 +69,8 @@ WHERE
     AND LI.LOCATION = 'DEVOLUCIONES'
     AND LI.ON_HAND_QTY > 0
     -- AND I.ITEM_CATEGORY4 NOT LIKE '%NAV%MAD%'
-    -- AND ZONAS.WORK_ZONE = 'W-Mar Bodega 8'
+    --AND ZONAS.WORK_ZONE = 'W-Mar Bodega 7'
 
 ORDER BY 1, 3
 
--- WORK_ZONE,LOCATION,ITEM,DESCRIPTION,COMPANY,OH,CAJAS,PICKING,DINAMICO,
-
+-- WORK_ZONE,LOCATION,ITEM,DESCRIPTION,COMPANY,OH,CAJAS,PICKING,PISO,GRUPO,
