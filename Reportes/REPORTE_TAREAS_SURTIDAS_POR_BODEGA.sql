@@ -45,7 +45,7 @@ FROM (
 
 ) AS subconsulta
 
-
+-- WHERE ZONA = '1ER PISO'
 GROUP BY ZONA, TIPO, WORK_ZONE
 
 ORDER BY ZONA, TIPO
