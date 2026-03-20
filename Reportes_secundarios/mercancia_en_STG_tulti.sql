@@ -9,7 +9,7 @@ WHERE LI.warehouse = 'Tultitlan' AND LI.location = 'STG-01'
 AND NOT EXISTS (
     SELECT 1
     FROM shipment_detail SD
-    WHERE LI.item = SD.item AND SD.warehouse = 'Tultitlan' AND SD.status1 <> 999 AND SD.status1 <> 900
+    WHERE LI.item = SD.item AND SD.warehouse = 'Tultitlan' AND SD.status1 <> 999 AND SD.status1 <> 900 SD.status1 >= 650
 )
 
 ORDER BY LI.item DESC
