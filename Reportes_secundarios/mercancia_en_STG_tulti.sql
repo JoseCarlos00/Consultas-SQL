@@ -4,7 +4,7 @@ SELECT
     
 
 FROM location_inventory LI
-WHERE LI.warehouse = 'Tultitlan' AND LI.location = 'STG-01'
+WHERE LI.warehouse = 'Tultitlan' AND LI.location = 'STG-01' AND LI.in_transit_qty = 0
 
 AND NOT EXISTS (
     SELECT 1
