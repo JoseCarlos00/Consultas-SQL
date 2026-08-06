@@ -3,7 +3,7 @@ SELECT DISTINCT
   L.location,
   I.item,
   I.ITEM_COLOR,
-  LI.ON_HAND_QTY,
+  CAST(LI.ON_HAND_QTY AS INT) AS OH,
   CONCAT(
     CAST(ILC.MAXIMUM_QTY AS INT),
     ' ',
