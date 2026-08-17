@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 generate_catalog.py
 
@@ -8,9 +7,9 @@ calcula la fecha de última modificación vía git, valida los campos
 obligatorios y escribe un catalog.json listo para consumir desde la web.
 
 Uso:
-    python3 generate_catalog.py                # genera web/catalog.json
-    python3 generate_catalog.py --check         # solo valida, no escribe nada
-    python3 generate_catalog.py --include-private  # incluye publicar: false
+    py generate_catalog.py                # genera web/catalog.json
+    py generate_catalog.py --check         # solo valida, no escribe nada
+    py generate_catalog.py --include-private  # incluye publicar: false
 
 Requiere: PyYAML  (pip install pyyaml --break-system-packages)
 """

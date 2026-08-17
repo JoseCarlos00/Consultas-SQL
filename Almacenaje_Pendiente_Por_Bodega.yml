@@ -1,0 +1,13 @@
+id: Almacenaje_Pendiente
+nombre: Tareas activas de almacenajes pendientes con bodega.
+descripcion: Lista de Trabajos Activos tipo Almacenaje que identifica su TO_WORK_ZONE y la clasifica en Piso 1 o 2.
+proposito: Mostrar lista de almacenajes pendientes con work_zone para imprimirse por bodegas.
+database: sql-server
+tablas: [inventario, productos, almacenes]
+parametros: []
+tags: [work_instruction, receipt_header, Item_unit_of_measure]
+alias: [almacenaje pendiente, almacenajes, almacenaje]
+ultima_verificacion: 2026-08-17
+estatus: estable
+publicar: true
+notas: ""
