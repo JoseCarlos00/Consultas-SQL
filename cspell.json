@@ -1,0 +1,15 @@
+{
+	"languageSettings": [
+		{
+			"languageId": "*",
+			"locale": "es",
+			"caseSensitive": false
+		}
+	],
+	"words": [
+		"dotenv",
+		"Fraunces",
+		"github",
+		"jspm"
+	]
+}
