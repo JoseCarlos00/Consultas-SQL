@@ -1,5 +1,5 @@
 # Configuración del catálogo.
 # 'repo' se usa para construir los enlaces "Ver en GitHub" y las URLs
 # raw.githubusercontent.com desde donde la web copia/lee el SQL.
-repo: "tu-usuario/tu-repo-sql"
+repo: "JoseCarlos00/Consultas-SQL"
 branch: "main"

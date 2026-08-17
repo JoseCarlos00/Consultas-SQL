@@ -1,11 +1,11 @@
 id: Almacenaje_Pendiente
-nombre: Tareas activas de almacenajes pendientes.
+nombre: Almacenajes pendientes.
 descripcion: Lista de Trabajos Activos tipo Almacenaje que identifica su TO_WORK_ZONE y la clasifica en Piso 1 o 2.
 proposito: Mostrar lista de almacenajes pendientes.
 database: sql-server
 tablas: [work_instruction, receipt_header, Item_unit_of_measure]
 parametros: []
-tags: []
+tags: [almacenaje, pendientes]
 alias: [almacenaje pendiente, almacenajes, almacenaje]
 ultima_verificacion: 2026-08-17
 estatus: estable

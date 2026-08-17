@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca de consultas SQL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header class="catalog-header">
+    <p class="catalog-eyebrow">Catálogo — generado automáticamente</p>
+    <h1 class="catalog-title">Biblioteca de consultas</h1>
+    <p class="catalog-subtitle">Busca por nombre, descripción, etiqueta, tabla o alias. El repositorio en GitHub sigue
+      siendo la fuente de verdad; esto es solo el índice.</p>
+    <div class="search-row">
+      <div class="search-input-wrap">
+        <input type="text" id="search-input" placeholder="Buscar consultas…" autocomplete="off" />
+      </div>
+      <span id="result-count">— de —</span>
+    </div>
+  </header>
+
+  <div class="catalog-layout">
+    <aside class="drawer-index">
+      <div class="drawer-section">
+        <p class="drawer-label">Categorías</p>
+        <ul class="drawer-list" id="category-list"></ul>
+      </div>
+      <div class="drawer-section">
+        <p class="drawer-label">Etiquetas</p>
+        <div id="tag-list"></div>
+      </div>
+    </aside>
+
+    <main class="card-grid" id="card-grid">
+      <div class="empty-state">Cargando catálogo…</div>
+    </main>
+  </div>
+
+  <div class="detail-overlay" id="detail-overlay">
+    <div class="detail-panel" id="detail-panel"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
