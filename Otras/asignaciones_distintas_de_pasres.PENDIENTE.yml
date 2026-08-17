@@ -1,0 +1,25 @@
+id: asignaciones_distintas_de_pasres
+
+nombre: 
+
+descripcion:
+
+proposito:
+
+database: sql-server
+
+tablas: []
+
+parametros: []
+
+tags: []
+
+alias: []
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: ""

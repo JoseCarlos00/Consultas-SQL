@@ -1,0 +1,25 @@
+id: UPDATE_location_capacity
+
+nombre: 
+
+descripcion:
+
+proposito:
+
+database: sql-server
+
+tablas: []
+
+parametros: []
+
+tags: []
+
+alias: []
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: ""

@@ -1,0 +1,25 @@
+id: Cambio_de_huella_por_num_recibo
+
+nombre: 
+
+descripcion:
+
+proposito:
+
+database: sql-server
+
+tablas: []
+
+parametros: []
+
+tags: []
+
+alias: []
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: ""

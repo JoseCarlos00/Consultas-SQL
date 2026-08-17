@@ -1,0 +1,25 @@
+id: navidad_madera_en_devoluciones
+
+nombre: 
+
+descripcion:
+
+proposito:
+
+database: sql-server
+
+tablas: []
+
+parametros: []
+
+tags: []
+
+alias: []
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: ""

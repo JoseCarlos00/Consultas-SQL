@@ -33,6 +33,7 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent
 CONFIG_FILE = REPO_ROOT / "catalog.config.yml"
 DEFAULT_CATALOG_OUTPUT = REPO_ROOT / "web" / "catalog.json"
+PENDING_YML_SUFFIX = ".PENDIENTE.yml"
 
 # Carpetas que nunca se recorren buscando .sql
 IGNORE_DIRS = {".git", "web", "node_modules", ".github"}
@@ -140,6 +141,44 @@ def validate_metadata(meta: dict, sql_path: Path, builder: CatalogBuilder) -> bo
 
     return ok
 
+def create_pending_metadata_file(sql_path: Path) -> Path:
+    """Crea un YAML temporal indicando que requiere completar metadata."""
+    yml_path = sql_path.with_name(
+        f"{sql_path.stem}{PENDING_YML_SUFFIX}"
+    )
+
+    metadata_template = f"""id: {sql_path.stem}
+
+nombre: 
+
+descripcion:
+
+proposito:
+
+database: sql-server
+
+tablas: []
+
+parametros: []
+
+tags: []
+
+alias: []
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: ""
+"""
+
+    if not yml_path.exists():
+        yml_path.write_text(metadata_template, encoding="utf-8")
+
+    return yml_path
+
 
 # --------------------------------------------------------------------------
 # Construcción del catálogo
@@ -153,7 +192,13 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
         yml_path = sql_path.with_suffix(".yml")
 
         if not yml_path.exists():
-            builder.add_error(sql_path, "no tiene archivo .yml de metadata (sidecar faltante)")
+            pending_yml_path = create_pending_metadata_file(sql_path)
+
+            builder.add_error(
+                sql_path,
+                f"metadata faltante. Se creó '{pending_yml_path.name}'. "
+                f"Completa el archivo y renómbralo a '{yml_path.name}'."
+            )
             continue
 
         try:
@@ -199,10 +244,28 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
     for yml_path in REPO_ROOT.rglob("*.yml"):
         if yml_path == CONFIG_FILE:
             continue
+
         if any(part in IGNORE_DIRS for part in yml_path.relative_to(REPO_ROOT).parts):
             continue
+
+        # Metadata temporal pendiente de completar.
+        if yml_path.name.endswith(PENDING_YML_SUFFIX):
+            sql_name = yml_path.name.removesuffix(PENDING_YML_SUFFIX) + ".sql"
+            sql_path = yml_path.with_name(sql_name)
+
+            if sql_path.exists():
+                builder.add_error(
+                    yml_path,
+                    f"metadata pendiente. Completa este archivo y "
+                    f"renómbralo a '{sql_path.stem}.yml'"
+                )
+            continue
+
         if not yml_path.with_suffix(".sql").exists():
-            builder.add_error(yml_path, "archivo .yml sin .sql correspondiente (huérfano)")
+            builder.add_error(
+                yml_path,
+                "archivo .yml sin .sql correspondiente (huérfano)"
+            )
 
     return builder
 
