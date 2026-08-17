@@ -22,7 +22,31 @@
   --font-ui: 'Inter', -apple-system, sans-serif;
 }
 
+/* Tema oscuro — paleta inspirada en GitHub dark (#0d1117 / #161b22 / #30363d) */
+:root[data-theme="dark"] {
+  --paper: #0d1117;
+  --paper-raised: #161b22;
+  --ink: #c9d1d9;
+  --ink-soft: #8b949e;
+  --ink-faint: #6e7681;
+  --line: #30363d;
+  --line-strong: #444c56;
+  --ochre: #58a6ff;
+  --ochre-bg: #163150;
+  --teal: #3fb950;
+  --teal-bg: #12261a;
+  --amber: #d29922;
+  --amber-bg: #2b2111;
+  --rust: #f85149;
+  --rust-bg: #2b1516;
+  --gray-status: #8b949e;
+  --gray-status-bg: #21262d;
+}
+
 * { box-sizing: border-box; }
+
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
 
 body {
   margin: 0;
@@ -30,6 +54,7 @@ body {
   color: var(--ink);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 /* ---------- Encabezado tipo tarjetero ---------- */
@@ -39,6 +64,30 @@ body {
   padding: 2rem 2rem 1.25rem;
   background: var(--paper);
 }
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.theme-toggle {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  color: var(--ink-soft);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover { border-color: var(--ochre); color: var(--ochre); }
 
 .catalog-eyebrow {
   font-family: var(--font-mono);
@@ -192,6 +241,16 @@ body {
   opacity: 0.7;
 }
 
+.drawer-item-star {
+  color: var(--ochre);
+  font-weight: 500;
+}
+
+.drawer-item-star.active {
+  background: var(--ochre);
+  color: var(--paper-raised);
+}
+
 .tag-chip {
   display: inline-flex;
   align-items: center;
@@ -249,6 +308,28 @@ body {
   outline-offset: 2px;
 }
 
+.star-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--ink-faint);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.star-btn:hover { color: var(--ochre); }
+.star-btn.active { color: var(--ochre); }
+
+.detail-star {
+  top: 1.1rem;
+  right: 3.1rem;
+  font-size: 19px;
+}
+
 .card-tab {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -273,7 +354,6 @@ body {
   line-height: 1.5;
   margin: 0 0 0.75rem;
   display: -webkit-box;
-  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
