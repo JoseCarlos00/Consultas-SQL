@@ -1,13 +1,25 @@
 id: Almacenaje_Pendiente
+
 nombre: Almacenajes pendientes
+
 descripcion: Lista los trabajos activos de tipo Almacenaje en Mariano, mostrando las piezas pendientes de depositar, su equivalente en cajas, la zona, compañía y tipo de recibo. La zona se determina a partir de la ubicación prioritaria del artículo.
+
 proposito: Mostrar los trabajos de almacenaje pendientes de completar en el almacén Mariano, agrupados por artículo, fecha, compañía, tipo de recibo y zona.
+
 database: sql-server
+
 tablas: [work_instruction, receipt_header, Item_unit_of_measure, location_inventory, location]
+
 parametros: []
+
 tags: [almacenaje, pendientes, trabajos-activos, recibos, Mariano]
+
 alias: [almacenaje pendiente, almacenajes pendientes, trabajos de almacenaje, pendientes de almacenaje]
+
 ultima_verificacion: 2026-08-18
+
 estatus: estable
+
 publicar: true
+
 notas: "FROM_QTY representa trabajo aún no confirmado y TO_QTY trabajo confirmado pendiente de depósito; ambos se suman para obtener la cantidad total del trabajo. UOM sequence 2 corresponde a cajas. La zona se obtiene de la ubicación prioritaria del artículo y se clasifica en Piso 1 o Piso 2."

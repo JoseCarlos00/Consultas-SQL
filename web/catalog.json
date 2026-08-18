@@ -1,0 +1,209 @@
+{
+  "generado": true,
+  "repo": "JoseCarlos00/Consultas-SQL",
+  "branch": "main",
+  "total": 5,
+  "consultas": [
+    {
+      "id": "Almacenaje_Pendiente",
+      "nombre": "Almacenajes pendientes.",
+      "descripcion": "Lista de Trabajos Activos tipo Almacenaje que identifica su TO_WORK_ZONE y la clasifica en Piso 1 o 2.",
+      "proposito": "Mostrar lista de almacenajes pendientes.",
+      "database": "sql-server",
+      "tablas": [
+        "work_instruction",
+        "receipt_header",
+        "Item_unit_of_measure"
+      ],
+      "parametros": [],
+      "tags": [
+        "almacenaje",
+        "pendientes"
+      ],
+      "alias": [
+        "almacenaje pendiente",
+        "almacenajes",
+        "almacenaje"
+      ],
+      "headers": [
+        "ITEM",
+        "DESCRIPTION",
+        "PIEZAS",
+        "CAJAS",
+        "COMPANY",
+        "TIPO",
+        "FECHA",
+        "ZONA"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-17",
+      "ultima_modificacion": "2026-08-17",
+      "notas": "",
+      "categoria": "general",
+      "ruta": "Almacenaje_Pendiente.sql"
+    },
+    {
+      "id": "Almacenaje_Pendiente_Por_Bodega",
+      "nombre": "Almacenajes pendientes por bodega.",
+      "descripcion": "Lista de Trabajos Activos tipo Almacenaje que identifica su TO_WORK_ZONE y la clasifica en Piso 1 o 2.",
+      "proposito": "Mostrar lista de almacenajes pendientes con work_zone para imprimirse por bodegas.",
+      "database": "sql-server",
+      "tablas": [
+        "work_instruction",
+        "receipt_header",
+        "Item_unit_of_measure"
+      ],
+      "parametros": [],
+      "tags": [
+        "almacenaje",
+        "pendientes"
+      ],
+      "alias": [
+        "almacenaje pendiente",
+        "almacenajes",
+        "almacenaje"
+      ],
+      "headers": [
+        "WORK_ZONE",
+        "ITEM",
+        "DESCRIPTION",
+        "PIEZAS",
+        "CAJAS",
+        "COMPANY",
+        "TIPO",
+        "FECHA",
+        "ZONA"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-17",
+      "ultima_modificacion": "2026-08-17",
+      "notas": "",
+      "categoria": "general",
+      "ruta": "Almacenaje_Pendiente_Por_Bodega.sql"
+    },
+    {
+      "id": "buscar_usuario",
+      "nombre": "Buscar usuario y sus últimas órdenes",
+      "descripcion": "Dado un ID de usuario, devuelve sus datos y sus 5 órdenes más recientes.",
+      "proposito": "Soporte a clientes — revisar historial rápido de un usuario específico.",
+      "database": "sql-server",
+      "tablas": [
+        "usuarios",
+        "ordenes"
+      ],
+      "parametros": [
+        {
+          "descripcion": "ID del usuario a buscar",
+          "ejemplo": 12345,
+          "ubicacion": "usuario_id = 12345"
+        }
+      ],
+      "tags": [
+        "usuarios",
+        "soporte",
+        "ordenes",
+        "busqueda"
+      ],
+      "alias": [
+        "historial de cliente",
+        "últimas compras de usuario"
+      ],
+      "headers": [
+        "usuario_id",
+        "nombre",
+        "correo",
+        "orden_id",
+        "fecha_orden",
+        "total"
+      ],
+      "estatus": "experimental",
+      "publicar": true,
+      "ultima_verificacion": "2026-05-10",
+      "ultima_modificacion": null,
+      "notas": "El TOP 5 asume que 'fecha' tiene índice; en almacenes muy grandes puede ser lenta.",
+      "categoria": "sql-test",
+      "ruta": "sql-test/buscar_usuario.sql"
+    },
+    {
+      "id": "ventas_mensuales",
+      "nombre": "Reporte de ventas mensuales",
+      "descripcion": "Totales de ventas por sucursal y fecha, incluyendo IVA.",
+      "proposito": "Usado para el cierre contable mensual.",
+      "database": "sql-server",
+      "tablas": [
+        "ventas",
+        "sucursales"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Rango de fechas del reporte.",
+          "ejemplo": "'2026-01-01' AND '2026-01-31'",
+          "ubicacion": "WHERE v.fecha BETWEEN"
+        }
+      ],
+      "tags": [
+        "ventas",
+        "reportes",
+        "mensual",
+        "contabilidad"
+      ],
+      "alias": [
+        "reporte fiscal",
+        "cierre mensual"
+      ],
+      "headers": [
+        "id",
+        "sucursal",
+        "fecha",
+        "total",
+        "iva"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-06-01",
+      "ultima_modificacion": null,
+      "notas": "",
+      "categoria": "sql-test",
+      "ruta": "sql-test/consulta.example.sql"
+    },
+    {
+      "id": "stock_bajo",
+      "nombre": "Productos con stock bajo",
+      "descripcion": "Lista productos cuyo stock actual está por debajo del mínimo configurado por almacén.",
+      "proposito": "Alertar reabastecimiento antes de que se agoten productos clave.",
+      "database": "sql-server",
+      "tablas": [
+        "inventario",
+        "productos",
+        "almacenes"
+      ],
+      "parametros": [],
+      "tags": [
+        "inventario",
+        "stock",
+        "alertas",
+        "almacen"
+      ],
+      "alias": [
+        "productos por agotarse",
+        "reabastecimiento"
+      ],
+      "headers": [
+        "sku",
+        "producto",
+        "stock_actual",
+        "stock_minimo",
+        "almacen"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-07-15",
+      "ultima_modificacion": null,
+      "notas": "",
+      "categoria": "sql-test",
+      "ruta": "sql-test/stock_bajo.sql"
+    }
+  ]
+}
