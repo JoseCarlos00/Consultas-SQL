@@ -1,4 +1,4 @@
-id: cancelar_inventario
+id: status_de_pedidos
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

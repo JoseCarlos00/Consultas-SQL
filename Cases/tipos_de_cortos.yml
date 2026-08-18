@@ -1,4 +1,4 @@
-id: check-in
+id: tipos_de_cortos
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

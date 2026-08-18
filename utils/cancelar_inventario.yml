@@ -1,4 +1,4 @@
-id: tipos_de_cortos
+id: cancelar_inventario
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

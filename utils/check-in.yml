@@ -1,4 +1,4 @@
-id: status_de_pedidos
+id: check-in
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""
