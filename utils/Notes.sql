@@ -13,10 +13,10 @@ AND item IN ()
 UPDATE UOM
 SET UOM.conversion_qty = UMM.conversion_qty * 60 -- 60 CAJAS POR TARIMA
 
-FROM Item_unit_of_measure UOM
+FROM item_unit_of_measure UOM
 INNER JOIN RECEIPT_DETAIL RD ON UOM.item = RD.item AND UOM.company = RD.company
 
-INNER JOIN Item_unit_of_measure UMM ON UMM.item = UOM.item AND UMM.company = UOM.company AND UMM.sequence = 2
+INNER JOIN item_unit_of_measure UMM ON UMM.item = UOM.item AND UMM.company = UOM.company AND UMM.sequence = 2
 
 WHERE UOM.sequence = 3
   AND RD.INTERNAL_RECEIPT_NUM = 358034;
@@ -25,7 +25,7 @@ WHERE UOM.sequence = 3
 --------
 UPDATE UOM
 SET UOM.conversion_qty = 576
-FROM Item_unit_of_measure UOM
+FROM item_unit_of_measure UOM
 WHERE UOM.sequence = 3 -- 2=CJ, 3=TARIMA
   AND UOM.item LIKE '11869-11991-%'
 

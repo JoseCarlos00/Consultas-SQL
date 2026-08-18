@@ -121,7 +121,7 @@ INNER JOIN (
 
 -- Huella
 LEFT OUTER JOIN (
-  SELECT conversion_qty AS CJ, ITEM FROM Item_unit_of_measure WHERE sequence='2' AND company='FM'
+  SELECT conversion_qty AS CJ, ITEM FROM item_unit_of_measure WHERE sequence='2' AND company='FM'
 ) AS HUELLA ON HUELLA.ITEM = DETAIL.ITEM
 
 WHERE INV_MAR.TOTAL_QTY_MAR > 0

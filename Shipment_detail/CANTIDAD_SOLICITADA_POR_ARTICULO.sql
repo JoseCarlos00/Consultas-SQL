@@ -14,7 +14,7 @@ FROM (
  SD.internal_shipment_line_num
 
 FROM  shipment_detail SD
-  INNER JOIN Item_unit_of_measure UOM
+  INNER JOIN item_unit_of_measure UOM
  ON SD.item = UOM.item
 
 WHERE SD.status1 = '200'

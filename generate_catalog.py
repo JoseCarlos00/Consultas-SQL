@@ -190,14 +190,16 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
 
     for sql_path in sql_files:
         yml_path = sql_path.with_suffix(".yml")
+        
+        if not yml_path.name.endswith(PENDING_YML_SUFFIX):
+            continue
 
         if not yml_path.exists():
             pending_yml_path = create_pending_metadata_file(sql_path)
 
             builder.add_error(
                 sql_path,
-                f"metadata faltante. Se creó '{pending_yml_path.name}'. "
-                f"Completa el archivo y renómbralo a '{yml_path.name}'."
+                f"metadata faltante. Se creó '{pending_yml_path.name}'"
             )
             continue
 
@@ -252,15 +254,20 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
         if yml_path.name.endswith(PENDING_YML_SUFFIX):
             sql_name = yml_path.name.removesuffix(PENDING_YML_SUFFIX) + ".sql"
             sql_path = yml_path.with_name(sql_name)
-
-            if sql_path.exists():
+            
+            if not sql_path.exists():
                 builder.add_error(
                     yml_path,
-                    f"metadata pendiente. Completa este archivo y "
-                    f"renómbralo a '{sql_path.stem}.yml'"
+                    "archivo .yml sin .sql correspondiente (huérfano)"
                 )
+                continue
+            
+            if sql_path.exists():
+                builder.add_error(yml_path, f"metadata pendiente")
             continue
-
+            
+            
+                        
         if not yml_path.with_suffix(".sql").exists():
             builder.add_error(
                 yml_path,

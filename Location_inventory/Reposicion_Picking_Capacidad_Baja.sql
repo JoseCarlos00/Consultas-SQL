@@ -83,14 +83,14 @@ FROM (
       WHEN ILC.quantity_um = 'CJ' THEN ILC.MAXIMUM_QTY * UOM.conversion_qty
       ELSE NULL END AS CAPACIDAD_TOTAL
 
-    FROM Item_unit_of_measure UOM
+    FROM item_unit_of_measure UOM
     LEFT JOIN item_location_capacity ILC ON ILC.item = UOM.item AND UOM.sequence='2' AND UOM.company='FM'
 
     WHERE 
       ILC.company='FM'
   ) AS UOM ON UOM.ITEM = LI.ITEM
 
-  LEFT OUTER JOIN Item_unit_of_measure IUOM ON LI.ITEM=IUOM.item AND IUOM.sequence='2' AND IUOM.company='FM'
+  LEFT OUTER JOIN item_unit_of_measure IUOM ON LI.ITEM=IUOM.item AND IUOM.sequence='2' AND IUOM.company='FM'
 
   INNER JOIN (
       SELECT

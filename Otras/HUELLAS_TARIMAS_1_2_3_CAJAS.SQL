@@ -12,8 +12,8 @@ FROM (
         UOM.company,
         UOM.item,
         CAST(UOM.conversion_qty / UMM.conversion_qty AS INT) AS CAJAS_X_TARIMA
-    FROM Item_unit_of_measure AS UOM
-    INNER JOIN Item_unit_of_measure AS UMM
+    FROM item_unit_of_measure AS UOM
+    INNER JOIN item_unit_of_measure AS UMM
         ON UMM.item = UOM.item
         AND UMM.company = UOM.company
         AND UMM.sequence = 2

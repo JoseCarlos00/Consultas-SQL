@@ -29,7 +29,7 @@ SELECT
       TH.location AS LOCATION
 
       FROM Transaction_history TH
-      INNER JOIN Item_unit_of_measure UOM ON TH.item = UOM.item
+      INNER JOIN item_unit_of_measure UOM ON TH.item = UOM.item
 
       WHERE
         TH.direction='To'

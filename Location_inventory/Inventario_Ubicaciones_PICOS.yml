@@ -8,7 +8,7 @@ proposito: Consultar el inventario existente en las ubicaciones PICOS de Mariano
 
 database: sql-server
 
-tablas: [location_inventory, Item_unit_of_measure, location, item_location_assignment]
+tablas: [location_inventory, item_unit_of_measure, location, item_location_assignment]
 
 parametros: []
 

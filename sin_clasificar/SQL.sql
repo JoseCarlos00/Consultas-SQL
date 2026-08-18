@@ -1,6 +1,6 @@
 -- HUELLA
 SELECT  UOM.item, UOM.conversion_qty
-FROM Item_unit_of_measure UOM
+FROM item_unit_of_measure UOM
 WHERE UOM.company='FM'
 AND UOM.sequence=2
 

@@ -2,8 +2,8 @@ DECLARE @NUM_CAJAS INT = 10;
 
 UPDATE UOM
 SET UOM.conversion_qty = UAM.conversion_qty * @NUM_CAJAS
-FROM Item_unit_of_measure UOM
-INNER JOIN Item_unit_of_measure UAM
+FROM item_unit_of_measure UOM
+INNER JOIN item_unit_of_measure UAM
     ON UOM.item = UAM.item
    AND UOM.company = UAM.company
    AND UAM.sequence = 2
@@ -18,8 +18,8 @@ SELECT
     Caja = UAM.conversion_qty,
     Tarima_actual = UOM.conversion_qty,
     Tarima_nueva = UAM.conversion_qty * 36
-FROM Item_unit_of_measure UOM
-INNER JOIN Item_unit_of_measure UAM
+FROM item_unit_of_measure UOM
+INNER JOIN item_unit_of_measure UAM
     ON UOM.item = UAM.item
    AND UOM.company = UAM.company
    AND UAM.sequence = 2

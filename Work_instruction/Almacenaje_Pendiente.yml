@@ -8,7 +8,7 @@ proposito: Mostrar los trabajos de almacenaje pendientes de completar en el alma
 
 database: sql-server
 
-tablas: [work_instruction, receipt_header, Item_unit_of_measure, location_inventory, location]
+tablas: [work_instruction, receipt_header, item_unit_of_measure, location_inventory, location]
 
 parametros: []
 

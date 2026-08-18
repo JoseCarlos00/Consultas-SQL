@@ -34,7 +34,7 @@ FROM (
 
 	FROM location_inventory LI
 	INNER JOIN location L ON L.location = LI.location
-	INNER JOIN Item_unit_of_measure UOM ON LI.item = UOM.item
+	INNER JOIN item_unit_of_measure UOM ON LI.item = UOM.item
 	INNER JOIN item I ON I.item = LI.item
 
 	WHERE LI.warehouse = 'Tultitlan'

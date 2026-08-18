@@ -21,7 +21,7 @@ FROM
     FROM 
         location_inventory LI
     INNER JOIN 
-        Item_unit_of_measure UOM ON LI.item = UOM.item
+        item_unit_of_measure UOM ON LI.item = UOM.item
     LEFT JOIN 
         location_inventory_attributes LIA ON LIA.OBJECT_ID = LI.loc_inv_attributes_id
 
