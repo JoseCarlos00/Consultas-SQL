@@ -19,7 +19,7 @@ FROM (
   END AS ZONA,
 
   SUM(LI.ON_HAND_QTY) as OH,
-  CAST((SUM(LI.ON_HAND_QTY)/UOM.conversion_qty) AS INT) AS CAJAS,
+  CAST((SUM(LI.ON_HAND_QTY)/UOM.conversion_qty) AS DECIMAL(5, 2)) AS CAJAS,
   LI.internal_location_inv,
 ILA.allocation_loc as PICKING
 
