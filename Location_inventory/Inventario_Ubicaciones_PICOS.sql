@@ -1,15 +1,5 @@
 SELECT 
-  PRINCIPAL.WORK_ZONE,PRINCIPAL.LOCATION,PRINCIPAL.ITEM,PRINCIPAL.DESCRIPTION, CAST(SUM(PRINCIPAL.OH) AS INT) AS OH, CAJAS, ILA.allocation_loc AS PICKING,
-  CASE
-    WHEN WORK_ZONE IN 
-      ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9', 'W-Mar Vinil', 'W-Mar Mayoreo')
-    THEN '1ER PISO'
-
-    WHEN WORK_ZONE IN 
-      ('W-Mar Bodega 10', 'W-Mar Bodega 11', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar No Banda')
-    THEN '2DO PISO'
-  ELSE '' 
-  END AS ZONA
+  PRINCIPAL.WORK_ZONE,PRINCIPAL.LOCATION,PRINCIPAL.ITEM,PRINCIPAL.DESCRIPTION, CAST(SUM(PRINCIPAL.OH) AS INT) AS OH, CAJAS, PICKING, ZONA
 
 FROM (
   SELECT 
@@ -20,22 +10,22 @@ FROM (
   CASE
     WHEN WORK_ZONE IN 
       ('W-Mar Bodega 1', 'W-Mar Bodega 2', 'W-Mar Bodega 3', 'W-Mar Bodega 4', 'W-Mar Bodega 5', 'W-Mar Bodega 6', 'W-Mar Bodega 7', 'W-Mar Bodega 8', 'W-Mar Bodega 9', 'W-Mar Vinil', 'W-Mar Mayoreo')
-    THEN '1ER PISO'
+    THEN '1'
 
     WHEN WORK_ZONE IN 
-      ('W-Mar Bodega 10', 'W-Mar Bodega 11', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar No Banda')
-    THEN '2DO PISO'
+      ('W-Mar Bodega 10', 'W-Mar Bodega 11', 'W-Mar Bodega 12', 'W-Mar Bodega 13', 'W-Mar Bodega 14', 'W-Mar Bodega 15', 'W-Mar Bodega 16', 'W-Mar Bodega 17', 'W-Mar Bodega 20', 'W-Mar Bodega 21', 'W-Mar No Banda')
+    THEN '2'
   ELSE '' 
   END AS ZONA,
 
   SUM(LI.ON_HAND_QTY) as OH,
-  CAST((SUM(LI.ON_HAND_QTY)/UOM.conversion_qty) AS INT) AS CAJAS,
-  LI.internal_location_inv
+  CAST((SUM(LI.ON_HAND_QTY)/UOM.conversion_qty) AS DECIMAL(5, 2)) AS CAJAS,
+  LI.internal_location_inv,
+  ILA.allocation_loc as PICKING
 
   FROM location_inventory LI
   LEFT OUTER JOIN Item_unit_of_measure UOM ON LI.ITEM=UOM.item AND UOM.sequence='2' AND UOM.company='FM'
-
-
+  
   LEFT OUTER JOIN (	 
     SELECT 
     ITEM, WORK_ZONE, LOCATION, AV, OH, AL, IT, SU, NumFila
@@ -72,17 +62,16 @@ FROM (
 
   ) AS ZONAS ON ZONAS.item = LI.ITEM
 
+  LEFT OUTER JOIN item_location_assignment ILA ON ILA.item = LI.item AND ILA.company='FM' AND ILA.quantity_um='PZ'
 
   WHERE LI.warehouse='Mariano'
-  AND LI.location LIKE 'HOT-%'
+  AND LI.location LIKE 'PICOS%'
   AND LI.ON_HAND_QTY > 0
 
 
-  GROUP BY ZONAS.WORK_ZONE, LI.LOCATION, LI.ITEM, LI.ITEM_DESC,WORK_ZONE, LI.ON_HAND_QTY,  LI.internal_location_inv, UOM.conversion_qty
+  GROUP BY ZONAS.WORK_ZONE, LI.LOCATION, LI.ITEM, LI.ITEM_DESC,WORK_ZONE, LI.ON_HAND_QTY,  LI.internal_location_inv, UOM.conversion_qty, ILA.allocation_loc
 ) AS PRINCIPAL
 
-LEFT OUTER  JOIN item_location_assignment ILA ON ILA.item = PRINCIPAL.ITEM AND ILA.quantity_um = 'pz'
+GROUP BY PRINCIPAL.WORK_ZONE,PRINCIPAL.LOCATION,PRINCIPAL.ITEM,PRINCIPAL.DESCRIPTION, CAJAS, PICKING, ZONA
 
-GROUP BY PRINCIPAL.WORK_ZONE,PRINCIPAL.LOCATION,PRINCIPAL.ITEM,PRINCIPAL.DESCRIPTION, CAJAS, ILA.allocation_loc
-
--- WORK_ZONE,LOCATION,ITEM,DESCRIPTION,OH,CAJAS,PICKING,ZONA
+-- @headers: WORK_ZONE,LOCATION,ITEM,DESCRIPTION,OH,CAJAS,PICKING,ZONA,
