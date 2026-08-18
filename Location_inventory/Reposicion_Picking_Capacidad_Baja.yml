@@ -1,0 +1,32 @@
+
+id: Reposicion_Picking_Capacidad_Baja
+
+nombre: Reposición de picking con capacidad baja
+
+descripcion: Lista artículos ubicados en picking de una bodega cuya ocupación es igual o menor al 50% de su capacidad y que tienen inventario disponible para reposición en otras ubicaciones.
+
+proposito: Identificar artículos de picking que requieren reposición y mostrar cuánto inventario disponible existe para realizarla.
+
+database: sql-server
+
+tablas: [location_inventory, item_location_capacity, location, item, item_unit_of_measure]
+
+parametros:
+
+  - descripcion: Bodega que se desea consultar. El valor debe sustituirse en todas las apariciones de WORK_ZONE indicadas antes de ejecutar la consulta.
+
+    ejemplo: "W-Mar Bodega 5"
+
+    ubicacion: "L.work_zone = 'W-Mar Bodega 5' y L.work_zone <> 'W-Mar Bodega 5' y AND L.work_zone = 'W-Mar Bodega 5'"
+
+tags: [reposicion, picking, inventario, capacidad, bodega, Mariano]
+
+alias: [reposicion de picking, reposicion, picking bajo, inventario para reposicion, capacidad de picking]
+
+ultima_verificacion: 2026-08-18
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta está limitada a una bodega para evitar consultas demasiado pesadas durante las pruebas. Al reutilizarla, sustituir W-Mar Bodega 5 por la bodega deseada en las 2 apariciones de WORK_ZONE. Las ubicaciones Generica Permanente S y Generica Dinamico S se consideran picking. DISPONIBLE utiliza la lógica AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y solo se muestran artículos con AV mayor a cero fuera del picking de la bodega consultada."

@@ -2,7 +2,7 @@ id: Inventario_Almacenaje
 
 nombre: Inventario de almacenaje
 
-descripcion: Lista el inventario con existencia en ubicaciones de tipo Almacenaje del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.
+descripcion: Lista el inventario con existencia en ubicaciones Almacenaje del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.
 
 proposito: Consultar el inventario existente en las ubicaciones de almacenaje de Mariano y su distribución por bodega y zona.
 
