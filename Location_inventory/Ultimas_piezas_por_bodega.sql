@@ -3,7 +3,7 @@ SELECT DISTINCT
   L.location,
   I.item,
   I.ITEM_COLOR,
- CAST( LI.ON_HAND_QTY AS INT) AS OH,
+  CAST( LI.ON_HAND_QTY AS INT) AS OH,
   CAST(LI.ALLOCATED_QTY AS INT) AS AL
  
 
@@ -18,7 +18,7 @@ WHERE LI.warehouse = 'Mariano'
     ILC.location_type NOT LIKE 'Generica Permanente R'
     OR ILC.location_type IS NULL
   )
-  AND L.location_type = 'Generica Permanente S' -- Verificar si el item existe en el inventario
+  AND L.location_type IN ('Generica Permanente S', 'Generica Dinamico S')
   AND LI.ITEM NOT IN (
     SELECT DISTINCT LI.item
     FROM location_inventory LI
@@ -26,9 +26,8 @@ WHERE LI.warehouse = 'Mariano'
     WHERE LI.company = 'FM'
       AND LI.warehouse = 'Mariano'
       AND L.warehouse = 'Mariano'
-      AND (L.location_type<>'Muelle' OR L.location IN ('PRE-01', 'REC-01'))
-      AND L.location_class<>'Shipping Dock' 
-      AND (L.location_type<>'Piso' OR L.location IN ('ELEVADOR', 'REC-01', 'HOT-01', 'HOT-02', 'LISTONES-00', 'LISTONES-01', 'DEVOLUCIONES'))
+      AND L.location_class = 'Inventory'
+      AND L.location_type='Piso'
       AND (
         L.work_zone <> 'W-Mar Bodega 6' -- Cualquier ubicación fuera de Bodega 6
         OR (
@@ -44,4 +43,5 @@ AND  LI.ON_HAND_QTY <= 25
 AND  LI.ON_HAND_QTY > 0
 
 ORDER BY L.location
--- WORK_ZONE,LOCATION,ITEM,ITEM_COLOR,OH,AL,
+
+-- @headers: BODEGA,UBICACION,ITEM,COLOR,OH,AL,
