@@ -125,6 +125,11 @@ def guess_category(sql_path: Path) -> str:
 
 def validate_metadata(meta: dict, sql_path: Path, builder: CatalogBuilder) -> bool:
     ok = True
+    publicar = meta.get("publicar")
+    
+    if not publicar:
+        return
+    
     for field_name in REQUIRED_FIELDS:
         value = meta.get(field_name)
         if value in (None, "", []):
@@ -191,16 +196,7 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
     for sql_path in sql_files:
         yml_path = sql_path.with_suffix(".yml")
         
-        if not yml_path.name.endswith(PENDING_YML_SUFFIX):
-            continue
-
         if not yml_path.exists():
-            pending_yml_path = create_pending_metadata_file(sql_path)
-
-            builder.add_error(
-                sql_path,
-                f"metadata faltante. Se creó '{pending_yml_path.name}'"
-            )
             continue
 
         try:
@@ -260,7 +256,6 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
                     yml_path,
                     "archivo .yml sin .sql correspondiente (huérfano)"
                 )
-                continue
             
             if sql_path.exists():
                 builder.add_error(yml_path, f"metadata pendiente")

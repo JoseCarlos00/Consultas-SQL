@@ -2,86 +2,287 @@
   "generado": true,
   "repo": "JoseCarlos00/Consultas-SQL",
   "branch": "main",
-  "total": 5,
+  "total": 10,
   "consultas": [
     {
-      "id": "Almacenaje_Pendiente",
-      "nombre": "Almacenajes pendientes.",
-      "descripcion": "Lista de Trabajos Activos tipo Almacenaje que identifica su TO_WORK_ZONE y la clasifica en Piso 1 o 2.",
-      "proposito": "Mostrar lista de almacenajes pendientes.",
+      "id": "Inventario_Almacenaje",
+      "nombre": "Inventario de almacenaje",
+      "descripcion": "Lista el inventario con existencia en ubicaciones Almacenaje del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.",
+      "proposito": "Consultar el inventario existente en las ubicaciones de almacenaje de Mariano y su distribución por bodega y zona.",
       "database": "sql-server",
       "tablas": [
-        "work_instruction",
-        "receipt_header",
-        "Item_unit_of_measure"
+        "location_inventory",
+        "item_unit_of_measure",
+        "location",
+        "item_location_assignment"
       ],
       "parametros": [],
       "tags": [
+        "inventario",
         "almacenaje",
-        "pendientes"
+        "ubicaciones",
+        "existencias",
+        "picking",
+        "Mariano"
       ],
       "alias": [
-        "almacenaje pendiente",
-        "almacenajes",
-        "almacenaje"
-      ],
-      "headers": [
-        "ITEM",
-        "DESCRIPTION",
-        "PIEZAS",
-        "CAJAS",
-        "COMPANY",
-        "TIPO",
-        "FECHA",
-        "ZONA"
-      ],
-      "estatus": "estable",
-      "publicar": true,
-      "ultima_verificacion": "2026-08-17",
-      "ultima_modificacion": "2026-08-17",
-      "notas": "",
-      "categoria": "general",
-      "ruta": "Almacenaje_Pendiente.sql"
-    },
-    {
-      "id": "Almacenaje_Pendiente_Por_Bodega",
-      "nombre": "Almacenajes pendientes por bodega.",
-      "descripcion": "Lista de Trabajos Activos tipo Almacenaje que identifica su TO_WORK_ZONE y la clasifica en Piso 1 o 2.",
-      "proposito": "Mostrar lista de almacenajes pendientes con work_zone para imprimirse por bodegas.",
-      "database": "sql-server",
-      "tablas": [
-        "work_instruction",
-        "receipt_header",
-        "Item_unit_of_measure"
-      ],
-      "parametros": [],
-      "tags": [
-        "almacenaje",
-        "pendientes"
-      ],
-      "alias": [
-        "almacenaje pendiente",
-        "almacenajes",
-        "almacenaje"
+        "inventario de almacenaje",
+        "inventario almacenaje",
+        "inventario de ubicaciones",
+        "existencias de almacenaje"
       ],
       "headers": [
         "WORK_ZONE",
+        "LOCATION",
         "ITEM",
         "DESCRIPTION",
-        "PIEZAS",
+        "OH",
         "CAJAS",
-        "COMPANY",
-        "TIPO",
-        "FECHA",
+        "PICKING",
         "ZONA"
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-17",
-      "ultima_modificacion": "2026-08-17",
-      "notas": "",
-      "categoria": "general",
-      "ruta": "Almacenaje_Pendiente_Por_Bodega.sql"
+      "ultima_verificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-18",
+      "notas": "Solo considera ubicaciones que comienzan con ALMACENAJE y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/Inventario_Ubicaciones_Almacenaje.sql"
+    },
+    {
+      "id": "Inventario_HOT",
+      "nombre": "Inventario de HOT",
+      "descripcion": "Lista el inventario con existencia en ubicaciones HOT del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.",
+      "proposito": "Consultar el inventario existente en las ubicaciones HOT de Mariano y su distribución por bodega y zona.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "item_unit_of_measure",
+        "location",
+        "item_location_assignment"
+      ],
+      "parametros": [],
+      "tags": [
+        "inventario",
+        "HOT",
+        "ubicaciones",
+        "existencias",
+        "picking",
+        "Mariano"
+      ],
+      "alias": [
+        "inventario HOT",
+        "inventario de HOT",
+        "existencias HOT"
+      ],
+      "headers": [
+        "WORK_ZONE",
+        "LOCATION",
+        "ITEM",
+        "DESCRIPTION",
+        "OH",
+        "CAJAS",
+        "PICKING",
+        "ZONA"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-18",
+      "notas": "Solo considera ubicaciones cuyo nombre comienza con HOT y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2 y se presenta con dos decimales. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/Inventario_Ubicaciones_HOT.sql"
+    },
+    {
+      "id": "Inventario_PICOS",
+      "nombre": "Inventario de Picos",
+      "descripcion": "Lista el inventario con existencia en ubicaciones PICOS del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.",
+      "proposito": "Consultar el inventario existente en las ubicaciones PICOS de Mariano y su distribución por bodega y zona.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "item_unit_of_measure",
+        "location",
+        "item_location_assignment"
+      ],
+      "parametros": [],
+      "tags": [
+        "inventario",
+        "picos",
+        "ubicaciones",
+        "existencias",
+        "picking",
+        "Mariano"
+      ],
+      "alias": [
+        "inventario picos",
+        "inventario de picos",
+        "existencias picos"
+      ],
+      "headers": [
+        "WORK_ZONE",
+        "LOCATION",
+        "ITEM",
+        "DESCRIPTION",
+        "OH",
+        "CAJAS",
+        "PICKING",
+        "ZONA"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-18",
+      "notas": "Solo considera ubicaciones cuyo nombre comienza con PICOS y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2 y se presenta con dos decimales. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/Inventario_Ubicaciones_PICOS.sql"
+    },
+    {
+      "id": "Inventario_Consulta_Utilidad",
+      "nombre": "Consulta de inventario agrupado",
+      "descripcion": "Consulta de utilidad para obtener inventario agrupado por bodega, ubicación y artículo, mostrando existencia disponible, existencia física, asignada, en tránsito, suspendida, equivalencia en cajas y license plate. Está pensada como base para consultas de inventario más específicas o personalizadas.",
+      "proposito": "Facilitar consultas personalizadas sobre inventario manteniendo los datos agrupados por ubicación y artículo para evitar líneas innecesarias o duplicadas.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "location",
+        "item_unit_of_measure"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Bodega o zona de trabajo que se desea consultar. Se recomienda mantener una bodega específica durante las pruebas para evitar obtener un volumen excesivo de resultados.",
+          "ejemplo": "W-Mar Bodega 2",
+          "ubicacion": "L.work_zone = 'W-Mar Bodega 2'"
+        }
+      ],
+      "tags": [
+        "inventario",
+        "consulta",
+        "utilidad",
+        "agrupado",
+        "existencias",
+        "ubicaciones",
+        "Mariano"
+      ],
+      "alias": [
+        "consulta de inventario",
+        "inventario agrupado",
+        "inventario personalizado",
+        "consulta personalizada de inventario",
+        "utilidad de inventario"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-18",
+      "notas": "Consulta base para realizar búsquedas y modificaciones personalizadas sobre inventario. Agrupa la información por WORK_ZONE, LOCATION, ITEM y COMPANY, consolidando AV, OH, AL, IT y SU. AV se calcula como ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY. CAJAS se calcula utilizando UOM sequence 2. Si existen varias license plates para una misma combinación de ubicación y artículo, se muestra 'Multiple'; si existe una sola, se muestra su valor. W-Mar Bodega 2 se utiliza como límite de seguridad durante las pruebas para evitar obtener demasiados resultados y puede sustituirse por otra WORK_ZONE. También pueden agregarse filtros adicionales sobre ubicación o artículo según la necesidad de la consulta.",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/Inventory_agrupado.sql"
+    },
+    {
+      "id": "Reposicion_Picking_Capacidad_Baja",
+      "nombre": "Reposición de picking con capacidad baja",
+      "descripcion": "Lista artículos ubicados en picking de una bodega cuya ocupación es igual o menor al 50% de su capacidad y que tienen inventario disponible para reposición en otras ubicaciones.",
+      "proposito": "Identificar artículos de picking que requieren reposición y mostrar cuánto inventario disponible existe para realizarla.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "item_location_capacity",
+        "location",
+        "item",
+        "item_unit_of_measure"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Bodega que se desea consultar. El valor debe sustituirse en todas las apariciones de WORK_ZONE indicadas antes de ejecutar la consulta.",
+          "ejemplo": "W-Mar Bodega 5",
+          "ubicacion": "L.work_zone = 'W-Mar Bodega 5' y L.work_zone <> 'W-Mar Bodega 5' y AND L.work_zone = 'W-Mar Bodega 5'"
+        }
+      ],
+      "tags": [
+        "reposicion",
+        "picking",
+        "inventario",
+        "capacidad",
+        "bodega",
+        "Mariano"
+      ],
+      "alias": [
+        "reposicion de picking",
+        "reposicion",
+        "picking bajo",
+        "inventario para reposicion",
+        "capacidad de picking"
+      ],
+      "headers": [
+        "BODEGA",
+        "UBICACION",
+        "ITEM",
+        "COLOR",
+        "INVENTARIO_PICKING",
+        "HUELLA_CAJA",
+        "CAPACIDAD",
+        "OCUPACION",
+        "DISPONIBLE_REPOSICION"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-18",
+      "notas": "La consulta está limitada a una bodega para evitar consultas demasiado pesadas durante las pruebas. Al reutilizarla, sustituir W-Mar Bodega 5 por la bodega deseada en las 2 apariciones de WORK_ZONE. Las ubicaciones Generica Permanente S y Generica Dinamico S se consideran picking. DISPONIBLE utiliza la lógica AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y solo se muestran artículos con AV mayor a cero fuera del picking de la bodega consultada.",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/Reposicion_Picking_Capacidad_Baja.sql"
+    },
+    {
+      "id": "Ultimas_piezas_por_bodega",
+      "nombre": "Ultimas Piezas por Bodega",
+      "descripcion": "Lista artículos ubicados en picking de una bodega que conservan entre 1 y 25 piezas y que no tienen inventario disponible para reposición en otras ubicaciones.",
+      "proposito": "Identificar artículos con inventario bajo en picking que ya no cuentan con una fuente de reposición disponible.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "item_location_capacity",
+        "location",
+        "item"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Bodega que se desea consultar. El valor debe sustituirse en todas las apariciones de WORK_ZONE indicadas antes de ejecutar la consulta.",
+          "ejemplo": "W-Mar Bodega 6",
+          "ubicacion": "L.work_zone = 'W-Mar Bodega 6' y L.work_zone <> 'W-Mar Bodega 6' y L.work_zone = 'W-Mar Bodega 6'"
+        }
+      ],
+      "tags": [
+        "picking",
+        "inventario",
+        "reposicion",
+        "faltantes",
+        "bodega",
+        "Mariano"
+      ],
+      "alias": [
+        "picking bajo",
+        "picking sin reposicion",
+        "sin inventario para reposicion",
+        "faltantes de picking",
+        "picking critico"
+      ],
+      "headers": [
+        "BODEGA",
+        "UBICACION",
+        "ITEM",
+        "COLOR",
+        "OH",
+        "AL"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-18",
+      "notas": "La consulta está limitada a una bodega para facilitar las pruebas. Al reutilizarla, sustituir W-Mar Bodega 6 por la bodega deseada en las 2 apariciones de WORK_ZONE. Las ubicaciones Generica Permanente S y Generica Dinamico S se consideran picking. El rango de inventario bajo es de 1 a 25 piezas.",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/Ultimas_piezas_por_bodega.sql"
     },
     {
       "id": "buscar_usuario",
@@ -204,6 +405,51 @@
       "notas": "",
       "categoria": "sql-test",
       "ruta": "sql-test/stock_bajo.sql"
+    },
+    {
+      "id": "Almacenaje_Pendiente",
+      "nombre": "Almacenajes pendientes",
+      "descripcion": "Lista los trabajos activos de tipo Almacenaje en Mariano, mostrando las piezas pendientes de depositar, su equivalente en cajas, la zona, compañía y tipo de recibo. La zona se determina a partir de la ubicación prioritaria del artículo.",
+      "proposito": "Mostrar los trabajos de almacenaje pendientes de completar en el almacén Mariano, agrupados por artículo, fecha, compañía, tipo de recibo y zona.",
+      "database": "sql-server",
+      "tablas": [
+        "work_instruction",
+        "receipt_header",
+        "item_unit_of_measure",
+        "location_inventory",
+        "location"
+      ],
+      "parametros": [],
+      "tags": [
+        "almacenaje",
+        "pendientes",
+        "trabajos-activos",
+        "recibos",
+        "Mariano"
+      ],
+      "alias": [
+        "almacenaje pendiente",
+        "almacenajes pendientes",
+        "trabajos de almacenaje",
+        "pendientes de almacenaje"
+      ],
+      "headers": [
+        "ITEM",
+        "DESCRIPTION",
+        "PIEZAS",
+        "CAJAS",
+        "COMPANY",
+        "TIPO",
+        "FECHA",
+        "ZONA"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-18",
+      "notas": "FROM_QTY representa trabajo aún no confirmado y TO_QTY trabajo confirmado pendiente de depósito; ambos se suman para obtener la cantidad total del trabajo. UOM sequence 2 corresponde a cajas. La zona se obtiene de la ubicación prioritaria del artículo y se clasifica en Piso 1 o Piso 2.",
+      "categoria": "Work_instruction",
+      "ruta": "Work_instruction/Almacenaje_Pendiente.sql"
     }
   ]
 }
