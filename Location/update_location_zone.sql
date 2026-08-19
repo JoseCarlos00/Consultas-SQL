@@ -1,0 +1,14 @@
+UPDATE LOCATION
+SET 
+  LOCATING_ZONE = 'ZONE',
+  ALLOCATION_ZONE = 'ZONE',
+  WORK_ZONE = 'ZONE'
+	-- ,MULTI_ITEM = 'Y',
+  -- TRACK_CONTAINERS = 'Y',
+  -- LOCATION_TYPE = 'Generica Dinamico R',
+  -- ALLOCATE_IN_TRANSIT = 'N'
+  
+WHERE
+WAREHOUSE = 'Mariano'
+-- WAREHOUSE = 'Tultitlan'
+AND LOCATION IN ()

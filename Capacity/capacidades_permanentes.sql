@@ -14,9 +14,11 @@ INNER JOIN item I  ON I.item = ILA.item
 WHERE I.company='FM'    
 AND (ILC.location_type NOT LIKE 'Generica Permanente R' 
         OR  ILC.location_type IS NULL)
-AND L.warehouse='Mariano'   
+
+AND L.warehouse='Mariano'
+-- AND L.location LIKE '1-60-%'
 AND L.work_zone='W-mar Bodega 1'
 
-ORDER BY 1,2
+ORDER BY L.location, I.item
 
 -- WORK_ZONE,LOCATION,ITEM,description,CAPACIDAD,NUEVA,

@@ -125,10 +125,6 @@ def guess_category(sql_path: Path) -> str:
 
 def validate_metadata(meta: dict, sql_path: Path, builder: CatalogBuilder) -> bool:
     ok = True
-    publicar = meta.get("publicar")
-    
-    if not publicar:
-        return
     
     for field_name in REQUIRED_FIELDS:
         value = meta.get(field_name)
@@ -146,44 +142,37 @@ def validate_metadata(meta: dict, sql_path: Path, builder: CatalogBuilder) -> bo
 
     return ok
 
+def get_pending_yml_path(sql_path: Path) -> Path:
+    """Ruta del .yml temporal para un .sql dado."""
+    return sql_path.with_name(f"{sql_path.stem}{PENDING_YML_SUFFIX}")
+
+
+def get_sql_path_from_pending_yml(yml_path: Path) -> Path:
+    """Inverso de get_pending_yml_path: del .PENDIENTE.yml al .sql que documenta."""
+    sql_name = yml_path.name[: -len(PENDING_YML_SUFFIX)] + ".sql"
+    return yml_path.with_name(sql_name)
+
+
 def create_pending_metadata_file(sql_path: Path) -> Path:
     """Crea un YAML temporal indicando que requiere completar metadata."""
-    yml_path = sql_path.with_name(
-        f"{sql_path.stem}{PENDING_YML_SUFFIX}"
-    )
+    yml_path = get_pending_yml_path(sql_path)
 
     metadata_template = f"""id: {sql_path.stem}
-
 nombre: 
-
 descripcion:
-
 proposito:
-
 database: sql-server
-
 tablas: []
-
 parametros: []
-
 tags: []
-
 alias: []
-
 ultima_verificacion:
-
 estatus: estable
-
 publicar: true
-
 notas: ""
 """
-
-    if not yml_path.exists():
-        yml_path.write_text(metadata_template, encoding="utf-8")
-
+    yml_path.write_text(metadata_template, encoding="utf-8")
     return yml_path
-
 
 # --------------------------------------------------------------------------
 # Construcción del catálogo
@@ -195,8 +184,16 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
 
     for sql_path in sql_files:
         yml_path = sql_path.with_suffix(".yml")
-        
+        pending_path = get_pending_yml_path(sql_path)
+
         if not yml_path.exists():
+            if pending_path.exists():
+                continue
+            create_pending_metadata_file(sql_path)
+            builder.add_error(
+                sql_path,
+                f"metadata faltante. Se creó '{pending_path.name}'",
+            )
             continue
 
         try:
@@ -206,11 +203,16 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
             builder.add_error(yml_path, f"YAML inválido: {e}")
             continue
 
-        if not validate_metadata(meta, sql_path, builder):
+        publicar = meta.get("publicar", True)
+        will_include = publicar or include_private
+
+        # Solo exigimos los campos obligatorios si la consulta va a
+        # terminar en el catálogo. Una consulta con publicar: false que
+        # nunca se incluye no necesita estar completa.
+        if not will_include:
             continue
 
-        publicar = meta.get("publicar", True)
-        if not publicar and not include_private:
+        if not validate_metadata(meta, sql_path, builder):
             continue
 
         sql_text = sql_path.read_text(encoding="utf-8")
@@ -248,17 +250,12 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
 
         # Metadata temporal pendiente de completar.
         if yml_path.name.endswith(PENDING_YML_SUFFIX):
-            sql_name = yml_path.name.removesuffix(PENDING_YML_SUFFIX) + ".sql"
-            sql_path = yml_path.with_name(sql_name)
-            
+            sql_path = get_sql_path_from_pending_yml(yml_path)
+        
             if not sql_path.exists():
-                builder.add_error(
-                    yml_path,
-                    "archivo .yml sin .sql correspondiente (huérfano)"
-                )
-            
-            if sql_path.exists():
-                builder.add_error(yml_path, f"metadata pendiente")
+                builder.add_error(yml_path, "archivo .yml sin .sql correspondiente (huérfano)")
+            else:
+                builder.add_error(yml_path, "metadata pendiente de completar")
             continue
             
             
