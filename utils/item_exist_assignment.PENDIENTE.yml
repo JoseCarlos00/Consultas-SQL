@@ -1,25 +1,13 @@
-id: UBICACIONES_PENDIENTER_POR_ASIGNAR
-
+id: item_exist_assignment
 nombre: 
-
 descripcion:
-
 proposito:
-
 database: sql-server
-
 tablas: []
-
 parametros: []
-
 tags: []
-
 alias: []
-
 ultima_verificacion:
-
 estatus: estable
-
 publicar: true
-
 notas: ""
