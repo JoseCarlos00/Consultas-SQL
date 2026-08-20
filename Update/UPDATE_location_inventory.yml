@@ -28,7 +28,7 @@ tags: [inventario, existencias, corrección, ajuste, location_inventory, utilida
 
 alias: [actualizar inventario, corregir inventario, ajustar existencia, corregir existencia, modificar ON_HAND_QTY]
 
-ultima_verificacion:
+ultima_verificacion: 2026-08-20
 
 estatus: estable
 

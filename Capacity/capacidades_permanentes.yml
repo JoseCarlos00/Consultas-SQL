@@ -1,1 +1,37 @@
 id: capacidades_permanentes
+
+nombre: Reporte de Capacidades de Picking
+
+descripcion: Reporte de las ubicaciones de picking asignadas a artículos en Mariano, mostrando la zona de trabajo, ubicación, artículo, descripción y capacidad configurada, con una columna reservada para agregar información adicional.
+
+proposito: Servir como base para crear reportes personalizados de artículos y sus ubicaciones de picking, permitiendo agregar posteriormente una columna o cálculo adicional.
+
+database: sql-server
+
+tablas: [item_location_assignment, item_location_capacity, location, item]
+
+parametros:
+
+  - descripcion: Zona de trabajo que se desea consultar.
+
+    ejemplo: "W-Mar Bodega 1"
+
+    ubicacion: "AND L.work_zone = 'W-mar Bodega 1'"
+
+  - descripcion: Filtro opcional para limitar las ubicaciones consultadas mediante un patrón de ubicación.
+
+    ejemplo: "1-60-%"
+
+    ubicacion: "AND L.location LIKE '1-60-%'"
+
+tags: [reportes, plantilla, picking, ubicaciones, artículos]
+
+alias: [plantilla de reporte, reporte de picking, reporte de ubicaciones de picking, plantilla de picking, reporte personalizado]
+
+ultima_verificacion: 2026-08-20
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta está limitada actualmente a Mariano y W-Mar Bodega 1 como valores de referencia."

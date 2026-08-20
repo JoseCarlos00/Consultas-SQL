@@ -1,0 +1,31 @@
+id: reporte_capacidad_articulos
+
+nombre: Reporte de capacidad de artículos
+
+descripcion: Lista artículos de la compañía FM junto con su capacidad configurada, porcentaje mínimo de reposición y tipo de ubicación. Excluye artículos de categoría Bulk y configuraciones correspondientes a ubicaciones de reserva permanente.
+
+proposito: Consultar la configuración de capacidad y reposición de los artículos, permitiendo revisar rápidamente sus valores por tipo de ubicación y limitar la consulta a un grupo específico de artículos.
+
+database: sql-server
+
+tablas: [item, item_location_capacity]
+
+parametros:
+
+  - descripcion: Prefijo o patrón de artículos que se desean consultar mediante LIKE. Puede sustituirse por otro patrón, cambiarse por una lista de artículos o eliminarse para consultar todos los artículos.
+
+    ejemplo: "1532-%"
+
+    ubicacion: "AND I.item LIKE '1532-%'"
+
+tags: [reportes, artículos, capacidad, reposición, configuración]
+
+alias: [reporte de capacidad, capacidad de artículos, capacidad y reposición, reporte de reposición, configuración de artículos]
+
+ultima_verificacion: 2026-08-20
+
+estatus: estable
+
+publicar: true
+
+notas: "Excluye artículos de categoría Bulk y configuraciones cuyo LOCATION_TYPE corresponda a Generica Permanente R, aunque conserva artículos sin configuración de capacidad."
