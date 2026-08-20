@@ -1,0 +1,31 @@
+id: validar_existencia_de_items
+
+nombre: Validar Artículos
+
+descripcion: Identifica cuáles de los artículos proporcionados en una lista no existen en la tabla item del WMS.
+
+proposito: Verificar rápidamente si una lista de artículos está registrada en el sistema, mostrando únicamente los artículos que no existen.
+
+database: sql-server
+
+tablas: [item]
+
+parametros:
+
+  - descripcion: Lista de artículos que se desean validar. Los artículos se agregan manualmente dentro de la sección VALUES de la consulta.
+
+    ejemplo: "('ITEM-001'), ('ITEM-002'), ('ITEM-003')"
+
+    ubicacion: "VALUES ('ITEM-001'), ('ITEM-002'), ('ITEM-003')"
+
+tags: [artículos, validación, utilidad, utils]
+
+alias: [validar artículos, artículos inexistentes, revisar artículos, comprobar artículos, validar SKUs, artículos no registrados]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "Utiliza NOT EXISTS para comparar cada artículo de la lista contra la tabla item y devuelve únicamente aquellos que no tienen coincidencia. Es una utilidad sencilla para comprobar previamente si los artículos están registrados en el WMS."

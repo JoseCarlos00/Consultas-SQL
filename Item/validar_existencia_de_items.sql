@@ -7,6 +7,5 @@ FROM (
 WHERE NOT EXISTS (
     SELECT 1
     FROM item
-    -- FROM item_location_assignment item
     WHERE item.item = lista.item
 );

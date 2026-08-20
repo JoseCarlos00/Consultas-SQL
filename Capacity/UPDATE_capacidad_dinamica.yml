@@ -1,0 +1,49 @@
+id: UPDATE_capacidad_dinamica
+
+nombre: Actualizar Capacidad Dinámica
+
+descripcion: Actualiza la configuración de capacidad de una lista de artículos permitiendo asignar valores diferentes de capacidad máxima y porcentaje mínimo de reposición para cada artículo mediante CASE.
+
+proposito: Aplicar configuraciones de capacidad personalizadas cuando cada artículo requiere una capacidad o porcentaje de reposición diferente.
+
+database: sql-server
+
+tablas: [item_location_capacity]
+
+parametros:
+
+  - descripcion: Lista de artículos que se desean modificar.
+
+    ejemplo: "('1128-8879-26851'), ('1128-8879-26852')"
+
+    ubicacion: "WHERE ITEM IN (...)"
+
+  - descripcion: Capacidad máxima que se asignará individualmente a cada artículo.
+
+    ejemplo: "1128-8879-26851 = 2"
+
+    ubicacion: "WHEN ITEM = '1128-8879-26851' THEN 2"
+
+  - descripcion: Porcentaje mínimo de reposición que se asignará individualmente a cada artículo.
+
+    ejemplo: "1128-8879-26851 = 50"
+
+    ubicacion: "WHEN ITEM = '1128-8879-26851' THEN 50"
+
+  - descripcion: Unidad de medida utilizada para la capacidad.
+
+    ejemplo: "CJ"
+
+    ubicacion: "QUANTITY_UM = 'CJ'"
+
+tags: [capacidad, reposición, artículos, configuración, utilidad, utils]
+
+alias: [actualizar capacidad dinámica, capacidad dinámica, capacidad personalizada, configurar capacidad por artículo, capacidad individual]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: false
+
+notas: "Permite asignar valores diferentes de MAXIMUM_QTY y MINIMUM_RPLN_PCT mediante CASE para cada artículo. Los valores que no tengan un CASE específico conservan su configuración actual mediante ELSE. Solo afecta registros cuyo LOCATION_TYPE sea Generica Permanente S. Es la opción adecuada cuando los artículos requieren capacidades diferentes."

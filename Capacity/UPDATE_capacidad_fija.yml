@@ -1,0 +1,49 @@
+id: UPDATE_capacidad_fija
+
+nombre: Actualizar Capacidad Fija
+
+descripcion: Actualiza una lista de artículos asignándoles los mismos valores de capacidad máxima, unidad de medida y porcentaje mínimo de reposición en ubicaciones de tipo Generica Permanente S.
+
+proposito: Aplicar rápidamente una configuración de capacidad uniforme a varios artículos que requieren los mismos valores de capacidad y reposición.
+
+database: sql-server
+
+tablas: [item_location_capacity]
+
+parametros:
+
+  - descripcion: Capacidad máxima que se asignará a todos los artículos seleccionados.
+
+    ejemplo: "2"
+
+    ubicacion: "MAXIMUM_QTY = 2"
+
+  - descripcion: Unidad de medida utilizada para la capacidad.
+
+    ejemplo: "CJ"
+
+    ubicacion: "QUANTITY_UM = 'CJ'"
+
+  - descripcion: Porcentaje mínimo de reposición que se asignará a todos los artículos seleccionados.
+
+    ejemplo: "50"
+
+    ubicacion: "MINIMUM_RPLN_PCT = 50"
+
+  - descripcion: Lista de artículos a los que se aplicará la configuración.
+
+    ejemplo: "('1128-8879-26851'), ('1128-8879-26852')"
+
+    ubicacion: "AND ITEM IN (...)"
+
+tags: [capacidad, reposición, artículos, configuración, utilidad, utils]
+
+alias: [actualizar capacidad fija, capacidad fija, configurar capacidad, capacidad uniforme, actualizar capacidad de artículos]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: false
+
+notas: "Todos los artículos incluidos en ITEM IN (...) reciben exactamente los mismos valores de MAXIMUM_QTY, QUANTITY_UM y MINIMUM_RPLN_PCT. Solo afecta registros cuyo LOCATION_TYPE sea Generica Permanente S. Es la opción adecuada cuando varios artículos comparten la misma configuración de capacidad."
