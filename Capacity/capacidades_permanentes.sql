@@ -3,13 +3,13 @@ SELECT DISTINCT
     L.location,
     I.item,
     REPLACE(I.description, ',', '.') AS DESCRIPTION,
-    CONCAT( CAST(ILC.MAXIMUM_QTY AS INT), ' ', ILC.quantity_um),
+    CONCAT( CAST(ILC.MAXIMUM_QTY AS INT), ' ', ILC.quantity_um) AS CAPACIDAD,
     NUEVA = NULL
 
 FROM item_location_assignment ILA
-LEFT JOIN item_location_capacity ILC  ON  ILC.item = ILA.item 
-INNER JOIN location L  ON L.location = ILA.allocation_loc    
-INNER JOIN item I  ON I.item = ILA.item   
+LEFT JOIN item_location_capacity ILC ON ILC.item = ILA.item
+INNER JOIN location L  ON L.location = ILA.allocation_loc  
+INNER JOIN item I ON I.item = ILA.item
 
 WHERE I.company='FM'    
 AND (ILC.location_type NOT LIKE 'Generica Permanente R' 
