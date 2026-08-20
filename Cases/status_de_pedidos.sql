@@ -12,7 +12,7 @@ CASE
         WHEN status1 = 700 AND ALLOCATION_REJECTED_QTY = 0 THEN 'Ship Confirm Pending'
         WHEN status1 = 800 AND ALLOCATION_REJECTED_QTY = 0 THEN 'Load Confirm Pending'
         WHEN status1 = 900 AND ALLOCATION_REJECTED_QTY = 0 THEN 'Closed'
-        WHEN status1 = 999 AND ALLOCATION_REJECTED_QTY = 0 THEN 'Rejeted'
+        WHEN status1 = 999 AND ALLOCATION_REJECTED_QTY = 0 THEN 'Reject'
         ELSE ' ' 
   END AS ESTATUS
 
