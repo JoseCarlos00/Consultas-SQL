@@ -5,4 +5,4 @@ SET
   MINIMUM_RPLN_PCT = 50
   
 WHERE location_type = 'Generica Permanente S'
-AND ITEM IN ()
+AND ITEM IN ();

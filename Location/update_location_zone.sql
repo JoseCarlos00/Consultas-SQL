@@ -9,6 +9,6 @@ SET
   -- ALLOCATE_IN_TRANSIT = 'N'
   
 WHERE
-WAREHOUSE = 'Mariano'
--- WAREHOUSE = 'Tultitlan'
-AND LOCATION IN ()
+  -- WAREHOUSE = 'Mariano'
+  WAREHOUSE = 'Tultitlan'
+AND LOCATION IN ();

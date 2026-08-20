@@ -1,4 +1,4 @@
-id: inser_into_cross_reference
+id: insert_into_assignment
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

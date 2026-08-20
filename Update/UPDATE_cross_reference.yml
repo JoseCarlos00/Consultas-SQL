@@ -1,13 +1,25 @@
-id: consultar_ubicaciones_existentes
+id: UPDATE_cross_reference
+
 nombre: 
+
 descripcion:
+
 proposito:
+
 database: sql-server
+
 tablas: []
+
 parametros: []
+
 tags: []
+
 alias: []
+
 ultima_verificacion:
+
 estatus: estable
-publicar: true
+
+publicar: false
+
 notas: ""

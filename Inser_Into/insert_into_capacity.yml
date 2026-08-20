@@ -1,0 +1,49 @@
+id: insert_into_capacity
+
+nombre: Insert Capacity
+
+descripcion: Inserta una nueva configuración de capacidad para un artículo y tipo de ubicación en item_location_capacity, incluyendo sus parámetros de reposición y datos de auditoría.
+
+proposito: Crear manualmente la configuración de capacidad de un artículo cuando aún no existe el registro correspondiente en item_location_capacity.
+
+database: sql-server
+
+tablas: [item_location_capacity]
+
+parametros:
+
+  - descripcion: Artículo al que se aplicará la configuración.
+
+    ejemplo: "ITEM-001"
+
+    ubicacion: "VALUES ('ITEM-001', ...)"
+
+  - descripcion: Capacidad máxima permitida para el artículo.
+
+    ejemplo: "2"
+
+    ubicacion: "VALUES (..., '2', ...)"
+
+  - descripcion: Porcentaje mínimo de reposición.
+
+    ejemplo: "50"
+
+    ubicacion: "VALUES (..., '50', ...)"
+
+  - descripcion: Usuario que quedará registrado como responsable de la creación.
+
+    ejemplo: "JoseCarlos"
+
+    ubicacion: "USER_STAMP"
+
+tags: [capacidad, configuración, reposición, artículos, ubicaciones, inserción, utilidad, utils]
+
+alias: [crear capacidad, insertar capacidad, nueva capacidad, configurar capacidad, crear item location capacity]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "Inserta directamente un registro en item_location_capacity. La consulta utiliza normalmente company FM, LOCATION_TYPE Generica Permanente S y QUANTITY_UM CJ. DATE_TIME_STAMP se genera mediante DATEADD(HOUR, 6, GETDATE()) para ajustar la hora registrada. Antes de ejecutar, verificar que no exista ya una configuración para evitar registros duplicados y revisar los valores de capacidad y reposición."

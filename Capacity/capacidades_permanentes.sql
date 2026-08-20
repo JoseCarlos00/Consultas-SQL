@@ -21,4 +21,4 @@ AND L.work_zone='W-mar Bodega 1'
 
 ORDER BY L.location, I.item
 
--- WORK_ZONE,LOCATION,ITEM,description,CAPACIDAD,NUEVA,
+-- @Headers: WORK_ZONE,LOCATION,ITEM,description,CAPACIDAD,NUEVA,

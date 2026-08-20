@@ -1,0 +1,31 @@
+id: lista_de_usuarios
+
+nombre: Usuarios por almacén
+
+descripcion: Lista los usuarios configurados con un almacén predeterminado específico, mostrando su nombre de usuario, descripción y correo electrónico.
+
+proposito: Consultar rápidamente qué usuarios tienen asignado un determinado almacén como almacén predeterminado.
+
+database: sql-server
+
+tablas: [user_profile]
+
+parametros:
+
+  - descripcion: Almacén predeterminado que se desea consultar.
+
+    ejemplo: "Tultitlan"
+
+    ubicacion: "WHERE default_whs = 'Tultitlan'"
+
+tags: [usuarios, almacenes, utilidad, utils]
+
+alias: [usuarios por almacén, usuarios de almacén, usuarios por warehouse, usuarios Tultitlan, consulta de usuarios]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "Consulta sencilla para identificar usuarios asociados a un almacén predeterminado. El valor de default_whs puede sustituirse para consultar otro almacén."

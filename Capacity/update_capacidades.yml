@@ -1,0 +1,49 @@
+id: update_capacidades
+
+nombre: Actualizar capacidad de ubicaciones
+
+descripcion: Actualiza la capacidad máxima, unidad de medida y porcentaje mínimo de reposición de artículos en ubicaciones de un tipo específico.
+
+proposito: Modificar rápidamente la configuración de capacidad y reposición de uno o varios artículos en ubicaciones que comparten un mismo tipo.
+
+database: sql-server
+
+tablas: [item_location_capacity]
+
+parametros:
+
+  - descripcion: Cantidad máxima que podrá manejar la configuración de capacidad.
+
+    ejemplo: "2"
+
+    ubicacion: "MAXIMUM_QTY = 2"
+
+  - descripcion: Unidad de medida utilizada para la capacidad.
+
+    ejemplo: "CJ"
+
+    ubicacion: "QUANTITY_UM = 'CJ'"
+
+  - descripcion: Porcentaje mínimo de reposición.
+
+    ejemplo: "50"
+
+    ubicacion: "MINIMUM_RPLN_PCT = 50"
+
+  - descripcion: Lista de artículos a los que se aplicará la modificación.
+
+    ejemplo: "('ITEM-001'), ('ITEM-002')"
+
+    ubicacion: "AND ITEM IN (...)"
+
+tags: [capacidad, reposición, ubicaciones, configuración, artículos, utilidad, utils]
+
+alias: [actualizar capacidad, cambiar capacidad, capacidad de artículos, configurar reposición, actualizar reposición]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "Actualiza directamente item_location_capacity para las configuraciones cuyo LOCATION_TYPE sea Generica Permanente S. La lista de artículos debe especificarse manualmente en IN. Antes de ejecutar, revisar que los artículos seleccionados correspondan a las ubicaciones y configuración que se desea modificar."

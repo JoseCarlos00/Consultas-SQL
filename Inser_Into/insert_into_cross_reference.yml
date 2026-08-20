@@ -1,4 +1,4 @@
-id: UPDATE_location_capacity
+id: insert_into_cross_reference
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

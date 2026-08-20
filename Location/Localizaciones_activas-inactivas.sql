@@ -14,4 +14,4 @@ AND location IN
   AND ILA.allocation_loc IS NULL
   AND L.work_zone <> 'W-Mar Salida Rapida'
   AND L.work_zone IS NOT NULL
-)
+);

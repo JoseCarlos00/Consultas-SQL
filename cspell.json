@@ -7,9 +7,12 @@
 		}
 	],
 	"words": [
+		"DATEADD",
 		"dotenv",
 		"Fraunces",
+		"GETDATE",
 		"github",
+		"GTIN",
 		"IUOM",
 		"jspm",
 		"Mayoreo",
