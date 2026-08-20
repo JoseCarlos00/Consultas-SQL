@@ -1,0 +1,37 @@
+id: UPDATE_location_inventory
+
+nombre: Actualizar Inventario Multiple
+
+descripcion: Actualiza manualmente la existencia física de registros específicos de inventario utilizando su identificador interno de inventario.
+
+proposito: Realizar correcciones puntuales de ON_HAND_QTY sobre registros específicos de inventario cuando se requiere ajustar directamente una existencia.
+
+database: sql-server
+
+tablas: [location_inventory]
+
+parametros:
+
+  - descripcion: Identificadores internos de inventario que se desean modificar.
+
+    ejemplo: "('82075376'), ('82075377')"
+
+    ubicacion: "AND internal_location_inv IN (...)"
+
+  - descripcion: Nueva cantidad ON_HAND_QTY que se asignará a cada registro. El valor puede establecerse individualmente mediante los CASE WHEN asociados a cada internal_location_inv.
+
+    ejemplo: "82075376 = 10"
+
+    ubicacion: "CASE WHEN internal_location_inv = '82075376' THEN 10 ELSE ON_HAND_QTY END"
+
+tags: [inventario, existencias, corrección, ajuste, location_inventory, utilidad, utils]
+
+alias: [actualizar inventario, corregir inventario, ajustar existencia, corregir existencia, modificar ON_HAND_QTY]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "Consulta de actualización directa sobre location_inventory. Utiliza internal_location_inv para identificar exactamente los registros que se desean modificar y mantiene warehouse='Mariano' como filtro de seguridad. El CASE permite asignar cantidades diferentes a registros específicos, mientras que ELSE ON_HAND_QTY conserva el valor actual de los demás registros seleccionados. Debe revisarse cuidadosamente antes de ejecutar porque modifica directamente las existencias del WMS."
