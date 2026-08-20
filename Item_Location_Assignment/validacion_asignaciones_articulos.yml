@@ -1,0 +1,25 @@
+id: validacion_asignaciones_articulos
+
+nombre: Validación de Asignaciones de Artículos
+
+descripcion: Detecta inconsistencias en la tabla de asignaciones de artículos, identificando campos obligatorios nulos, múltiples asignaciones por artículo y unidades de medida que no corresponden al tipo de artículo.
+
+proposito: Verificar la integridad de las asignaciones de artículos y detectar registros que requieren corrección antes de afectar procesos de picking, reposición u otras operaciones del WMS.
+
+database: sql-server
+
+tablas: [item_location_assignment]
+
+parametros: []
+
+tags: [validación, auditoría, asignaciones, artículos, inconsistencias, calidad-datos]
+
+alias: [validar asignaciones, inconsistencias de asignaciones, errores de asignación, revisar asignaciones, auditoría de asignaciones]
+
+ultima_verificacion: 2026-08-20
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta identifica cinco tipos de campos obligatorios con valor NULL: ITEM, COMPANY, QUANTITY_UM, WAREHOUSE y ALLOCATION_LOC. La regla de negocio establece que cada ITEM debe tener exactamente una asignación, por lo que CNT_ASIGNACIONES se calcula mediante COUNT(*) OVER (PARTITION BY item) y cualquier valor mayor a uno se reporta como MULTIPLES ASIGNACIONES. Para la unidad de medida, los artículos normales deben utilizar PZ, mientras que los artículos con prefijo 4110-, 1310- o 1346- son excepciones y deben utilizar CJ. La columna PROBLEMA indica específicamente la inconsistencia encontrada."
