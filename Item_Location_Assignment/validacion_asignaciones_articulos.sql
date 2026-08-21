@@ -24,6 +24,9 @@ SELECT
 
         WHEN CNT_ASIGNACIONES > 1
             THEN 'MULTIPLES ASIGNACIONES'
+        
+        WHEN quantity_um NOT IN ('PZ', 'CJ')
+            THEN 'UM ERROR'
 
         WHEN quantity_um <> 'PZ'
              AND NOT (
