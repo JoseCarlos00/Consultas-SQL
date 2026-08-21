@@ -1,4 +1,4 @@
-id: Cortos_sin_inventario
+id: comparativo_tul-mar
 
 nombre: 
 
@@ -18,8 +18,8 @@ alias: []
 
 ultima_verificacion:
 
-estatus: estable
+estatus: experimental
 
-publicar: true
+publicar: false
 
 notas: ""

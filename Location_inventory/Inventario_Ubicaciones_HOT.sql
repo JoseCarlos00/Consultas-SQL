@@ -26,7 +26,8 @@ ILA.allocation_loc as PICKING
   FROM location_inventory LI
   LEFT OUTER JOIN item_unit_of_measure UOM ON LI.ITEM=UOM.item AND UOM.sequence='2' AND UOM.company='FM'
   
-  LEFT OUTER JOIN (	 
+  -- ZONAS
+  LEFT OUTER JOIN (
     SELECT 
     ITEM, WORK_ZONE, LOCATION, AV, OH, AL, IT, SU, NumFila
     FROM (

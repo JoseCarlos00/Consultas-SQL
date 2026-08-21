@@ -1,4 +1,4 @@
-id: PEDIDOS_DETALLES
+id: cortos_con_inventario
 
 nombre: 
 
@@ -18,8 +18,8 @@ alias: []
 
 ultima_verificacion:
 
-estatus: estable
+estatus: experimental
 
-publicar: true
+publicar: false
 
 notas: ""

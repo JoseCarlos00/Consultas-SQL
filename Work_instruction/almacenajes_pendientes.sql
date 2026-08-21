@@ -58,7 +58,8 @@ FROM (
   UOM.conversion_qty
 ) AS PRINCIPAL
 
-LEFT OUTER JOIN (	 
+-- ZONAS
+LEFT OUTER JOIN (
     SELECT 
     ITEM, WORK_ZONE, LOCATION, AV, OH, AL, IT, SU, NumFila
     FROM (

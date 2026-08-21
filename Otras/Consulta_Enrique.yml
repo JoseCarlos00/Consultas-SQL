@@ -1,4 +1,4 @@
-id: CORTOS_DETAIL
+id: Consulta_Enrique
 
 nombre: 
 
@@ -18,8 +18,8 @@ alias: []
 
 ultima_verificacion:
 
-estatus: estable
+estatus: experimental
 
-publicar: true
+publicar: false
 
 notas: ""

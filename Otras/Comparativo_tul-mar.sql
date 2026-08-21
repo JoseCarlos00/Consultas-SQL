@@ -1,15 +1,13 @@
 SELECT DISTINCT
   AssociatedItems.item AS ITEM,
 CASE
-    WHEN (PERMANENTE IS NOT NULL OR ELEVADOR IS NOT NULL OR REC IS NOT NULL OR PRE IS NOT NULL OR RESERVA IS NOT NULL OR HOT IS NOT NULL OR TULTI IS NOT NULL) THEN
+    WHEN (ELEVADOR IS NOT NULL OR REC IS NOT NULL OR PRE IS NOT NULL OR HOT IS NOT NULL OR TULTI IS NOT NULL) THEN
         CONCAT_WS('-',
             NULLIF(ZONA, ''), 
-            NULLIF(PERMANENTE, ''),
             NULLIF(ELEVADOR, ''),
             NULLIF(REC, ''),
             NULLIF(PRE, ''),
             NULLIF(HOT, ''),
-            NULLIF(RESERVA, ''),
             NULLIF(TULTI, '')
         )
 
@@ -51,6 +49,7 @@ FROM
   WHERE company='FM'
   AND  item IN (
     -- Artuiculos
+   
   )
 ) AS AssociatedItems(item) ON CP.item = AssociatedItems.item
 
@@ -73,12 +72,14 @@ LEFT OUTER JOIN
     SD.ITEM AS ARTICULO ,
     SUBSTRING(SD.item_desc,1,15) AS DESCRIPCION,
     MAX(SD.REQUESTED_QTY)AS TOTAL,
-    CASE WHEN SD.item IS NOT NULL THEN 'Pendiente_Tulti' END AS TULTI
+    CASE 
+    WHEN SD.item IS NOT NULL THEN 'Pendiente_Tulti' 
+    END AS TULTI
 
 	FROM shipment_detail SD
 	INNER JOIN shipment_header SH ON SH.Shipment_id = SD.Shipment_id
 
-	WHERE SD.warehouse = 'Tultitlan' AND SH.order_type = 'TR-TUL-ME' AND SD.status1 <> 100 AND SD.status1 <> 999 AND SD.status1 <> 900
+	WHERE SD.warehouse = 'Tultitlan' AND SH.order_type = 'TR-TUL-ME'AND SD.status1 <> 999 AND SD.status1 <> 900
 	AND SD.ERP_ORDER IN (SELECT DISTINCT SHIPMENT_ID FROM shipment_header WHERE order_type = 'TR-TUL-ME' AND NOT (trailing_sts = 900 AND leading_sts = 900 ))
   
 	GROUP BY  SD.ITEM ,SD.item_desc ,SD.TOTAL_QTY ,SD.status1 ,SD.INTERNAL_SHIPMENT_LINE_NUM
@@ -87,6 +88,7 @@ LEFT OUTER JOIN
 
 WHERE AssociatedItems.item IN (
    -- Artuiculos
+  
 )
 
 ORDER BY AssociatedItems.item DESC
