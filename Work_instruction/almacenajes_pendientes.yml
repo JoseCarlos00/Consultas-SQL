@@ -12,7 +12,7 @@ tablas: [work_instruction, receipt_header, item_unit_of_measure, location_invent
 
 parametros: []
 
-tags: [almacenaje, pendientes, trabajos-activos, recibos, Mariano]
+tags: [almacenaje, pendientes, trabajos-activos, recibos, Mariano, Reporte]
 
 alias: [almacenaje pendiente, almacenajes pendientes, trabajos de almacenaje, pendientes de almacenaje]
 

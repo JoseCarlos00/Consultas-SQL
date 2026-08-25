@@ -43,23 +43,20 @@ SELECT
     END AS PISO
 
 FROM (
-
-    /* =========================================================
-       ARTICULOS CON CORTO
-       ========================================================= */
+   
     SELECT
-        C.ITEM AS ARTICULO,
-        C.DESCRIPTION,
-        C.RECHAZADA,
-        D.DISP,
-        P.WORK_ZONE,
-        P.IT
+        CORTOS.ITEM AS ARTICULO,
+        CORTOS.DESCRIPTION,
+        CORTOS.RECHAZADA,
+        DISPONIBLE.DISP,
+        PRIORIDAD.WORK_ZONE,
+        PRIORIDAD.IT
 
     FROM (
-
+         /* CORTOS */
         SELECT
             SD.ITEM,
-            REPLACE(MAX(SD.ITEM_DESC), ',', '.') AS DESCRIPTION,
+            REPLACE(SD.ITEM_DESC, ',', '.') AS DESCRIPTION,
             SUM(SD.TOTAL_QTY) AS RECHAZADA
 
         FROM shipment_detail SD
@@ -70,18 +67,16 @@ FROM (
           AND SD.WAREHOUSE = 'Mariano'
 
         GROUP BY
-            SD.ITEM
+            SD.ITEM,
+            SD.ITEM_DESC
 
-    ) AS C
+    ) AS CORTOS
 
-    /* =========================================================
-       INVENTARIO DISPONIBLE
-       ========================================================= */
+    /* DISPONIBLE */
     INNER JOIN (
 
         SELECT
             LI.ITEM,
-
             SUM(
                 (LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY)
                 - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)
@@ -97,6 +92,15 @@ FROM (
           AND L.WAREHOUSE = 'Mariano'
           AND L.LOCATION_CLASS = 'Inventory'
 
+          AND L.LOCATION NOT IN (
+            'MERMA-00',
+            'MERMA-01',
+            'MERMA-02',
+            'MERMA-03',
+            'INTERNET-01'
+        )
+
+
         GROUP BY
             LI.ITEM
 
@@ -106,12 +110,10 @@ FROM (
                 - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)
             ) > 0
 
-    ) AS D
-        ON D.ITEM = C.ITEM
+    ) AS DISPONIBLE
+        ON DISPONIBLE.ITEM = CORTOS.ITEM
 
-    /* =========================================================
-       UBICACION PRIORITARIA
-       ========================================================= */
+     /* UBICACIÓN PRIORITARIA */
     LEFT JOIN (
 
         SELECT
@@ -161,8 +163,8 @@ FROM (
 
         WHERE NUM_FILA = 1
 
-    ) AS P
-        ON P.ITEM = C.ITEM
+    ) AS PRIORIDAD
+        ON PRIORIDAD.ITEM = CORTOS.ITEM
 
 ) AS RESULTADO
 
