@@ -12,7 +12,7 @@ tablas: [location_inventory, item_unit_of_measure, location, item_location_assig
 
 parametros: []
 
-tags: [inventario, HOT, ubicaciones, existencias, picking, Mariano]
+tags: [inventario, HOT, ubicaciones, existencias, picking, Mariano, Reporte]
 
 alias: [inventario HOT, inventario de HOT, existencias HOT]
 

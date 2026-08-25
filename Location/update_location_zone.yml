@@ -38,6 +38,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: false
+publicar: true
 
 notas: "Consulta de actualización directa sobre la tabla location. Por seguridad, la lista de ubicaciones debe especificarse manualmente en IN y el almacén debe mantenerse como filtro. La consulta actualmente modifica únicamente LOCATING_ZONE, ALLOCATION_ZONE y WORK_ZONE. Existen campos adicionales comentados que pueden habilitarse cuando sea necesario, como MULTI_ITEM, TRACK_CONTAINERS, LOCATION_TYPE y ALLOCATE_IN_TRANSIT. Debe revisarse cuidadosamente antes de ejecutar porque modifica datos directamente."

@@ -12,7 +12,7 @@ tablas: [location_inventory, item_unit_of_measure, location, item_location_assig
 
 parametros: []
 
-tags: [inventario, picos, ubicaciones, existencias, picking, Mariano]
+tags: [inventario, picos, ubicaciones, existencias, picking, Mariano, Reporte]
 
 alias: [inventario picos, inventario de picos, existencias picos]
 

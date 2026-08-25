@@ -19,7 +19,7 @@ parametros:
 
     ubicacion: "L.work_zone = 'W-Mar Bodega 5' y L.work_zone <> 'W-Mar Bodega 5' y AND L.work_zone = 'W-Mar Bodega 5'"
 
-tags: [reposicion, picking, inventario, capacidad, bodega, Mariano]
+tags: [reposicion, picking, inventario, capacidad, bodega, Mariano, Reporte]
 
 alias: [reposicion de picking, reposicion, picking bajo, inventario para reposicion, capacidad de picking]
 

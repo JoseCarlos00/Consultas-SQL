@@ -1,0 +1,25 @@
+id: desactivar_ubicaciones_vacias_activas
+
+nombre: Desactivar Ubicaciones Vacías
+
+descripcion: Desactiva ubicaciones activas de tipo Generica Dinamico S o Generica Permanente S que se encuentran vacías, no tienen una asignación de artículo, pertenecen a una zona de trabajo válida y no corresponden a la zona W-Mar Salida Rapida.
+
+proposito: Realizar mantenimiento de ubicaciones del almacén Mariano, desactivando ubicaciones de picking vacías que no tienen una asignación asociada.
+
+database: sql-server
+
+tablas: [location, item_location_assignment]
+
+parametros: []
+
+tags: [rutina, runtime, ubicaciones, mantenimiento, Mariano]
+
+alias: [desactivar ubicaciones, ubicaciones vacías, limpiar ubicaciones, desactivar picking vacío]
+
+ultima_verificacion: 2026-08-25
+
+estatus: estable
+
+publicar: true
+
+notas: "Solo afecta ubicaciones activas del almacén Mariano con LOCATION_STS = 'Empty', de tipo Generica Dinamico S o Generica Permanente S, sin asignación con QUANTITY_UM = 'PZ', con WORK_ZONE no nula y diferente de W-Mar Salida Rapida. La consulta modifica el campo ACTIVE a 'N'."

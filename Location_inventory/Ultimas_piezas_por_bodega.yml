@@ -15,7 +15,7 @@ parametros:
     ejemplo: "W-Mar Bodega 6"
     ubicacion: "L.work_zone = 'W-Mar Bodega 6' y L.work_zone <> 'W-Mar Bodega 6' y L.work_zone = 'W-Mar Bodega 6'"
 
-tags: [picking, inventario, reposicion, faltantes, bodega, Mariano]
+tags: [picking, inventario, reposicion, faltantes, bodega, Mariano, Reporte]
 
 alias: [picking bajo, picking sin reposicion, sin inventario para reposicion, faltantes de picking, picking critico]
 

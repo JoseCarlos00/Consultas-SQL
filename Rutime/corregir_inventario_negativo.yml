@@ -1,0 +1,25 @@
+id: corregir_inventario_negativo
+
+nombre: Corregir Inventario Negativo
+
+descripcion: Corrige cantidades negativas en los campos de inventario ON_HAND_QTY, ALLOCATED_QTY e IN_TRANSIT_QTY del almacén Mariano, convirtiéndolas a valores absolutos.
+
+proposito: Corregir registros de inventario que presentan cantidades negativas en existencia, asignado o inventario en tránsito.
+
+database: sql-server
+
+tablas: [location_inventory]
+
+parametros: []
+
+tags: [rutina, runtime, inventario, correccion, Mariano]
+
+alias: [corregir inventario negativo, cantidades negativas, inventario negativo, corregir cantidades]
+
+ultima_verificacion: 2026-08-25
+
+estatus: estable
+
+publicar: true
+
+notas: "La rutina ejecuta tres actualizaciones independientes sobre location_inventory. ON_HAND_QTY, ALLOCATED_QTY e IN_TRANSIT_QTY se convierten mediante ABS() únicamente cuando su valor es menor que cero. Está limitada al almacén Mariano."

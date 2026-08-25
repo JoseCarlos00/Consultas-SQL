@@ -1,0 +1,31 @@
+id: secuencia_surtido_bodega
+
+nombre: Secuencia de Surtido por Bodega
+
+descripcion: Lista las ubicaciones de una bodega mostrando su configuración y secuencia de surtido, incluyendo picking_seq, putaway_seq, zona de asignación, zona de trabajo, estado y características operativas de la ubicación.
+
+proposito: Consultar la secuencia de picking de las ubicaciones de una bodega específica para revisar o verificar el orden en que se realiza el surtido.
+
+database: sql-server
+
+tablas: [location]
+
+parametros:
+
+  - descripcion: Bodega o WORK_ZONE cuya secuencia de surtido se desea consultar.
+
+    ejemplo: "W-Mar Bodega 2"
+
+    ubicacion: "L.work_zone = 'W-Mar Bodega 2'"
+
+tags: [surtido, picking, secuencia, ubicaciones, bodega, Mariano]
+
+alias: [secuencia de surtido, secuencia de picking, orden de surtido, picking por bodega, secuencia de picking]
+
+ultima_verificacion: 2026-08-25
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta obtiene ubicaciones de tipo Generica%S de la WORK_ZONE indicada y las ordena por PICKING_SEQ. Aunque inicialmente se utiliza con bodegas de Mariano, el filtro WORK_ZONE permite utilizarla para otras zonas de trabajo compatibles."
