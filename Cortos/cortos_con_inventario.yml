@@ -1,0 +1,25 @@
+id: cortos_con_inventario
+
+nombre: 
+
+descripcion:
+
+proposito:
+
+database: sql-server
+
+tablas: []
+
+parametros: []
+
+tags: []
+
+alias: []
+
+ultima_verificacion:
+
+estatus: experimental
+
+publicar: false
+
+notas: ""

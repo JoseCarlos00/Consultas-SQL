@@ -1,0 +1,25 @@
+id: inventario_ubicaciones_almacenaje
+
+nombre: Inventario de almacenaje
+
+descripcion: Lista el inventario con existencia en ubicaciones Almacenaje del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.
+
+proposito: Consultar el inventario existente en las ubicaciones de almacenaje de Mariano y su distribución por bodega y zona.
+
+database: sql-server
+
+tablas: [location_inventory, item_unit_of_measure, location, item_location_assignment]
+
+parametros: []
+
+tags: [inventario, almacenaje, ubicaciones, existencias, picking, Mariano, Reporte]
+
+alias: [inventario de almacenaje, inventario almacenaje, inventario de ubicaciones, existencias de almacenaje]
+
+ultima_verificacion: 2026-08-18
+
+estatus: estable
+
+publicar: true
+
+notas: "Solo considera ubicaciones que comienzan con ALMACENAJE y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo."

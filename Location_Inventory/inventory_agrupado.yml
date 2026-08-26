@@ -1,0 +1,31 @@
+id: inventory_agrupado
+
+nombre: Consulta de inventario agrupado
+
+descripcion: Consulta de utilidad para obtener inventario agrupado por bodega, ubicación y artículo, mostrando existencia disponible, existencia física, asignada, en tránsito, suspendida, equivalencia en cajas y license plate. Está pensada como base para consultas de inventario más específicas o personalizadas.
+
+proposito: Facilitar consultas personalizadas sobre inventario manteniendo los datos agrupados por ubicación y artículo para evitar líneas innecesarias o duplicadas.
+
+database: sql-server
+
+tablas: [location_inventory, location, item_unit_of_measure]
+
+parametros:
+
+  - descripcion: Bodega o zona de trabajo que se desea consultar. Se recomienda mantener una bodega específica durante las pruebas para evitar obtener un volumen excesivo de resultados.
+
+    ejemplo: "W-Mar Bodega 2"
+
+    ubicacion: "L.work_zone = 'W-Mar Bodega 2'"
+
+tags: [inventario, consulta, utilidad, agrupado, existencias, ubicaciones, Mariano]
+
+alias: [consulta de inventario, inventario agrupado, inventario personalizado, consulta personalizada de inventario, utilidad de inventario]
+
+ultima_verificacion: 2026-08-18
+
+estatus: estable
+
+publicar: true
+
+notas: "Consulta base para realizar búsquedas y modificaciones personalizadas sobre inventario. Agrupa la información por WORK_ZONE, LOCATION, ITEM y COMPANY, consolidando AV, OH, AL, IT y SU. AV se calcula como ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY. CAJAS se calcula utilizando UOM sequence 2. Si existen varias license plates para una misma combinación de ubicación y artículo, se muestra 'Multiple'; si existe una sola, se muestra su valor. W-Mar Bodega 2 se utiliza como límite de seguridad durante las pruebas para evitar obtener demasiados resultados y puede sustituirse por otra WORK_ZONE. También pueden agregarse filtros adicionales sobre ubicación o artículo según la necesidad de la consulta."

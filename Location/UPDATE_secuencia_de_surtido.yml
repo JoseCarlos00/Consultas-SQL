@@ -1,0 +1,49 @@
+id: UPDATE_secuencia_de_surtido
+
+nombre: Actualizar secuencias de ubicaciones
+
+descripcion: Actualiza las secuencias de picking y putaway de una lista específica de ubicaciones dentro de una bodega y zona de trabajo.
+
+proposito: Modificar el orden de picking y putaway de ubicaciones seleccionadas para controlar su prioridad dentro de los procesos del WMS.
+
+database: sql-server
+
+tablas: [location]
+
+parametros:
+
+  - descripcion: Almacén en el que se encuentran las ubicaciones.
+
+    ejemplo: "Mariano"
+
+    ubicacion: "WHERE warehouse = 'Mariano'"
+
+  - descripcion: Zona de trabajo cuyas ubicaciones se desean modificar.
+
+    ejemplo: "W-Mar Bodega 2"
+
+    ubicacion: "AND work_zone = 'W-Mar Bodega 2'"
+
+  - descripcion: Lista de ubicaciones que se desean actualizar.
+
+    ejemplo: "'1-10-08-DD-11', '1-10-08-DD-12'"
+
+    ubicacion: "AND location IN (...)"
+
+  - descripcion: Valor de secuencia que se asignará a las ubicaciones. Debe establecerse dentro de los CASE correspondientes.
+
+    ejemplo: "41500"
+
+    ubicacion: "CASE WHEN LOCATION = 'UBICACION' THEN '41500' ELSE picking_seq END y CASE WHEN LOCATION = 'UBICACION' THEN '41500' ELSE putaway_seq END"
+
+tags: [picking, putaway, secuencias, ubicaciones, configuración, utilidad, utils]
+
+alias: [actualizar secuencia, secuencia de picking, secuencia de putaway, cambiar prioridad de picking, cambiar orden de ubicaciones]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "Consulta de actualización directa sobre location. Actualmente utiliza CASE para permitir asignar valores diferentes a ubicaciones específicas, conservando la secuencia actual mediante ELSE. La bodega, WORK_ZONE y lista de ubicaciones funcionan como filtros de seguridad. Debe revisarse el CASE antes de ejecutar para confirmar qué ubicaciones y valores serán modificados."

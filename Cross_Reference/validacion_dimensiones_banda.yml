@@ -1,0 +1,31 @@
+id: validacion_dimensiones_banda
+
+nombre: Validación de Dimensiones para Banda
+
+descripcion: Reporte de artículos de categoría BANDA que presentan dimensiones fuera de los límites permitidos para su manejo en la banda física, considerando las unidades PZ y CJ.
+
+proposito: Identificar artículos BANDA que no cumplen con las dimensiones máximas permitidas para la banda y determinar si la presentación PZ, CJ o ambas se encuentran fuera de los límites.
+
+database: sql-server
+
+tablas: [item, item_unit_of_measure, location_inventory, location]
+
+parametros:
+
+  - descripcion: Límites máximos de dimensiones permitidos para la banda física.
+
+    ejemplo: "Largo <= 70, Ancho <= 58, Altura <= 69"
+
+    ubicacion: "Condiciones de validación de DIMENSIONES_PZ y DIMENSIONES_CJ."
+
+tags: [utilidad, utils, inventario, banda, dimensiones, articulos, item_unit_of_measure]
+
+alias: [validar dimensiones banda, dimensiones banda, articulos para banda, validacion banda, dimensiones de articulos, medidas banda]
+
+ultima_verificacion: 2026-08-25
+
+estatus: estable
+
+publicar: true
+
+notas: "Consulta utilizada para revisar las dimensiones registradas en item_unit_of_measure de artículos de categoría BANDA. Se evalúan las unidades PZ y CJ contra los límites físicos de la banda: largo máximo 70, ancho máximo 58 y altura máxima 69. El filtro final muestra artículos donde al menos una de las presentaciones disponibles no cumple las dimensiones requeridas. El bloque de inventario disponible utiliza AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y considera únicamente ubicaciones de clase Inventory."

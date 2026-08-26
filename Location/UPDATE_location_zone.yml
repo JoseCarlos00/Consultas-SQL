@@ -1,0 +1,43 @@
+id: UPDATE_location_zone
+
+nombre: Actualizar zonas de ubicaciones
+
+descripcion: Actualiza las zonas de localización, asignación y trabajo de una lista específica de ubicaciones en un almacén determinado.
+
+proposito: Modificar rápidamente la configuración de zonas de varias ubicaciones sin tener que actualizar cada ubicación individualmente.
+
+database: sql-server
+
+tablas: [location]
+
+parametros:
+
+  - descripcion: Almacén en el que se encuentran las ubicaciones que se desean modificar.
+
+    ejemplo: "Tultitlan"
+
+    ubicacion: "WHERE WAREHOUSE = 'Tultitlan'"
+
+  - descripcion: Zona que se asignará a LOCATING_ZONE, ALLOCATION_ZONE y WORK_ZONE.
+
+    ejemplo: "ZONE"
+
+    ubicacion: "SET LOCATING_ZONE = 'ZONE', ALLOCATION_ZONE = 'ZONE', WORK_ZONE = 'ZONE'"
+
+  - descripcion: Lista de ubicaciones que se desean modificar. Deben agregarse manualmente dentro de la cláusula IN.
+
+    ejemplo: "('2-10-07-AA-01'), ('2-10-07-AA-02')"
+
+    ubicacion: "AND LOCATION IN (...)"
+
+tags: [ubicaciones, zonas, configuración, actualización, utilidad, utils]
+
+alias: [actualizar zonas, cambiar zonas de ubicaciones, actualizar work zone, actualizar allocation zone, actualizar locating zone, modificar ubicaciones]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "Consulta de actualización directa sobre la tabla location. Por seguridad, la lista de ubicaciones debe especificarse manualmente en IN y el almacén debe mantenerse como filtro. La consulta actualmente modifica únicamente LOCATING_ZONE, ALLOCATION_ZONE y WORK_ZONE. Existen campos adicionales comentados que pueden habilitarse cuando sea necesario, como MULTI_ITEM, TRACK_CONTAINERS, LOCATION_TYPE y ALLOCATE_IN_TRANSIT. Debe revisarse cuidadosamente antes de ejecutar porque modifica datos directamente."

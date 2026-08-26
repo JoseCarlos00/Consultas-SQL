@@ -1,0 +1,25 @@
+id: cortos_por_bodega
+
+nombre: Cortos con Inventario Disponible
+
+descripcion: Lista los artículos que tienen cantidad rechazada en surtido y que cuentan con inventario disponible en ubicaciones de clase Inventory del almacén Mariano, mostrando la bodega prioritaria del artículo, la cantidad rechazada, el inventario disponible, el inventario en tránsito de la ubicación prioritaria y el piso.
+
+proposito: Identificar artículos con cortos que tienen inventario disponible, mostrando además la bodega donde se encuentra la ubicación prioritaria del artículo.
+
+database: sql-server
+
+tablas: [shipment_detail, location_inventory, location]
+
+parametros: []
+
+tags: [cortos, inventario, disponible, reposicion, surtido, Mariano, Reporte]
+
+alias: [cortos con inventario, cortos con disponible, cortos disponibles, artículos con corto, inventario para cortos]
+
+ultima_verificacion: 2026-08-25
+
+estatus: estable
+
+publicar: true
+
+notas: "RECHAZADA se obtiene sumando TOTAL_QTY de las líneas con STATUS1 = 100 y ALLOCATION_REJECTED_QTY mayor a cero. DISP corresponde al inventario disponible calculado como (ON_HAND_QTY + IN_TRANSIT_QTY) - (ALLOCATED_QTY + SUSPENSE_QTY), considerando ubicaciones de clase Inventory y mostrando únicamente artículos cuyo total disponible es mayor a cero. La bodega corresponde a la WORK_ZONE de la ubicación prioritaria del artículo. La prioridad se determina mediante ROW_NUMBER(), dando preferencia a ubicaciones con PERMANENT = 'Y', después a ubicaciones de bodegas W-Mar o W-Mar No Banda, y posteriormente a otras ubicaciones con WORK_ZONE. IT corresponde al IN_TRANSIT_QTY de la ubicación prioritaria. PISO se determina a partir de la WORK_ZONE."
