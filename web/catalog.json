@@ -2,10 +2,955 @@
   "generado": true,
   "repo": "JoseCarlos00/Consultas-SQL",
   "branch": "main",
-  "total": 10,
+  "total": 32,
   "consultas": [
     {
-      "id": "Inventario_Ubicaciones_Almacenaje",
+      "id": "capacidades_permanentes",
+      "nombre": "Reporte de Capacidades de Picking",
+      "descripcion": "Reporte de las ubicaciones de picking asignadas a artículos en Mariano, mostrando la zona de trabajo, ubicación, artículo, descripción y capacidad configurada, con una columna reservada para agregar información adicional.",
+      "proposito": "Servir como base para crear reportes personalizados de artículos y sus ubicaciones de picking, permitiendo agregar posteriormente una columna o cálculo adicional.",
+      "database": "sql-server",
+      "tablas": [
+        "item_location_assignment",
+        "item_location_capacity",
+        "location",
+        "item"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Zona de trabajo que se desea consultar.",
+          "ejemplo": "W-Mar Bodega 1",
+          "ubicacion": "AND L.work_zone = 'W-mar Bodega 1'"
+        },
+        {
+          "descripcion": "Filtro opcional para limitar las ubicaciones consultadas mediante un patrón de ubicación.",
+          "ejemplo": "1-60-%",
+          "ubicacion": "AND L.location LIKE '1-60-%'"
+        }
+      ],
+      "tags": [
+        "reportes",
+        "plantilla",
+        "picking",
+        "ubicaciones",
+        "artículos"
+      ],
+      "alias": [
+        "plantilla de reporte",
+        "reporte de picking",
+        "reporte de ubicaciones de picking",
+        "plantilla de picking",
+        "reporte personalizado"
+      ],
+      "headers": [
+        "WORK_ZONE",
+        "LOCATION",
+        "ITEM",
+        "description",
+        "CAPACIDAD",
+        "NUEVA"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-20",
+      "ultima_modificacion": "2026-08-20",
+      "notas": "La consulta está limitada actualmente a Mariano y W-Mar Bodega 1 como valores de referencia.",
+      "categoria": "Capacity",
+      "ruta": "Capacity/capacidades_permanentes.sql"
+    },
+    {
+      "id": "insert_into_capacity",
+      "nombre": "Insert Capacity",
+      "descripcion": "Inserta una nueva configuración de capacidad para un artículo y tipo de ubicación en item_location_capacity, incluyendo sus parámetros de reposición y datos de auditoría.",
+      "proposito": "Crear manualmente la configuración de capacidad de un artículo cuando aún no existe el registro correspondiente en item_location_capacity.",
+      "database": "sql-server",
+      "tablas": [
+        "item_location_capacity"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Artículo al que se aplicará la configuración.",
+          "ejemplo": "ITEM-001",
+          "ubicacion": "VALUES ('ITEM-001', ...)"
+        },
+        {
+          "descripcion": "Capacidad máxima permitida para el artículo.",
+          "ejemplo": "2",
+          "ubicacion": "VALUES (..., '2', ...)"
+        },
+        {
+          "descripcion": "Porcentaje mínimo de reposición.",
+          "ejemplo": "50",
+          "ubicacion": "VALUES (..., '50', ...)"
+        },
+        {
+          "descripcion": "Usuario que quedará registrado como responsable de la creación.",
+          "ejemplo": "JoseCarlos",
+          "ubicacion": "USER_STAMP"
+        }
+      ],
+      "tags": [
+        "capacidad",
+        "configuración",
+        "reposición",
+        "artículos",
+        "ubicaciones",
+        "inserción",
+        "utilidad",
+        "utils"
+      ],
+      "alias": [
+        "crear capacidad",
+        "insertar capacidad",
+        "nueva capacidad",
+        "configurar capacidad",
+        "crear item location capacity"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": "2026-08-20",
+      "notas": "Inserta directamente un registro en item_location_capacity. La consulta utiliza normalmente company FM, LOCATION_TYPE Generica Permanente S y QUANTITY_UM CJ. DATE_TIME_STAMP se genera mediante DATEADD(HOUR, 6, GETDATE()) para ajustar la hora registrada. Antes de ejecutar, verificar que no exista ya una configuración para evitar registros duplicados y revisar los valores de capacidad y reposición.",
+      "categoria": "Capacity",
+      "ruta": "Capacity/insert_into_capacity.sql"
+    },
+    {
+      "id": "reporte_capacidad_articulos",
+      "nombre": "Reporte de capacidad de artículos",
+      "descripcion": "Lista artículos de la compañía FM junto con su capacidad configurada, porcentaje mínimo de reposición y tipo de ubicación. Excluye artículos de categoría Bulk y configuraciones correspondientes a ubicaciones de reserva permanente.",
+      "proposito": "Consultar la configuración de capacidad y reposición de los artículos, permitiendo revisar rápidamente sus valores por tipo de ubicación y limitar la consulta a un grupo específico de artículos.",
+      "database": "sql-server",
+      "tablas": [
+        "item",
+        "item_location_capacity"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Prefijo o patrón de artículos que se desean consultar mediante LIKE. Puede sustituirse por otro patrón, cambiarse por una lista de artículos o eliminarse para consultar todos los artículos.",
+          "ejemplo": "1532-%",
+          "ubicacion": "AND I.item LIKE '1532-%'"
+        }
+      ],
+      "tags": [
+        "reportes",
+        "artículos",
+        "capacidad",
+        "reposición",
+        "configuración"
+      ],
+      "alias": [
+        "reporte de capacidad",
+        "capacidad de artículos",
+        "capacidad y reposición",
+        "reporte de reposición",
+        "configuración de artículos"
+      ],
+      "headers": [
+        "ITEM",
+        "COLOR",
+        "CAPACIDAD",
+        "% DE REPOSICIÓN",
+        "LOCATION_TYPE"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-20",
+      "ultima_modificacion": "2026-08-20",
+      "notas": "Excluye artículos de categoría Bulk y configuraciones cuyo LOCATION_TYPE corresponda a Generica Permanente R, aunque conserva artículos sin configuración de capacidad.",
+      "categoria": "Capacity",
+      "ruta": "Capacity/reporte_capacidad_articulos.sql"
+    },
+    {
+      "id": "UPDATE_capacidad_dinamica",
+      "nombre": "Actualizar Capacidad Dinámica",
+      "descripcion": "Actualiza la configuración de capacidad de una lista de artículos permitiendo asignar valores diferentes de capacidad máxima y porcentaje mínimo de reposición para cada artículo mediante CASE.",
+      "proposito": "Aplicar configuraciones de capacidad personalizadas cuando cada artículo requiere una capacidad o porcentaje de reposición diferente.",
+      "database": "sql-server",
+      "tablas": [
+        "item_location_capacity"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Lista de artículos que se desean modificar.",
+          "ejemplo": "('1128-8879-26851'), ('1128-8879-26852')",
+          "ubicacion": "WHERE ITEM IN (...)"
+        },
+        {
+          "descripcion": "Capacidad máxima que se asignará individualmente a cada artículo.",
+          "ejemplo": "1128-8879-26851 = 2",
+          "ubicacion": "WHEN ITEM = '1128-8879-26851' THEN 2"
+        },
+        {
+          "descripcion": "Porcentaje mínimo de reposición que se asignará individualmente a cada artículo.",
+          "ejemplo": "1128-8879-26851 = 50",
+          "ubicacion": "WHEN ITEM = '1128-8879-26851' THEN 50"
+        },
+        {
+          "descripcion": "Unidad de medida utilizada para la capacidad.",
+          "ejemplo": "CJ",
+          "ubicacion": "QUANTITY_UM = 'CJ'"
+        }
+      ],
+      "tags": [
+        "capacidad",
+        "reposición",
+        "artículos",
+        "configuración",
+        "utilidad",
+        "utils"
+      ],
+      "alias": [
+        "actualizar capacidad dinámica",
+        "capacidad dinámica",
+        "capacidad personalizada",
+        "configurar capacidad por artículo",
+        "capacidad individual"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": "2026-08-20",
+      "notas": "Permite asignar valores diferentes de MAXIMUM_QTY y MINIMUM_RPLN_PCT mediante CASE para cada artículo. Los valores que no tengan un CASE específico conservan su configuración actual mediante ELSE. Solo afecta registros cuyo LOCATION_TYPE sea Generica Permanente S. Es la opción adecuada cuando los artículos requieren capacidades diferentes.",
+      "categoria": "Capacity",
+      "ruta": "Capacity/UPDATE_capacidad_dinamica.sql"
+    },
+    {
+      "id": "UPDATE_capacidad_fija",
+      "nombre": "Actualizar Capacidad Fija",
+      "descripcion": "Actualiza una lista de artículos asignándoles los mismos valores de capacidad máxima, unidad de medida y porcentaje mínimo de reposición en ubicaciones de tipo Generica Permanente S.",
+      "proposito": "Aplicar rápidamente una configuración de capacidad uniforme a varios artículos que requieren los mismos valores de capacidad y reposición.",
+      "database": "sql-server",
+      "tablas": [
+        "item_location_capacity"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Capacidad máxima que se asignará a todos los artículos seleccionados.",
+          "ejemplo": "2",
+          "ubicacion": "MAXIMUM_QTY = 2"
+        },
+        {
+          "descripcion": "Unidad de medida utilizada para la capacidad.",
+          "ejemplo": "CJ",
+          "ubicacion": "QUANTITY_UM = 'CJ'"
+        },
+        {
+          "descripcion": "Porcentaje mínimo de reposición que se asignará a todos los artículos seleccionados.",
+          "ejemplo": "50",
+          "ubicacion": "MINIMUM_RPLN_PCT = 50"
+        },
+        {
+          "descripcion": "Lista de artículos a los que se aplicará la configuración.",
+          "ejemplo": "('1128-8879-26851'), ('1128-8879-26852')",
+          "ubicacion": "AND ITEM IN (...)"
+        }
+      ],
+      "tags": [
+        "capacidad",
+        "reposición",
+        "artículos",
+        "configuración",
+        "utilidad",
+        "utils"
+      ],
+      "alias": [
+        "actualizar capacidad fija",
+        "capacidad fija",
+        "configurar capacidad",
+        "capacidad uniforme",
+        "actualizar capacidad de artículos"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": "2026-08-20",
+      "notas": "Todos los artículos incluidos en ITEM IN (...) reciben exactamente los mismos valores de MAXIMUM_QTY, QUANTITY_UM y MINIMUM_RPLN_PCT. Solo afecta registros cuyo LOCATION_TYPE sea Generica Permanente S. Es la opción adecuada cuando varios artículos comparten la misma configuración de capacidad.",
+      "categoria": "Capacity",
+      "ruta": "Capacity/UPDATE_capacidad_fija.sql"
+    },
+    {
+      "id": "cortos_por_bodega",
+      "nombre": "Cortos con Inventario Disponible",
+      "descripcion": "Lista los artículos que tienen cantidad rechazada en surtido y que cuentan con inventario disponible en ubicaciones de clase Inventory del almacén Mariano, mostrando la bodega prioritaria del artículo, la cantidad rechazada, el inventario disponible, el inventario en tránsito de la ubicación prioritaria y el piso.",
+      "proposito": "Identificar artículos con cortos que tienen inventario disponible, mostrando además la bodega donde se encuentra la ubicación prioritaria del artículo.",
+      "database": "sql-server",
+      "tablas": [
+        "shipment_detail",
+        "location_inventory",
+        "location"
+      ],
+      "parametros": [],
+      "tags": [
+        "cortos",
+        "inventario",
+        "disponible",
+        "reposicion",
+        "surtido",
+        "Mariano",
+        "Reporte"
+      ],
+      "alias": [
+        "cortos con inventario",
+        "cortos con disponible",
+        "cortos disponibles",
+        "artículos con corto",
+        "inventario para cortos"
+      ],
+      "headers": [
+        "BODEGA",
+        "ARTICULO",
+        "DESCRIPTION",
+        "RECHAZADA",
+        "DISP",
+        "IT",
+        "PISO"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": null,
+      "notas": "RECHAZADA se obtiene sumando TOTAL_QTY de las líneas con STATUS1 = 100 y ALLOCATION_REJECTED_QTY mayor a cero. DISP corresponde al inventario disponible calculado como (ON_HAND_QTY + IN_TRANSIT_QTY) - (ALLOCATED_QTY + SUSPENSE_QTY), considerando ubicaciones de clase Inventory y mostrando únicamente artículos cuyo total disponible es mayor a cero. La bodega corresponde a la WORK_ZONE de la ubicación prioritaria del artículo. La prioridad se determina mediante ROW_NUMBER(), dando preferencia a ubicaciones con PERMANENT = 'Y', después a ubicaciones de bodegas W-Mar o W-Mar No Banda, y posteriormente a otras ubicaciones con WORK_ZONE. IT corresponde al IN_TRANSIT_QTY de la ubicación prioritaria. PISO se determina a partir de la WORK_ZONE.",
+      "categoria": "Cortos",
+      "ruta": "Cortos/cortos_por_bodega.sql"
+    },
+    {
+      "id": "validacion_dimensiones_banda",
+      "nombre": "Validación de Dimensiones para Banda",
+      "descripcion": "Reporte de artículos de categoría BANDA que presentan dimensiones fuera de los límites permitidos para su manejo en la banda física, considerando las unidades PZ y CJ.",
+      "proposito": "Identificar artículos BANDA que no cumplen con las dimensiones máximas permitidas para la banda y determinar si la presentación PZ, CJ o ambas se encuentran fuera de los límites.",
+      "database": "sql-server",
+      "tablas": [
+        "item",
+        "item_unit_of_measure",
+        "location_inventory",
+        "location"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Límites máximos de dimensiones permitidos para la banda física.",
+          "ejemplo": "Largo <= 70, Ancho <= 58, Altura <= 69",
+          "ubicacion": "Condiciones de validación de DIMENSIONES_PZ y DIMENSIONES_CJ."
+        }
+      ],
+      "tags": [
+        "utilidad",
+        "utils",
+        "inventario",
+        "banda",
+        "dimensiones",
+        "articulos",
+        "item_unit_of_measure"
+      ],
+      "alias": [
+        "validar dimensiones banda",
+        "dimensiones banda",
+        "articulos para banda",
+        "validacion banda",
+        "dimensiones de articulos",
+        "medidas banda"
+      ],
+      "headers": [
+        "ITEM",
+        "DESCRIPTION",
+        "DIMENSIONES_PZ",
+        "DIMENSIONES_CJ",
+        "LENGTH_PZ",
+        "WIDTH_PZ",
+        "HEIGHT_PZ",
+        "LENGTH_CJ",
+        "WIDTH_CJ",
+        "HEIGHT_CJ"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-26",
+      "notas": "Consulta utilizada para revisar las dimensiones registradas en item_unit_of_measure de artículos de categoría BANDA. Se evalúan las unidades PZ y CJ contra los límites físicos de la banda: largo máximo 70, ancho máximo 58 y altura máxima 69. El filtro final muestra artículos donde al menos una de las presentaciones disponibles no cumple las dimensiones requeridas. El bloque de inventario disponible utiliza AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y considera únicamente ubicaciones de clase Inventory.",
+      "categoria": "Cross_reference",
+      "ruta": "Cross_reference/validacion_dimensiones_banda.SQL"
+    },
+    {
+      "id": "articulos_en_fiscal_por_bodega",
+      "nombre": "Artículos en Fiscal por Bodega",
+      "descripcion": "Lista los artículos que tienen inventario en las ubicaciones del tercer piso del almacén, denominado Fiscal, mostrando su ubicación, inventario disponible en piezas y equivalencia en cajas, y relacionándolos con una bodega o zona de picking seleccionada.",
+      "proposito": "Identificar qué artículos de una bodega o zona determinada también tienen inventario ubicado en Fiscal, para consultar y comparar el inventario existente en el tercer piso del almacén.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "location",
+        "item_unit_of_measure"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Zona de trabajo o bodega cuyos artículos se desean buscar en Fiscal.",
+          "ejemplo": "W-Mar Bodega 6",
+          "ubicacion": "L.work_zone = 'W-Mar Bodega 6' en la subconsulta WORK_ZONE."
+        },
+        {
+          "descripcion": "Compañía que se desea consultar. Normalmente se utiliza FM, aunque el filtro puede comentarse si se requiere consultar todas las compañías.",
+          "ejemplo": "FM",
+          "ubicacion": "LI.COMPANY = 'FM'."
+        }
+      ],
+      "tags": [
+        "reporte",
+        "inventario",
+        "fiscal",
+        "bodega",
+        "articulos",
+        "cajas",
+        "Mariano"
+      ],
+      "alias": [
+        "articulos en fiscal",
+        "inventario fiscal",
+        "articulos tercer piso",
+        "inventario tercer piso",
+        "fiscal",
+        "articulos de bodega en fiscal"
+      ],
+      "headers": [
+        "WORK_ZONE",
+        "LOCATION",
+        "ITEM",
+        "ITEM_DESC",
+        "COMPANY",
+        "OH",
+        "CAJAS"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-26",
+      "ultima_modificacion": "2026-08-26",
+      "notas": "Fiscal corresponde al tercer piso del almacén y se identifica mediante ubicaciones cuyo código comienza con 3. La consulta toma los artículos que existen en la zona de trabajo indicada y busca sus registros de inventario en Fiscal. El filtro de compañía normalmente se utiliza con FM, pero puede comentarse para consultar otras compañías.",
+      "categoria": "Fiscal",
+      "ruta": "Fiscal/articulos_en_fiscal_por_bodega.sql"
+    },
+    {
+      "id": "saldo_cajas_fiscal_bf",
+      "nombre": "Saldo en Cajas de Fiscal BF",
+      "descripcion": "Consulta el saldo de inventario de la compañía BF ubicado en Fiscal, expresado en cajas y agrupado por pedimento, artículo y color, mostrando también las ubicaciones donde existe el inventario.",
+      "proposito": "Consultar el saldo en cajas del inventario fiscal de BF, identificando el pedimento asociado, el artículo, su color y las ubicaciones donde se encuentra físicamente.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "item_unit_of_measure",
+        "location_inventory_attributes"
+      ],
+      "parametros": [],
+      "tags": [
+        "Reporte",
+        "inventario",
+        "fiscal",
+        "cajas",
+        "pedimento",
+        "BF",
+        "ubicaciones"
+      ],
+      "alias": [
+        "saldo cajas fiscal",
+        "cajas fiscal BF",
+        "inventario BF",
+        "saldo fiscal",
+        "inventario fiscal BF",
+        "cajas por pedimento"
+      ],
+      "headers": [
+        "WAREHOUSE",
+        "PEDIMENTO",
+        "ITEM",
+        "COLOR",
+        "COMPANY",
+        "CAJAS",
+        "LOCATIONS"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-26",
+      "ultima_modificacion": "2026-08-26",
+      "notas": "Consulta utilizada para obtener el saldo de inventario de BF expresado en cajas. El inventario se agrupa por almacén, pedimento, artículo, color y compañía. El pedimento se obtiene de loc_inv_attribute1 mediante location_inventory_attributes. LOCATIONS concatena las ubicaciones distintas donde existe el artículo asociado al mismo pedimento. El cálculo de CAJAS utiliza ON_HAND_QTY dividido entre conversion_qty de la UOM de secuencia 2. Actualmente ambos valores se convierten a INT antes de la división, por lo que el resultado corresponde a cajas enteras y no a cajas decimales.",
+      "categoria": "Fiscal",
+      "ruta": "Fiscal/saldo_cajas_fiscal_bf.sql"
+    },
+    {
+      "id": "item_category3_por_bodega",
+      "nombre": "Item Category 3 por Bodega",
+      "descripcion": "Lista los artículos que tienen inventario asociado a ubicaciones de una Work Zone determinada, mostrando la ubicación, artículo, descripción y categoría del artículo.",
+      "proposito": "Consultar qué artículos están presentes en las ubicaciones de una Work Zone específica.",
+      "database": "sql-server",
+      "tablas": [
+        "item",
+        "location_inventory",
+        "location"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Work Zone que se desea consultar.",
+          "ejemplo": "W-Mar Bodega 5",
+          "ubicacion": "L.WORK_ZONE = 'W-Mar Bodega 5'"
+        }
+      ],
+      "tags": [
+        "Reporte",
+        "inventario",
+        "articulos",
+        "work_zone",
+        "bodega",
+        "Mariano"
+      ],
+      "alias": [
+        "articulos por bodega",
+        "articulos por work zone",
+        "items por work zone",
+        "articulos en bodega",
+        "inventario por work zone"
+      ],
+      "headers": [
+        "LOCATION",
+        "ITEM",
+        "DESCRIPTION",
+        "ITEM_CATEGORY3"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-26",
+      "ultima_modificacion": null,
+      "notas": "",
+      "categoria": "Item",
+      "ruta": "Item/item_category3_por_bodega.sql"
+    },
+    {
+      "id": "validar_existencia_de_items",
+      "nombre": "Validar Artículos",
+      "descripcion": "Identifica cuáles de los artículos proporcionados en una lista no existen en la tabla item del WMS.",
+      "proposito": "Verificar rápidamente si una lista de artículos está registrada en el sistema, mostrando únicamente los artículos que no existen.",
+      "database": "sql-server",
+      "tablas": [
+        "item"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Lista de artículos que se desean validar. Los artículos se agregan manualmente dentro de la sección VALUES de la consulta.",
+          "ejemplo": "('ITEM-001'), ('ITEM-002'), ('ITEM-003')",
+          "ubicacion": "VALUES ('ITEM-001'), ('ITEM-002'), ('ITEM-003')"
+        }
+      ],
+      "tags": [
+        "artículos",
+        "validación",
+        "utilidad",
+        "utils"
+      ],
+      "alias": [
+        "validar artículos",
+        "artículos inexistentes",
+        "revisar artículos",
+        "comprobar artículos",
+        "validar SKUs",
+        "artículos no registrados"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-24",
+      "ultima_modificacion": "2026-08-20",
+      "notas": "Utiliza NOT EXISTS para comparar cada artículo de la lista contra la tabla item y devuelve únicamente aquellos que no tienen coincidencia. Es una utilidad sencilla para comprobar previamente si los artículos están registrados en el WMS.",
+      "categoria": "Item",
+      "ruta": "Item/validar_existencia_de_items.sql"
+    },
+    {
+      "id": "validacion_asignaciones_articulos",
+      "nombre": "Validación de Asignaciones de Artículos",
+      "descripcion": "Detecta inconsistencias en la tabla de asignaciones de artículos, identificando campos obligatorios nulos, múltiples asignaciones por artículo y unidades de medida que no corresponden al tipo de artículo.",
+      "proposito": "Verificar la integridad de las asignaciones de artículos y detectar registros que requieren corrección antes de afectar procesos de picking, reposición u otras operaciones del WMS.",
+      "database": "sql-server",
+      "tablas": [
+        "item_location_assignment"
+      ],
+      "parametros": [],
+      "tags": [
+        "validación",
+        "auditoría",
+        "asignaciones",
+        "artículos",
+        "inconsistencias",
+        "calidad-datos"
+      ],
+      "alias": [
+        "validar asignaciones",
+        "inconsistencias de asignaciones",
+        "errores de asignación",
+        "revisar asignaciones",
+        "auditoría de asignaciones"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-20",
+      "ultima_modificacion": "2026-08-21",
+      "notas": "La consulta identifica cinco tipos de campos obligatorios con valor NULL: ITEM, COMPANY, QUANTITY_UM, WAREHOUSE y ALLOCATION_LOC. La regla de negocio establece que cada ITEM debe tener exactamente una asignación, por lo que CNT_ASIGNACIONES se calcula mediante COUNT(*) OVER (PARTITION BY item) y cualquier valor mayor a uno se reporta como MULTIPLES ASIGNACIONES. Para la unidad de medida, los artículos normales deben utilizar PZ, mientras que los artículos con prefijo 4110-, 1310- o 1346- son excepciones y deben utilizar CJ. La columna PROBLEMA indica específicamente la inconsistencia encontrada.",
+      "categoria": "Item_Location_Assignment",
+      "ruta": "Item_Location_Assignment/validacion_asignaciones_articulos.sql"
+    },
+    {
+      "id": "consulta_huella_articulos",
+      "nombre": "Consulta de Huella de Artículos",
+      "descripcion": "Muestra la huella o unidades de medida configuradas para artículos de la compañía FM, indicando la cantidad de conversión y unidad de medida asociada a cada artículo.",
+      "proposito": "Consultar y verificar las huellas configuradas en Item Unit of Measure para artículos específicos, permitiendo revisar las unidades PZ y CJ.",
+      "database": "sql-server",
+      "tablas": [
+        "item",
+        "item_unit_of_measure"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Prefijo o patrón de artículos que se desea consultar.",
+          "ejemplo": "5157-%",
+          "ubicacion": "I.ITEM LIKE '5157-%'"
+        }
+      ],
+      "tags": [
+        "Reporte",
+        "huella",
+        "uom",
+        "articulos",
+        "conversion",
+        "inventario",
+        "FM"
+      ],
+      "alias": [
+        "huella de articulos",
+        "consulta huella",
+        "huella uom",
+        "unidades de medida",
+        "conversion de articulos",
+        "footprint"
+      ],
+      "headers": [
+        "ITEM",
+        "DESCRIPTION",
+        "HUELLA",
+        "COMPANY_ITEM",
+        "COMPANY_HUELLA"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-26",
+      "ultima_modificacion": null,
+      "notas": "La consulta agrupa las unidades de medida de cada artículo en una sola columna HUELLA utilizando STRING_AGG y separa cada unidad mediante ' / '. Se limita a artículos de la compañía FM, excluyendo la categoría Bulk, y a registros de UOM pertenecientes también a FM. El patrón de ITEM puede modificarse para consultar otros grupos de artículos.",
+      "categoria": "Item_Unit_of_Measure",
+      "ruta": "Item_Unit_of_Measure/consulta_huella_articulos.sql"
+    },
+    {
+      "id": "consultar_ubicaciones_existentes",
+      "nombre": "Consulta de ubicaciones existentes",
+      "descripcion": "Consulta las características de una lista específica de ubicaciones, mostrando su almacén, tipo, zonas, configuración y estado. También permite identificar ubicaciones proporcionadas en la lista que no existen en la tabla de ubicaciones.",
+      "proposito": "Verificar rápidamente la configuración y existencia de una o varias ubicaciones específicas en el WMS.",
+      "database": "sql-server",
+      "tablas": [
+        "location"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Lista de ubicaciones que se desean consultar. Las ubicaciones se agregan manualmente dentro de la sección VALUES de la consulta.",
+          "ejemplo": "('2-10-07-AA-01'), ('2-10-07-AA-02')",
+          "ubicacion": "VALUES ('UBICACION_1'), ('UBICACION_2'), ..."
+        }
+      ],
+      "tags": [
+        "ubicaciones",
+        "consulta",
+        "utilidad",
+        "utils",
+        "configuracion",
+        "WMS"
+      ],
+      "alias": [
+        "consulta de ubicaciones",
+        "revisar ubicaciones",
+        "verificar ubicaciones",
+        "configuracion de ubicaciones",
+        "lista de ubicaciones"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": "2026-08-19",
+      "notas": "La lista de ubicaciones se proporciona manualmente mediante VALUES. La consulta conserva las ubicaciones de la lista aunque no existan en la tabla location, permitiendo detectar ubicaciones inexistentes o no configuradas. Muestra warehouse, location_type, allocation_zone, work_zone, locating_zone, multi_item, track_containers y location_sts.",
+      "categoria": "Location",
+      "ruta": "Location/consultar_ubicaciones_existentes.sql"
+    },
+    {
+      "id": "secuencia_surtido_bodega",
+      "nombre": "Secuencia de Surtido por Bodega",
+      "descripcion": "Lista las ubicaciones de una bodega mostrando su configuración y secuencia de surtido, incluyendo picking_seq, putaway_seq, zona de asignación, zona de trabajo, estado y características operativas de la ubicación.",
+      "proposito": "Consultar la secuencia de picking de las ubicaciones de una bodega específica para revisar o verificar el orden en que se realiza el surtido.",
+      "database": "sql-server",
+      "tablas": [
+        "location"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Bodega o WORK_ZONE cuya secuencia de surtido se desea consultar.",
+          "ejemplo": "W-Mar Bodega 2",
+          "ubicacion": "L.work_zone = 'W-Mar Bodega 2'"
+        }
+      ],
+      "tags": [
+        "surtido",
+        "picking",
+        "secuencia",
+        "ubicaciones",
+        "bodega",
+        "Mariano"
+      ],
+      "alias": [
+        "secuencia de surtido",
+        "secuencia de picking",
+        "orden de surtido",
+        "picking por bodega",
+        "secuencia de picking"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-25",
+      "notas": "La consulta obtiene ubicaciones de tipo Generica%S de la WORK_ZONE indicada y las ordena por PICKING_SEQ. Aunque inicialmente se utiliza con bodegas de Mariano, el filtro WORK_ZONE permite utilizarla para otras zonas de trabajo compatibles.",
+      "categoria": "Location",
+      "ruta": "Location/secuencia_surtido_bodega.sql"
+    },
+    {
+      "id": "ubicaciones_pt_tultitlan",
+      "nombre": "Ubicaciones de Producto Terminado Tultitlan",
+      "descripcion": "Lista las ubicaciones del área de Producto Terminado de Tultitlán, mostrando su estado, zona de trabajo y ubicación.",
+      "proposito": "Consultar las ubicaciones utilizadas para Producto Terminado en Tultitlán y revisar su estado y configuración básica.",
+      "database": "sql-server",
+      "tablas": [
+        "location"
+      ],
+      "parametros": [],
+      "tags": [
+        "ubicaciones",
+        "producto-terminado",
+        "PT",
+        "Tultitlan",
+        "Reporte"
+      ],
+      "alias": [
+        "ubicaciones PT",
+        "producto terminado Tultitlan",
+        "ubicaciones producto terminado",
+        "PT Tultitlan"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-25",
+      "notas": "La consulta considera ubicaciones de W-Tul Producto Terminado, excluyendo las de clase Shipping Dock, las de tipo Piso y las ubicaciones cuyo nombre comienza con AMZ. Los resultados se ordenan por ubicación.",
+      "categoria": "Location",
+      "ruta": "Location/ubicaciones_pt_tultitlan.sql"
+    },
+    {
+      "id": "UPDATE_location_zone",
+      "nombre": "Actualizar zonas de ubicaciones",
+      "descripcion": "Actualiza las zonas de localización, asignación y trabajo de una lista específica de ubicaciones en un almacén determinado.",
+      "proposito": "Modificar rápidamente la configuración de zonas de varias ubicaciones sin tener que actualizar cada ubicación individualmente.",
+      "database": "sql-server",
+      "tablas": [
+        "location"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Almacén en el que se encuentran las ubicaciones que se desean modificar.",
+          "ejemplo": "Tultitlan",
+          "ubicacion": "WHERE WAREHOUSE = 'Tultitlan'"
+        },
+        {
+          "descripcion": "Zona que se asignará a LOCATING_ZONE, ALLOCATION_ZONE y WORK_ZONE.",
+          "ejemplo": "ZONE",
+          "ubicacion": "SET LOCATING_ZONE = 'ZONE', ALLOCATION_ZONE = 'ZONE', WORK_ZONE = 'ZONE'"
+        },
+        {
+          "descripcion": "Lista de ubicaciones que se desean modificar. Deben agregarse manualmente dentro de la cláusula IN.",
+          "ejemplo": "('2-10-07-AA-01'), ('2-10-07-AA-02')",
+          "ubicacion": "AND LOCATION IN (...)"
+        }
+      ],
+      "tags": [
+        "ubicaciones",
+        "zonas",
+        "configuración",
+        "actualización",
+        "utilidad",
+        "utils"
+      ],
+      "alias": [
+        "actualizar zonas",
+        "cambiar zonas de ubicaciones",
+        "actualizar work zone",
+        "actualizar allocation zone",
+        "actualizar locating zone",
+        "modificar ubicaciones"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": null,
+      "notas": "Consulta de actualización directa sobre la tabla location. Por seguridad, la lista de ubicaciones debe especificarse manualmente en IN y el almacén debe mantenerse como filtro. La consulta actualmente modifica únicamente LOCATING_ZONE, ALLOCATION_ZONE y WORK_ZONE. Existen campos adicionales comentados que pueden habilitarse cuando sea necesario, como MULTI_ITEM, TRACK_CONTAINERS, LOCATION_TYPE y ALLOCATE_IN_TRANSIT. Debe revisarse cuidadosamente antes de ejecutar porque modifica datos directamente.",
+      "categoria": "Location",
+      "ruta": "Location/UPDATE_location_zone.sql"
+    },
+    {
+      "id": "UPDATE_secuencia_de_surtido",
+      "nombre": "Actualizar secuencias de ubicaciones",
+      "descripcion": "Actualiza las secuencias de picking y putaway de una lista específica de ubicaciones dentro de una bodega y zona de trabajo.",
+      "proposito": "Modificar el orden de picking y putaway de ubicaciones seleccionadas para controlar su prioridad dentro de los procesos del WMS.",
+      "database": "sql-server",
+      "tablas": [
+        "location"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Almacén en el que se encuentran las ubicaciones.",
+          "ejemplo": "Mariano",
+          "ubicacion": "WHERE warehouse = 'Mariano'"
+        },
+        {
+          "descripcion": "Zona de trabajo cuyas ubicaciones se desean modificar.",
+          "ejemplo": "W-Mar Bodega 2",
+          "ubicacion": "AND work_zone = 'W-Mar Bodega 2'"
+        },
+        {
+          "descripcion": "Lista de ubicaciones que se desean actualizar.",
+          "ejemplo": "'1-10-08-DD-11', '1-10-08-DD-12'",
+          "ubicacion": "AND location IN (...)"
+        },
+        {
+          "descripcion": "Valor de secuencia que se asignará a las ubicaciones. Debe establecerse dentro de los CASE correspondientes.",
+          "ejemplo": "41500",
+          "ubicacion": "CASE WHEN LOCATION = 'UBICACION' THEN '41500' ELSE picking_seq END y CASE WHEN LOCATION = 'UBICACION' THEN '41500' ELSE putaway_seq END"
+        }
+      ],
+      "tags": [
+        "picking",
+        "putaway",
+        "secuencias",
+        "ubicaciones",
+        "configuración",
+        "utilidad",
+        "utils"
+      ],
+      "alias": [
+        "actualizar secuencia",
+        "secuencia de picking",
+        "secuencia de putaway",
+        "cambiar prioridad de picking",
+        "cambiar orden de ubicaciones"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": "2026-08-20",
+      "notas": "Consulta de actualización directa sobre location. Actualmente utiliza CASE para permitir asignar valores diferentes a ubicaciones específicas, conservando la secuencia actual mediante ELSE. La bodega, WORK_ZONE y lista de ubicaciones funcionan como filtros de seguridad. Debe revisarse el CASE antes de ejecutar para confirmar qué ubicaciones y valores serán modificados.",
+      "categoria": "Location",
+      "ruta": "Location/UPDATE_secuencia_de_surtido.sql"
+    },
+    {
+      "id": "verificar_ubicaciones_frozen_held",
+      "nombre": "Verificar Ubicaciones Frozen y Held",
+      "descripcion": "Lista las ubicaciones de clase Inventory del almacén Mariano que se encuentran en estado Frozen o que contienen inventario con estado Held, mostrando la configuración de la ubicación y el estado del inventario.",
+      "proposito": "Detectar y revisar ubicaciones congeladas o inventario retenido que puedan representar una inconsistencia o requerir atención en el WMS.",
+      "database": "sql-server",
+      "tablas": [
+        "location",
+        "location_inventory"
+      ],
+      "parametros": [],
+      "tags": [
+        "utilidad",
+        "utils",
+        "inventario",
+        "ubicaciones",
+        "frozen",
+        "held",
+        "inconsistencias",
+        "Mariano"
+      ],
+      "alias": [
+        "ubicaciones frozen",
+        "inventario held",
+        "ubicaciones congeladas",
+        "inventario retenido",
+        "revisar frozen",
+        "revisar held"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-25",
+      "notas": "Considera únicamente ubicaciones de clase Inventory del almacén Mariano. Se muestran registros cuando LOCATION_STS = 'Frozen' o INVENTORY_STS = 'Held'. No se filtra por ON_HAND_QTY, por lo que también permite detectar ubicaciones o inventarios Frozen/Held sin existencia física.",
+      "categoria": "Location",
+      "ruta": "Location/verificar_ubicaciones_frozen_held.sql"
+    },
+    {
+      "id": "consulta_inventario_personalizada",
+      "nombre": "Consulta de Inventario Personalizada",
+      "descripcion": "Consulta el inventario de ubicaciones del almacén Mariano mostrando ubicación, artículo, descripción, compañía, inventario disponible, existencia física, asignado, en tránsito, suspendido y licencia de manejo. Está diseñada como plantilla para agregar o modificar filtros según la necesidad de la consulta.",
+      "proposito": "Realizar consultas personalizadas de inventario cuando la interfaz del WMS no proporciona el nivel de detalle o los filtros necesarios.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "location",
+        "item"
+      ],
+      "parametros": [],
+      "tags": [
+        "utilidad",
+        "utils",
+        "inventario",
+        "consulta",
+        "personalizada",
+        "Mariano"
+      ],
+      "alias": [
+        "consulta de inventario",
+        "inventario personalizado",
+        "consulta personalizada de inventario",
+        "inventario detallado",
+        "utilidad de inventario"
+      ],
+      "headers": [
+        "WORK_ZONE",
+        "LOCATION",
+        "ITEM",
+        "DESCRIPTION",
+        "COMPANY",
+        "AV",
+        "OH",
+        "AL",
+        "IT",
+        "SU",
+        "LICENSE_PLATE"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-25",
+      "notas": "La consulta utiliza como base las ubicaciones de tipo Generica del almacén Mariano. WORK_ZONE está limitada inicialmente a W-Mar Bodega 2 como medida de seguridad para evitar obtener demasiados registros durante las pruebas. Los filtros por LOCATION e ITEM pueden habilitarse o modificarse según la necesidad. AV se calcula como (ON_HAND_QTY + IN_TRANSIT_QTY) - (ALLOCATED_QTY + SUSPENSE_QTY).",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/consulta_inventario_personalizada.sql"
+    },
+    {
+      "id": "inventario_ubicaciones_almacenaje",
       "nombre": "Inventario de almacenaje",
       "descripcion": "Lista el inventario con existencia en ubicaciones Almacenaje del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.",
       "proposito": "Consultar el inventario existente en las ubicaciones de almacenaje de Mariano y su distribución por bodega y zona.",
@@ -23,7 +968,8 @@
         "ubicaciones",
         "existencias",
         "picking",
-        "Mariano"
+        "Mariano",
+        "Reporte"
       ],
       "alias": [
         "inventario de almacenaje",
@@ -31,26 +977,17 @@
         "inventario de ubicaciones",
         "existencias de almacenaje"
       ],
-      "headers": [
-        "WORK_ZONE",
-        "LOCATION",
-        "ITEM",
-        "DESCRIPTION",
-        "OH",
-        "CAJAS",
-        "PICKING",
-        "ZONA"
-      ],
+      "headers": [],
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-18",
+      "ultima_modificacion": null,
       "notas": "Solo considera ubicaciones que comienzan con ALMACENAJE y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
       "categoria": "Location_inventory",
-      "ruta": "Location_inventory/Inventario_Ubicaciones_Almacenaje.sql"
+      "ruta": "Location_inventory/inventario_ubicaciones_almacenaje.sql"
     },
     {
-      "id": "Inventario_Ubicaciones_HOT",
+      "id": "inventario_ubicaciones_HOT",
       "nombre": "Inventario de HOT",
       "descripcion": "Lista el inventario con existencia en ubicaciones HOT del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.",
       "proposito": "Consultar el inventario existente en las ubicaciones HOT de Mariano y su distribución por bodega y zona.",
@@ -68,33 +1005,25 @@
         "ubicaciones",
         "existencias",
         "picking",
-        "Mariano"
+        "Mariano",
+        "Reporte"
       ],
       "alias": [
         "inventario HOT",
         "inventario de HOT",
         "existencias HOT"
       ],
-      "headers": [
-        "WORK_ZONE",
-        "LOCATION",
-        "ITEM",
-        "DESCRIPTION",
-        "OH",
-        "CAJAS",
-        "PICKING",
-        "ZONA"
-      ],
+      "headers": [],
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-18",
+      "ultima_modificacion": null,
       "notas": "Solo considera ubicaciones cuyo nombre comienza con HOT y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2 y se presenta con dos decimales. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
       "categoria": "Location_inventory",
-      "ruta": "Location_inventory/Inventario_Ubicaciones_HOT.sql"
+      "ruta": "Location_inventory/inventario_ubicaciones_HOT.sql"
     },
     {
-      "id": "Inventario_Ubicaciones_PICOS",
+      "id": "inventario_ubicaciones_PICOS",
       "nombre": "Inventario de Picos",
       "descripcion": "Lista el inventario con existencia en ubicaciones PICOS del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.",
       "proposito": "Consultar el inventario existente en las ubicaciones PICOS de Mariano y su distribución por bodega y zona.",
@@ -112,33 +1041,25 @@
         "ubicaciones",
         "existencias",
         "picking",
-        "Mariano"
+        "Mariano",
+        "Reporte"
       ],
       "alias": [
         "inventario picos",
         "inventario de picos",
         "existencias picos"
       ],
-      "headers": [
-        "WORK_ZONE",
-        "LOCATION",
-        "ITEM",
-        "DESCRIPTION",
-        "OH",
-        "CAJAS",
-        "PICKING",
-        "ZONA"
-      ],
+      "headers": [],
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-18",
+      "ultima_modificacion": null,
       "notas": "Solo considera ubicaciones cuyo nombre comienza con PICOS y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2 y se presenta con dos decimales. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
       "categoria": "Location_inventory",
-      "ruta": "Location_inventory/Inventario_Ubicaciones_PICOS.sql"
+      "ruta": "Location_inventory/inventario_ubicaciones_PICOS.sql"
     },
     {
-      "id": "Inventory_agrupado",
+      "id": "inventory_agrupado",
       "nombre": "Consulta de inventario agrupado",
       "descripcion": "Consulta de utilidad para obtener inventario agrupado por bodega, ubicación y artículo, mostrando existencia disponible, existencia física, asignada, en tránsito, suspendida, equivalencia en cajas y license plate. Está pensada como base para consultas de inventario más específicas o personalizadas.",
       "proposito": "Facilitar consultas personalizadas sobre inventario manteniendo los datos agrupados por ubicación y artículo para evitar líneas innecesarias o duplicadas.",
@@ -175,13 +1096,13 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-18",
+      "ultima_modificacion": null,
       "notas": "Consulta base para realizar búsquedas y modificaciones personalizadas sobre inventario. Agrupa la información por WORK_ZONE, LOCATION, ITEM y COMPANY, consolidando AV, OH, AL, IT y SU. AV se calcula como ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY. CAJAS se calcula utilizando UOM sequence 2. Si existen varias license plates para una misma combinación de ubicación y artículo, se muestra 'Multiple'; si existe una sola, se muestra su valor. W-Mar Bodega 2 se utiliza como límite de seguridad durante las pruebas para evitar obtener demasiados resultados y puede sustituirse por otra WORK_ZONE. También pueden agregarse filtros adicionales sobre ubicación o artículo según la necesidad de la consulta.",
       "categoria": "Location_inventory",
-      "ruta": "Location_inventory/Inventory_agrupado.sql"
+      "ruta": "Location_inventory/inventory_agrupado.sql"
     },
     {
-      "id": "Reposicion_Picking_Capacidad_Baja",
+      "id": "reposicion_picking_capacidad_baja",
       "nombre": "Reposición de picking con capacidad baja",
       "descripcion": "Lista artículos ubicados en picking de una bodega cuya ocupación es igual o menor al 50% de su capacidad y que tienen inventario disponible para reposición en otras ubicaciones.",
       "proposito": "Identificar artículos de picking que requieren reposición y mostrar cuánto inventario disponible existe para realizarla.",
@@ -206,7 +1127,8 @@
         "inventario",
         "capacidad",
         "bodega",
-        "Mariano"
+        "Mariano",
+        "Reporte"
       ],
       "alias": [
         "reposicion de picking",
@@ -229,13 +1151,13 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-18",
+      "ultima_modificacion": null,
       "notas": "La consulta está limitada a una bodega para evitar consultas demasiado pesadas durante las pruebas. Al reutilizarla, sustituir W-Mar Bodega 5 por la bodega deseada en las 2 apariciones de WORK_ZONE. Las ubicaciones Generica Permanente S y Generica Dinamico S se consideran picking. DISPONIBLE utiliza la lógica AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y solo se muestran artículos con AV mayor a cero fuera del picking de la bodega consultada.",
       "categoria": "Location_inventory",
-      "ruta": "Location_inventory/Reposicion_Picking_Capacidad_Baja.sql"
+      "ruta": "Location_inventory/reposicion_picking_capacidad_baja.sql"
     },
     {
-      "id": "Ultimas_Piezas_por_Bodega",
+      "id": "ultimas_piezas_por_bodega",
       "nombre": "Ultimas Piezas por Bodega",
       "descripcion": "Lista artículos ubicados en picking de una bodega que conservan entre 1 y 25 piezas y que no tienen inventario disponible para reposición en otras ubicaciones.",
       "proposito": "Identificar artículos con inventario bajo en picking que ya no cuentan con una fuente de reposición disponible.",
@@ -259,7 +1181,8 @@
         "reposicion",
         "faltantes",
         "bodega",
-        "Mariano"
+        "Mariano",
+        "Reporte"
       ],
       "alias": [
         "picking bajo",
@@ -279,135 +1202,207 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-18",
+      "ultima_modificacion": null,
       "notas": "La consulta está limitada a una bodega para facilitar las pruebas. Al reutilizarla, sustituir W-Mar Bodega 6 por la bodega deseada en las 2 apariciones de WORK_ZONE. Las ubicaciones Generica Permanente S y Generica Dinamico S se consideran picking. El rango de inventario bajo es de 1 a 25 piezas.",
       "categoria": "Location_inventory",
-      "ruta": "Location_inventory/Ultimas_Piezas_por_Bodega.sql"
+      "ruta": "Location_inventory/ultimas_piezas_por_bodega.sql"
     },
     {
-      "id": "buscar_usuario",
-      "nombre": "Buscar usuario y sus últimas órdenes",
-      "descripcion": "Dado un ID de usuario, devuelve sus datos y sus 5 órdenes más recientes.",
-      "proposito": "Soporte a clientes — revisar historial rápido de un usuario específico.",
+      "id": "UPDATE_location_inventory_multiple",
+      "nombre": "Actualizar Inventario Multiple",
+      "descripcion": "Actualiza manualmente la existencia física de registros específicos de inventario utilizando su identificador interno de inventario.",
+      "proposito": "Realizar correcciones puntuales de ON_HAND_QTY sobre registros específicos de inventario cuando se requiere ajustar directamente una existencia.",
       "database": "sql-server",
       "tablas": [
-        "usuarios",
-        "ordenes"
+        "location_inventory"
       ],
       "parametros": [
         {
-          "descripcion": "ID del usuario a buscar",
-          "ejemplo": 12345,
-          "ubicacion": "usuario_id = 12345"
-        }
-      ],
-      "tags": [
-        "usuarios",
-        "soporte",
-        "ordenes",
-        "busqueda"
-      ],
-      "alias": [
-        "historial de cliente",
-        "últimas compras de usuario"
-      ],
-      "headers": [
-        "usuario_id",
-        "nombre",
-        "correo",
-        "orden_id",
-        "fecha_orden",
-        "total"
-      ],
-      "estatus": "experimental",
-      "publicar": true,
-      "ultima_verificacion": "2026-05-10",
-      "ultima_modificacion": null,
-      "notas": "El TOP 5 asume que 'fecha' tiene índice; en almacenes muy grandes puede ser lenta.",
-      "categoria": "sql-test",
-      "ruta": "sql-test/buscar_usuario.sql"
-    },
-    {
-      "id": "ventas_mensuales",
-      "nombre": "Reporte de ventas mensuales",
-      "descripcion": "Totales de ventas por sucursal y fecha, incluyendo IVA.",
-      "proposito": "Usado para el cierre contable mensual.",
-      "database": "sql-server",
-      "tablas": [
-        "ventas",
-        "sucursales"
-      ],
-      "parametros": [
+          "descripcion": "Identificadores internos de inventario que se desean modificar.",
+          "ejemplo": "('82075376'), ('82075377')",
+          "ubicacion": "AND internal_location_inv IN (...)"
+        },
         {
-          "descripcion": "Rango de fechas del reporte.",
-          "ejemplo": "'2026-01-01' AND '2026-01-31'",
-          "ubicacion": "WHERE v.fecha BETWEEN"
+          "descripcion": "Nueva cantidad ON_HAND_QTY que se asignará a cada registro. El valor puede establecerse individualmente mediante los CASE WHEN asociados a cada internal_location_inv.",
+          "ejemplo": "82075376 = 10",
+          "ubicacion": "CASE WHEN internal_location_inv = '82075376' THEN 10 ELSE ON_HAND_QTY END"
         }
       ],
       "tags": [
-        "ventas",
-        "reportes",
-        "mensual",
-        "contabilidad"
+        "inventario",
+        "existencias",
+        "corrección",
+        "ajuste",
+        "location_inventory",
+        "utilidad",
+        "utils"
       ],
       "alias": [
-        "reporte fiscal",
-        "cierre mensual"
+        "actualizar inventario",
+        "corregir inventario",
+        "ajustar existencia",
+        "corregir existencia",
+        "modificar ON_HAND_QTY"
       ],
-      "headers": [
-        "id",
-        "sucursal",
-        "fecha",
-        "total",
-        "iva"
-      ],
+      "headers": [],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-06-01",
-      "ultima_modificacion": null,
-      "notas": "",
-      "categoria": "sql-test",
-      "ruta": "sql-test/consulta.example.sql"
+      "ultima_verificacion": "2026-08-20",
+      "ultima_modificacion": "2026-08-25",
+      "notas": "Consulta de actualización directa sobre location_inventory. Utiliza internal_location_inv para identificar exactamente los registros que se desean modificar y mantiene warehouse='Mariano' como filtro de seguridad. El CASE permite asignar cantidades diferentes a registros específicos, mientras que ELSE ON_HAND_QTY conserva el valor actual de los demás registros seleccionados. Debe revisarse cuidadosamente antes de ejecutar porque modifica directamente las existencias del WMS.",
+      "categoria": "Location_inventory",
+      "ruta": "Location_inventory/UPDATE_location_inventory_multiple.sql"
     },
     {
-      "id": "stock_bajo",
-      "nombre": "Productos con stock bajo",
-      "descripcion": "Lista productos cuyo stock actual está por debajo del mínimo configurado por almacén.",
-      "proposito": "Alertar reabastecimiento antes de que se agoten productos clave.",
+      "id": "contenedores_sin_recibo_mariano",
+      "nombre": "Contenedores Sin Recibo en Mariano",
+      "descripcion": "Consulta los contenedores cerrados enviados desde Tultitlán hacia Mariano que no cuentan con un registro de recibo en Mariano, mostrando el contenedor, sus artículos, cantidades, asignación permanente, fecha de envío y shipment asociado.",
+      "proposito": "Identificar contenedores enviados desde Tultitlán que todavía no han sido registrados en un recibo de Mariano, para detectar posibles pendientes en el proceso de recepción.",
       "database": "sql-server",
       "tablas": [
-        "inventario",
-        "productos",
-        "almacenes"
+        "shipping_container",
+        "shipment_header",
+        "receipt_container",
+        "item_location_assignment"
+      ],
+      "parametros": [
+        "dias"
+      ],
+      "tags": [
+        "utilidad",
+        "utils",
+        "contenedores",
+        "recibos",
+        "transferencias",
+        "Tultitlan",
+        "Mariano"
+      ],
+      "alias": [
+        "contenedores sin recibo",
+        "contenedores pendientes de recibo",
+        "recibos pendientes Mariano",
+        "contenedores Tultitlan sin recibo",
+        "picos sin recibo"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-26",
+      "ultima_modificacion": null,
+      "notas": "Por defecto la consulta revisa los últimos 7 días mediante DATEADD(DAY, -7, GETDATE()), pero el valor puede modificarse según el periodo que se necesite revisar. Se consideran únicamente contenedores cerrados de Tultitlán (status 900) pertenecientes a pedidos de tipo TR-TUL-ME cuyo receipt_id comienza con E-. Los contenedores cerrados pueden tener el sufijo P, el cual se elimina antes de compararlos contra receipt_container. En Mariano se considera recibido cuando existe un registro con receipt_id LIKE 'TR_E-%' y parent = 0. La comprobación se realiza a nivel de contenedor mediante NOT EXISTS para evitar duplicados.",
+      "categoria": "Receipt",
+      "ruta": "Receipt/contenedores_sin_recibo_mariano.sql"
+    },
+    {
+      "id": "corregir_inventario_negativo",
+      "nombre": "Corregir Inventario Negativo",
+      "descripcion": "Corrige cantidades negativas en los campos de inventario ON_HAND_QTY, ALLOCATED_QTY e IN_TRANSIT_QTY del almacén Mariano, convirtiéndolas a valores absolutos.",
+      "proposito": "Corregir registros de inventario que presentan cantidades negativas en existencia, asignado o inventario en tránsito.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory"
       ],
       "parametros": [],
       "tags": [
+        "rutina",
+        "runtime",
         "inventario",
-        "stock",
-        "alertas",
-        "almacen"
+        "correccion",
+        "Mariano"
       ],
       "alias": [
-        "productos por agotarse",
-        "reabastecimiento"
+        "corregir inventario negativo",
+        "cantidades negativas",
+        "inventario negativo",
+        "corregir cantidades"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-25",
+      "notas": "La rutina ejecuta tres actualizaciones independientes sobre location_inventory. ON_HAND_QTY, ALLOCATED_QTY e IN_TRANSIT_QTY se convierten mediante ABS() únicamente cuando su valor es menor que cero. Está limitada al almacén Mariano.",
+      "categoria": "Rutime",
+      "ruta": "Rutime/corregir_inventario_negativo.sql"
+    },
+    {
+      "id": "desactivar_ubicaciones_vacias_activas",
+      "nombre": "Desactivar Ubicaciones Vacías",
+      "descripcion": "Desactiva ubicaciones activas de tipo Generica Dinamico S o Generica Permanente S que se encuentran vacías, no tienen una asignación de artículo, pertenecen a una zona de trabajo válida y no corresponden a la zona W-Mar Salida Rapida.",
+      "proposito": "Realizar mantenimiento de ubicaciones del almacén Mariano, desactivando ubicaciones de picking vacías que no tienen una asignación asociada.",
+      "database": "sql-server",
+      "tablas": [
+        "location",
+        "item_location_assignment"
+      ],
+      "parametros": [],
+      "tags": [
+        "rutina",
+        "runtime",
+        "ubicaciones",
+        "mantenimiento",
+        "Mariano"
+      ],
+      "alias": [
+        "desactivar ubicaciones",
+        "ubicaciones vacías",
+        "limpiar ubicaciones",
+        "desactivar picking vacío"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-25",
+      "notas": "Solo afecta ubicaciones activas del almacén Mariano con LOCATION_STS = 'Empty', de tipo Generica Dinamico S o Generica Permanente S, sin asignación con QUANTITY_UM = 'PZ', con WORK_ZONE no nula y diferente de W-Mar Salida Rapida. La consulta modifica el campo ACTIVE a 'N'.",
+      "categoria": "Rutime",
+      "ruta": "Rutime/desactivar_ubicaciones_vacias_activas.sql"
+    },
+    {
+      "id": "lista_de_usuarios",
+      "nombre": "Usuarios por almacén",
+      "descripcion": "Lista los usuarios configurados con un almacén predeterminado específico, mostrando su nombre de usuario, descripción y correo electrónico.",
+      "proposito": "Consultar rápidamente qué usuarios tienen asignado un determinado almacén como almacén predeterminado.",
+      "database": "sql-server",
+      "tablas": [
+        "user_profile"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Almacén predeterminado que se desea consultar.",
+          "ejemplo": "Tultitlan",
+          "ubicacion": "WHERE default_whs = 'Tultitlan'"
+        }
+      ],
+      "tags": [
+        "usuarios",
+        "almacenes",
+        "utilidad",
+        "utils"
+      ],
+      "alias": [
+        "usuarios por almacén",
+        "usuarios de almacén",
+        "usuarios por warehouse",
+        "usuarios Tultitlan",
+        "consulta de usuarios"
       ],
       "headers": [
-        "sku",
-        "producto",
-        "stock_actual",
-        "stock_minimo",
-        "almacen"
+        "USER_NAME",
+        "DESCRIPTION",
+        "EMAIL",
+        "WAREhOUSE"
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-07-15",
-      "ultima_modificacion": null,
-      "notas": "",
-      "categoria": "sql-test",
-      "ruta": "sql-test/stock_bajo.sql"
+      "ultima_verificacion": null,
+      "ultima_modificacion": "2026-08-19",
+      "notas": "Consulta sencilla para identificar usuarios asociados a un almacén predeterminado. El valor de default_whs puede sustituirse para consultar otro almacén.",
+      "categoria": "Tulti",
+      "ruta": "Tulti/lista_de_usuarios.sql"
     },
     {
-      "id": "Almacenaje_Pendiente",
+      "id": "almacenajes_pendientes",
       "nombre": "Almacenajes pendientes",
       "descripcion": "Lista los trabajos activos de tipo Almacenaje en Mariano, mostrando las piezas pendientes de depositar, su equivalente en cajas, la zona, compañía y tipo de recibo. La zona se determina a partir de la ubicación prioritaria del artículo.",
       "proposito": "Mostrar los trabajos de almacenaje pendientes de completar en el almacén Mariano, agrupados por artículo, fecha, compañía, tipo de recibo y zona.",
@@ -425,7 +1420,8 @@
         "pendientes",
         "trabajos-activos",
         "recibos",
-        "Mariano"
+        "Mariano",
+        "Reporte"
       ],
       "alias": [
         "almacenaje pendiente",
@@ -446,10 +1442,10 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-18",
+      "ultima_modificacion": "2026-08-26",
       "notas": "FROM_QTY representa trabajo aún no confirmado y TO_QTY trabajo confirmado pendiente de depósito; ambos se suman para obtener la cantidad total del trabajo. UOM sequence 2 corresponde a cajas. La zona se obtiene de la ubicación prioritaria del artículo y se clasifica en Piso 1 o Piso 2.",
       "categoria": "Work_instruction",
-      "ruta": "Work_instruction/Almacenaje_Pendiente.sql"
+      "ruta": "Work_instruction/almacenajes_pendientes.sql"
     }
   ]
 }

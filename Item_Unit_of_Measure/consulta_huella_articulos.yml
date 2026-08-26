@@ -1,0 +1,31 @@
+id: consulta_huella_articulos
+
+nombre: Consulta de Huella de Artículos
+
+descripcion: Muestra la huella o unidades de medida configuradas para artículos de la compañía FM, indicando la cantidad de conversión y unidad de medida asociada a cada artículo.
+
+proposito: Consultar y verificar las huellas configuradas en Item Unit of Measure para artículos específicos, permitiendo revisar las unidades PZ y CJ.
+
+database: sql-server
+
+tablas: [item, item_unit_of_measure]
+
+parametros:
+
+  - descripcion: Prefijo o patrón de artículos que se desea consultar.
+
+    ejemplo: "5157-%"
+
+    ubicacion: "I.ITEM LIKE '5157-%'"
+
+tags: [Reporte, huella, uom, articulos, conversion, inventario, FM]
+
+alias: [huella de articulos, consulta huella, huella uom, unidades de medida, conversion de articulos, footprint]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta agrupa las unidades de medida de cada artículo en una sola columna HUELLA utilizando STRING_AGG y separa cada unidad mediante ' / '. Se limita a artículos de la compañía FM, excluyendo la categoría Bulk, y a registros de UOM pertenecientes también a FM. El patrón de ITEM puede modificarse para consultar otros grupos de artículos."

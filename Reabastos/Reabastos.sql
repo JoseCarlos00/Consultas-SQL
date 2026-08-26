@@ -1,28 +1,57 @@
-SELECT 
-  SUBSTRING(CONVERT(VARCHAR, NEW_DATE, 120), 9, 10) AS SUB_FECHA,
-  ITEM,
-  SUM(TOTAL_SUM) AS SUM_TOTAL
-FROM 
-(
-  SELECT 
-    SD.shipment_id,
-    SD.ITEM AS ITEM, 
-    SD.status1,
-    DATEADD(HOUR, -6, SD.date_time_stamp) AS DATE,
-    CAST(SD.TOTAL_QTY AS INT) AS TOTAL,
-    SD.INTERNAL_SHIPMENT_LINE_NUM,
-    CAST(SUM(SD.TOTAL_QTY) AS INT) AS TOTAL_SUM,
-    CAST(DATEADD(HOUR, -6, SD.date_time_stamp) AS DATE) AS NEW_DATE
+SELECT
+    WORK_ZONE,
+    LOCATION,
+    ITEM,
+    COLOR,
+    STRING_AGG(CONCAT('[',SUBSTRING(CONVERT(VARCHAR, NEW_DATE, 120), 1, 6)  , ']'), ' - ') WITHIN GROUP (ORDER BY CONVERT(datetime, NEW_DATE, 103)) AS SUB_FECHA
+    
+  FROM 
+  (
+    SELECT
+      CP.WORK_ZONE,
+      CP.ITEM,
+      I.ITEM_COLOR AS COLOR,
+      CP.NEW_DATE,
+      SUM(CP.CAJAS) AS SUM_CAJAS,
+      CAST(SUM(CP.cantidad_total) AS INT) AS SUM_TOTAL_QTY,
+      CP.LOCATION
 
-  FROM shipment_detail SD
-  WHERE SD.warehouse = 'Mariano'
-    AND SD.item IN ('5500-6371-7039', '7857-5256-1996', '8563-146-8508', '9865-7487-20951')
-    AND CAST(DATEADD(HOUR, -6, SD.date_time_stamp) AS DATE) >= '2023-12-01' 
-    AND CAST(DATEADD(HOUR, -6, SD.date_time_stamp) AS DATE) < '2023-12-08' -- Ajustado para incluir el último día
-    AND SD.status1=900
+     FROM 
+     (
+      SELECT DISTINCT
+      TH.work_zone AS WORK_ZONE,
+      TH.item,
+      FORMAT(DATEADD(HOUR, -6, TH.activity_date_time), 'dd/MMM/yyyy') AS NEW_DATE,
+      SUM(TH.quantity ) AS cantidad_total,
+      TH.internal_id,
+      CAST(UOM.conversion_qty AS INT) AS HUELLA,
+      CAJAS = CAST((SUM(TH.quantity) / UOM.conversion_qty) AS INT),
+      TH.location AS LOCATION
 
-  GROUP BY SD.item, SD.shipment_id, SD.status1, SD.INTERNAL_SHIPMENT_LINE_NUM, SD.date_time_stamp, SD.TOTAL_QTY
+      FROM Transaction_history TH
+      INNER JOIN item_unit_of_measure UOM ON TH.item = UOM.item
 
-) AS DIAS
+      WHERE
+        TH.direction='To'
+        AND TH.warehouse='Mariano'
+        AND TH.activity_date_time BETWEEN '20231101' AND CONVERT(VARCHAR, GETDATE(), 112) -- Utiliza la fecha actual
+        AND TH.work_type='Reabasto Ola'
+        AND TH.location NOT LIKE '-%'
+        AND (TH.work_zone LIKE 'W-Mar Bodega%' OR TH.work_zone='W-Mar No Banda')
+        AND TH.location IN (SELECT location FROM location WHERE location_type LIKE 'Generica%S')
+        AND UOM.sequence='2'
 
-GROUP BY ITEM, NEW_DATE
+      AND TH.work_zone='W-mar Bodega 1'
+      GROUP BY TH.work_zone, TH.item, TH.activity_date_time, TH.internal_id, UOM.conversion_qty, TH.location
+    ) AS CP
+
+    INNER JOIN item I ON I.ITEM = CP.ITEM
+    
+    WHERE I.company = 'FM'
+
+    GROUP BY CP.WORK_ZONE, CP.ITEM, CP.NEW_DATE, I.ITEM_COLOR, CP.LOCATION
+
+  ) AS Consulta_secundaria
+
+  GROUP BY WORK_ZONE, ITEM, COLOR, LOCATION
+  -- ORDER BY WORK_ZONE, LOCATION;

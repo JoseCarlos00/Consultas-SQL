@@ -168,7 +168,7 @@ tags: []
 alias: []
 ultima_verificacion:
 estatus: estable
-publicar: true
+publicar: false
 notas: ""
 """
     yml_path.write_text(metadata_template, encoding="utf-8")
@@ -203,7 +203,7 @@ def build_catalog(include_private: bool) -> CatalogBuilder:
             builder.add_error(yml_path, f"YAML inválido: {e}")
             continue
 
-        publicar = meta.get("publicar", True)
+        publicar = meta.get("publicar", False)
         will_include = publicar or include_private
 
         # Solo exigimos los campos obligatorios si la consulta va a

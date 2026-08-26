@@ -1,0 +1,25 @@
+id: contenedores_sin_recibo_mariano
+
+nombre: Contenedores Sin Recibo en Mariano
+
+descripcion: Consulta los contenedores cerrados enviados desde Tultitlán hacia Mariano que no cuentan con un registro de recibo en Mariano, mostrando el contenedor, sus artículos, cantidades, asignación permanente, fecha de envío y shipment asociado.
+
+proposito: Identificar contenedores enviados desde Tultitlán que todavía no han sido registrados en un recibo de Mariano, para detectar posibles pendientes en el proceso de recepción.
+
+database: sql-server
+
+tablas: [shipping_container, shipment_header, receipt_container, item_location_assignment]
+
+parametros: [dias]
+
+tags: [utilidad, utils, contenedores, recibos, transferencias, Tultitlan, Mariano]
+
+alias: [contenedores sin recibo, contenedores pendientes de recibo, recibos pendientes Mariano, contenedores Tultitlan sin recibo, picos sin recibo]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: "Por defecto la consulta revisa los últimos 7 días mediante DATEADD(DAY, -7, GETDATE()), pero el valor puede modificarse según el periodo que se necesite revisar. Se consideran únicamente contenedores cerrados de Tultitlán (status 900) pertenecientes a pedidos de tipo TR-TUL-ME cuyo receipt_id comienza con E-. Los contenedores cerrados pueden tener el sufijo P, el cual se elimina antes de compararlos contra receipt_container. En Mariano se considera recibido cuando existe un registro con receipt_id LIKE 'TR_E-%' y parent = 0. La comprobación se realiza a nivel de contenedor mediante NOT EXISTS para evitar duplicados."

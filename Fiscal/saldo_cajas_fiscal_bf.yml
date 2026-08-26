@@ -12,14 +12,14 @@ tablas: [location_inventory, item_unit_of_measure, location_inventory_attributes
 
 parametros: []
 
-tags: [reporte, inventario, fiscal, cajas, pedimento, BF, ubicaciones]
+tags: [Reporte, inventario, fiscal, cajas, pedimento, BF, ubicaciones]
 
 alias: [saldo cajas fiscal, cajas fiscal BF, inventario BF, saldo fiscal, inventario fiscal BF, cajas por pedimento]
 
-ultima_verificacion:
+ultima_verificacion: 2026-08-26
 
 estatus: estable
 
-publicar: false
+publicar: true
 
 notas: "Consulta utilizada para obtener el saldo de inventario de BF expresado en cajas. El inventario se agrupa por almacén, pedimento, artículo, color y compañía. El pedimento se obtiene de loc_inv_attribute1 mediante location_inventory_attributes. LOCATIONS concatena las ubicaciones distintas donde existe el artículo asociado al mismo pedimento. El cálculo de CAJAS utiliza ON_HAND_QTY dividido entre conversion_qty de la UOM de secuencia 2. Actualmente ambos valores se convierten a INT antes de la división, por lo que el resultado corresponde a cajas enteras y no a cajas decimales."

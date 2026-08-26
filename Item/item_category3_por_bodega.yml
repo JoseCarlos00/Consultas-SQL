@@ -1,0 +1,31 @@
+id: item_category3_por_bodega
+
+nombre: Item Category 3 por Bodega
+
+descripcion: Lista los artículos que tienen inventario asociado a ubicaciones de una Work Zone determinada, mostrando la ubicación, artículo, descripción y categoría del artículo.
+
+proposito: Consultar qué artículos están presentes en las ubicaciones de una Work Zone específica.
+
+database: sql-server
+
+tablas: [item, location_inventory, location]
+
+parametros:
+
+  - descripcion: Work Zone que se desea consultar.
+
+    ejemplo: "W-Mar Bodega 5"
+
+    ubicacion: "L.WORK_ZONE = 'W-Mar Bodega 5'"
+
+tags: [Reporte, inventario, articulos, work_zone, bodega, Mariano]
+
+alias: [articulos por bodega, articulos por work zone, items por work zone, articulos en bodega, inventario por work zone]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: ""

@@ -34,4 +34,4 @@ estatus: estable
 
 publicar: true
 
-notas: "Fiscal corresponde al tercer piso del almacén y se identifica mediante ubicaciones cuyo código comienza con 3. La consulta toma los artículos que existen en la zona de trabajo indicada y busca sus registros de inventario en Fiscal. La equivalencia de cajas se calcula dividiendo ON_HAND_QTY entre la conversion_qty de la UOM de secuencia 2. La consulta está limitada al almacén Mariano. El filtro de compañía normalmente se utiliza con FM, pero puede comentarse para consultar otras compañías."
+notas: "Fiscal corresponde al tercer piso del almacén y se identifica mediante ubicaciones cuyo código comienza con 3. La consulta toma los artículos que existen en la zona de trabajo indicada y busca sus registros de inventario en Fiscal. El filtro de compañía normalmente se utiliza con FM, pero puede comentarse para consultar otras compañías."
