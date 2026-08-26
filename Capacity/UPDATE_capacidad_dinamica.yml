@@ -44,6 +44,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: false
+publicar: true
 
 notas: "Permite asignar valores diferentes de MAXIMUM_QTY y MINIMUM_RPLN_PCT mediante CASE para cada artículo. Los valores que no tengan un CASE específico conservan su configuración actual mediante ELSE. Solo afecta registros cuyo LOCATION_TYPE sea Generica Permanente S. Es la opción adecuada cuando los artículos requieren capacidades diferentes."

@@ -1,0 +1,37 @@
+id: articulos_en_fiscal_por_bodega
+
+nombre: Artículos en Fiscal por Bodega
+
+descripcion: Lista los artículos que tienen inventario en las ubicaciones del tercer piso del almacén, denominado Fiscal, mostrando su ubicación, inventario disponible en piezas y equivalencia en cajas, y relacionándolos con una bodega o zona de picking seleccionada.
+
+proposito: Identificar qué artículos de una bodega o zona determinada también tienen inventario ubicado en Fiscal, para consultar y comparar el inventario existente en el tercer piso del almacén.
+
+database: sql-server
+
+tablas: [location_inventory, location, item_unit_of_measure]
+
+parametros:
+
+  - descripcion: Zona de trabajo o bodega cuyos artículos se desean buscar en Fiscal.
+
+    ejemplo: "W-Mar Bodega 6"
+
+    ubicacion: "L.work_zone = 'W-Mar Bodega 6' en la subconsulta WORK_ZONE."
+
+  - descripcion: Compañía que se desea consultar. Normalmente se utiliza FM, aunque el filtro puede comentarse si se requiere consultar todas las compañías.
+
+    ejemplo: "FM"
+
+    ubicacion: "LI.COMPANY = 'FM'."
+
+tags: [reporte, inventario, fiscal, bodega, articulos, cajas, Mariano]
+
+alias: [articulos en fiscal, inventario fiscal, articulos tercer piso, inventario tercer piso, fiscal, articulos de bodega en fiscal]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: "Fiscal corresponde al tercer piso del almacén y se identifica mediante ubicaciones cuyo código comienza con 3. La consulta toma los artículos que existen en la zona de trabajo indicada y busca sus registros de inventario en Fiscal. La equivalencia de cajas se calcula dividiendo ON_HAND_QTY entre la conversion_qty de la UOM de secuencia 2. La consulta está limitada al almacén Mariano. El filtro de compañía normalmente se utiliza con FM, pero puede comentarse para consultar otras compañías."

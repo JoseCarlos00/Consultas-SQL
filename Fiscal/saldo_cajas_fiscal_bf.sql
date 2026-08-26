@@ -14,7 +14,8 @@ FROM
         LI.item,
         LI.item_color,
         LI.company,
-        ((CAST(LI.on_hand_qty AS INT)) /  CAST(UOM.conversion_qty AS INT)) AS CAJAS,
+        CAST((LI.on_hand_qty / UOM.conversion_qty) AS DECIMAL(10, 1)) AS CAJAS,
+        -- ((CAST(LI.on_hand_qty AS INT)) /  CAST(UOM.conversion_qty AS INT)) AS CAJAS,
         LIA.loc_inv_attribute1 AS PEDIMENTO,
         LOCATIONS
     
@@ -53,7 +54,8 @@ FROM
 
 GROUP BY  
     A.item, A.item_color, A.company, A.warehouse, A.PEDIMENTO,LOCATIONS
+
 ORDER BY 
     A.warehouse, A.PEDIMENTO, A.item
 
--- WAREHOUSE,PEDIMENTO,ITEM,COLOR,COMPANY,CAJAS,LOCATIONS,
+-- @headers: WAREHOUSE,PEDIMENTO,ITEM,COLOR,COMPANY,CAJAS,LOCATIONS,

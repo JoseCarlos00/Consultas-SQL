@@ -1,0 +1,57 @@
+SELECT
+  WORK_ZONE.WORK_ZONE,
+  PRINCIPAL.LOCATION, 
+  PRINCIPAL.ITEM, 
+  PRINCIPAL.ITEM_DESC, 
+  PRINCIPAL.COMPANY,
+  CAST(SUM(PRINCIPAL.OH) AS INT) AS OH,
+  CAST(SUM(PRINCIPAL.CAJAS) AS DECIMAL(5, 2)) AS CAJAS
+
+
+FROM (
+
+  SELECT
+    LI.LOCATION,
+    LI.ITEM,
+    REPLACE(LI.ITEM_DESC, ',', '.') AS ITEM_DESC,
+    LI.COMPANY,
+    LI.ON_HAND_QTY AS OH,
+    LI.internal_location_inv,
+    (LI.on_hand_qty / UOM.conversion_qty) AS CAJAS,
+    LI.logistics_Unit AS LICENSE_PLATE
+
+  FROM location_inventory LI
+  INNER JOIN location L ON L.location = LI.location AND L.warehouse = 'Mariano'
+  INNER JOIN item_unit_of_measure UOM ON LI.item = UOM.item AND UOM.sequence = '2'
+
+  WHERE LI.warehouse='Mariano'
+    AND L.location LIKE '3%'
+
+    LI.COMPANY = 'FM'
+  
+  GROUP BY LI.LOCATION, LI.ITEM, LI.ITEM_DESC, LI.COMPANY, LI.ON_HAND_QTY, LI.internal_location_inv, UOM.conversion_qty, LI.logistics_Unit
+
+) AS PRINCIPAL
+
+INNER JOIN (
+  SELECT DISTINCT
+    LI.ITEM,
+    L.WORK_ZONE
+  
+  FROM location_inventory LI
+  INNER JOIN location L ON L.location = LI.location AND L.warehouse='Mariano'
+
+ WHERE L.location_type LIKE 'Generica%S'
+ AND LI.warehouse = 'Mariano'
+
+  -- SELECCIONAR BODEGA
+ AND L.work_zone = 'W-Mar Bodega 6'
+
+) AS WORK_ZONE ON WORK_ZONE.ITEM = PRINCIPAL.ITEM
+
+
+GROUP BY PRINCIPAL.LOCATION, PRINCIPAL.ITEM, PRINCIPAL.ITEM_DESC, PRINCIPAL.COMPANY, WORK_ZONE.WORK_ZONE
+
+ORDER BY WORK_ZONE.WORK_ZONE, PRINCIPAL.LOCATION
+
+-- @headers: WORK_ZONE,LOCATION,ITEM,ITEM_DESC,COMPANY,OH,CAJAS,

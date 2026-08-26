@@ -44,6 +44,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: false
+publicar: true
 
 notas: "Todos los artículos incluidos en ITEM IN (...) reciben exactamente los mismos valores de MAXIMUM_QTY, QUANTITY_UM y MINIMUM_RPLN_PCT. Solo afecta registros cuyo LOCATION_TYPE sea Generica Permanente S. Es la opción adecuada cuando varios artículos comparten la misma configuración de capacidad."
