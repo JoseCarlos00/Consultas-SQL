@@ -1,0 +1,25 @@
+id: auditoria_configuracion_ubicaciones
+
+nombre: Auditoría de Configuración de Ubicaciones
+
+descripcion: Audita la configuración de las ubicaciones de inventario de Mariano de tipos Genérica Dinámico R, Genérica Dinámico S, Genérica Permanente R y Genérica Permanente S, validando sus zonas y atributos operativos.
+
+proposito: Identificar ubicaciones con configuraciones incorrectas y mostrar específicamente qué atributos deben corregirse de acuerdo con el tipo de ubicación.
+
+database: sql-server
+
+tablas: [location]
+
+parametros: []
+
+tags: [auditoría, ubicaciones, configuracion, Mariano, WMS]
+
+alias: [auditoría de ubicaciones, auditoría configuracion ubicaciones, ubicaciones incorrectas, configuracion de ubicaciones]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta considera únicamente ubicaciones de la clase Inventory del almacén Mariano y los cuatro tipos de ubicación contemplados. Las ubicaciones Generica Permanente R no requieren validación de configuración y se identifican como Reserva Permanente. Para los demás tipos se validan ALLOCATION_ZONE, MULTI_ITEM, TRACK_CONTAINERS y ALLOCATE_IN_TRANSIT. El campo MOTIVO muestra los atributos que no cumplen con la configuración esperada. Solo se muestran ubicaciones con VALIDACION = 'Incorrecto'."

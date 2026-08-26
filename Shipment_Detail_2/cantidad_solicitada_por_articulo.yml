@@ -1,0 +1,25 @@
+id: cantidad_solicitada_por_articulo
+
+nombre: Cantidad Solicitada por Artículo
+
+descripcion: Consulta la cantidad total solicitada de un artículo dentro de un pedido, mostrando su equivalente en cajas y la cantidad que corresponde a una caja según la huella del artículo.
+
+proposito: Verificar la cantidad solicitada de un artículo específico en un pedido y consultar su equivalente en cajas.
+
+database: sql-server
+
+tablas: [shipment_detail, item_unit_of_measure]
+
+parametros: [item, shipment_id]
+
+tags: [pedidos, cantidad-solicitada, articulos, cajas, huella, Reporte]
+
+alias: [cantidad solicitada, cantidad por articulo, cantidad solicitada por item, cajas solicitadas, revisar cantidad de pedido]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta considera únicamente líneas de pedido con STATUS1 = 100 y almacén Mariano. El parámetro item permite consultar un artículo específico y shipment_id identifica el pedido. TOTAL representa la cantidad solicitada y CAJAS su equivalente calculado a partir de la huella."
