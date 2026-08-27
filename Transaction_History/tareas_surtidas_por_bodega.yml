@@ -1,0 +1,25 @@
+id: tareas_surtidas_por_bodega
+
+nombre: Tareas Surtidas por Bodega
+
+descripcion: Resume las tareas y líneas de surtido realizadas en Mariano, agrupándolas por piso, tipo de pedido y bodega.
+
+proposito: Consultar el volumen de tareas y líneas surtidas en cada WORK_ZONE durante la fecha actual.
+
+database: sql-server
+
+tablas: [transaction_history, location]
+
+parametros: []
+
+tags: [surtido, tareas, lineas, bodegas, productividad, Mariano, Reporte]
+
+alias: [tareas surtidas por bodega, líneas surtidas por bodega, surtido por bodega, reporte de surtido por bodega]
+
+ultima_verificacion:
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta utiliza transaction_history con transaction_type = 130 y direction = FROM para identificar confirmaciones de surtido. Agrupa los resultados por WORK_ZONE, además del piso y tipo de pedido. TAREAS_SURTIDAS corresponde al número de WORK_UNIT distintos y LINEAS_SURTIDAS al número de registros resultantes. La fecha consultada es el día actual, ajustando seis horas la fecha de transaction_history."

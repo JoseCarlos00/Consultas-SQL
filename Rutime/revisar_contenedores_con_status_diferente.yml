@@ -1,0 +1,25 @@
+id: revisar_contenedores_con_status_diferente
+
+nombre: Revisar Contenedores de Surtido con Status Diferente
+
+descripcion: Consulta el estado de las líneas de pedido y sus contenedores relacionados.
+
+proposito: Revisar líneas de pedido con status 600 y consultar sus contenedores cuando se encuentran en status 401 o 650.
+
+database: sql-server
+
+tablas: [shipment_header, shipment_detail, shipping_container]
+
+parametros: []
+
+tags: [surtido, contenedores, shipment, Rutina]
+
+alias: [revisar contenedores, estado de contenedores, contenedores de surtido]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: "Las consultas de uso más frecuente utilizan SD.status1 = 600 combinado con SC.status = 401 o SC.status = 650. La primera variante permite revisar contenedores en status 401 y la segunda contenedores en status 650. Se pueden consultar los identificadores internos de las líneas, el pedido, estados, artículo, cantidades y datos del contenedor."

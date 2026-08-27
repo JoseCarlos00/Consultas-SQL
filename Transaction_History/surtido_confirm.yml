@@ -1,4 +1,4 @@
-id: Surtido Confirm
+id: surtido_confirm
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

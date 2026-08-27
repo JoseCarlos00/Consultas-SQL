@@ -14,7 +14,7 @@ FROM (
     INNER JOIN
         location L ON L.location = TH.location
 
-    INNER JOIN item I ON I.item = TH.item
+    INNER JOIN item I ON I.item = TH.item AND I.company = 'FM'
 
     WHERE
         TH.warehouse = 'Mariano'
@@ -26,8 +26,6 @@ FROM (
         AND L.location_type LIKE 'Generica%'
         AND TH.item LIKE '7475-5255-%'
 
-
-        AND I.company = 'FM'
 
     GROUP BY TH.INTERNAL_ID, TH.warehouse, TH.transaction_Type, TH.direction, TH.date_time_stamp, L.location_type, TH.item, TH.quantity, I.company, I.item_color
 

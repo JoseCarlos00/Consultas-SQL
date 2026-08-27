@@ -46,10 +46,8 @@ FROM (
 
     GROUP BY TH.INTERNAL_ID, TH.WORK_UNIT, TH.WORK_ZONE, TH.reference_id, TH.warehouse, TH.transaction_Type, TH.direction, TH.date_time_stamp, L.location_type
 
-) AS subconsulta
+) AS RESULT
+
 GROUP BY ZONA, TIPO, FECHA
-ORDER BY ZONA, TIPO
 
-
--- Lineas Suritidas Por Zona
--- ZONA,TIPO,TAREAS_SURTIDAS,LINEAS_SURTIDAS,
+ORDER BY ZONA, TIPO;
