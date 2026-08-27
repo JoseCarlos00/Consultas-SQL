@@ -15,11 +15,11 @@ export function renderCards(els, favorites, { onOpenDetail, onToggleFavorite }) 
   els.resultCount.textContent = `${results.length} de ${state.all.length}`;
 
   if (results.length === 0) {
-    els.cardGrid.innerHTML = `<div class="empty-state">${
-      state.showFavoritesOnly
-        ? 'Aún no marcaste ninguna consulta como favorita.'
-        : 'Sin resultados. Prueba con otra palabra, etiqueta o categoría.'
-    }</div>`;
+    els.cardGrid.innerHTML = /*html*/ `<div class="empty-state">${
+			state.showFavoritesOnly
+				? 'Aún no marcaste ninguna consulta como favorita.'
+				: 'Sin resultados. Prueba con otra palabra, etiqueta o categoría.'
+		}</div>`;
     return;
   }
 
@@ -42,15 +42,16 @@ export function renderCards(els, favorites, { onOpenDetail, onToggleFavorite }) 
 
 function cardTemplate(q, favorited) {
   const stale = isStale(q);
-  return `
+  return /*html*/ `
     <article class="query-card" data-id="${escapeHtml(q.id)}" tabindex="0" role="button" aria-label="Ver detalle de ${escapeHtml(q.nombre)}">
       <button class="star-btn ${favorited ? 'active' : ''}" data-id="${escapeHtml(q.id)}" aria-label="${favorited ? 'Quitar de favoritos' : 'Agregar a favoritos'}" aria-pressed="${favorited}">${favorited ? '★' : '☆'}</button>
       <p class="card-tab">${escapeHtml(q.categoria)}</p>
       <h3 class="card-title">${escapeHtml(q.nombre)}</h3>
       <p class="card-desc">${escapeHtml(q.descripcion)}</p>
       <div class="card-meta-row">
-        <span class="badge badge-db">${escapeHtml(q.database)}</span>
-        <span class="badge status-${escapeHtml(q.estatus)}">${escapeHtml(ESTATUS_LABEL[q.estatus] || q.estatus)}</span>
+        <button class="action-btn primary" id="btn-view-sql"><span>Ver SQL</span></button>
+        <button class="action-btn" id="btn-copy-sql">Copiar SQL</button>
+        <button class="action-btn" id="btn-copy-headers" ${!q.headers || !q.headers.length ? 'disabled title="Esta consulta no tiene @headers"' : ''}>Copiar headers</button>
       </div>
       <div class="card-footer">
         <span class="card-tags">${(q.tags || []).slice(0, 3).join(' · ')}</span>
