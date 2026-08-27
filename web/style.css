@@ -354,6 +354,7 @@ body {
   line-height: 1.5;
   margin: 0 0 0.75rem;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -479,7 +480,7 @@ body {
   font-size: 14px;
   color: var(--ink-soft);
   line-height: 1.6;
-  margin: 0 0 0.25rem;
+  margin: 0.6 0 0.6rem;
 }
 
 .detail-purpose {
@@ -564,6 +565,11 @@ body {
 
 .action-btn:hover { border-color: var(--ink-soft); }
 
+.action-btn:disabled {
+  opacity: .6;
+  pointer-events: none;
+}
+
 .action-btn.primary {
   background: var(--ink);
   color: var(--paper);
@@ -621,4 +627,12 @@ body {
   .drawer-index { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
   .card-grid { grid-template-columns: 1fr; padding: 1.25rem; }
   .catalog-header { padding: 1.5rem 1.25rem 1rem; }
+}
+
+@media (min-width: 760px) {
+  .catalog-layout .drawer-item .category-item { 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
