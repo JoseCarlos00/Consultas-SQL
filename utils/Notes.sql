@@ -1,35 +1,4 @@
-UPDATE location_inventory
-SET
-  IN_TRANSIT_QTY = 0
-  -- ALLOCATED_QTY = 0
-
-WHERE warehouse = 'Mariano' 
--- AND ALLOCATED_QTY > 0
-AND location IN ()
-AND item IN ()
-
-
------ CAMBIO DE HUELLA DE TARIMA A HUELLA DE CAJA POR UNA CANTIDAD ESPECIFICA
-UPDATE UOM
-SET UOM.conversion_qty = UMM.conversion_qty * 60 -- 60 CAJAS POR TARIMA
-
-FROM item_unit_of_measure UOM
-INNER JOIN RECEIPT_DETAIL RD ON UOM.item = RD.item AND UOM.company = RD.company
-
-INNER JOIN item_unit_of_measure UMM ON UMM.item = UOM.item AND UMM.company = UOM.company AND UMM.sequence = 2
-
-WHERE UOM.sequence = 3
-  AND RD.INTERNAL_RECEIPT_NUM = 358034;
-
-
---------
-UPDATE UOM
-SET UOM.conversion_qty = 576
-FROM item_unit_of_measure UOM
-WHERE UOM.sequence = 3 -- 2=CJ, 3=TARIMA
-  AND UOM.item LIKE '11869-11991-%'
-
------------
+/* ==== */
 SELECT status1, total_qty, quantity_at_sts1, status2, quantity_at_sts2, * from  shipment_detail
   WHERE internal_shipment_line_num 
   IN ('24623514');
@@ -40,7 +9,7 @@ WHERE internal_shipment_line_num
   IN ('24623514');
 
 
---- INSERTAR PEDIMENTO EN LOCATION INVENTORY ATTRIBUTES
+/* ==== INSERTAR PEDIMENTO EN LOCATION INVENTORY ATTRIBUTES ====== */
 SELECT TOP 2 * FROM LOCATION_INVENTORY_ATTRIBUTES
 WHERE LOC_INV_ATTRIBUTE1 = '25 20 9020 5008207'
 ORDER BY 1 desc
@@ -58,36 +27,25 @@ SET
 WHERE warehouse = 'Tultitlan'
 AND internal_location_inv = '72689752'
 
----
-SELECT 
-COUNT(DISTINCT LI.item) AS TOTAL_ITEMS
--- DISTINCT LI.ITEM, L.LOCATION, L.WORK_ZONE
-FROM location_inventory LI
-INNER JOIN location L 
-  ON L.location = LI.location
-WHERE LI.warehouse = 'Tultitlan' 
-  AND L.warehouse = 'Tultitlan'
-  AND LI.COMPANY = 'FM'
-  AND L.location_class = 'Inventory'
-  AND L.WORK_ZONE IN ('W-Tul Producto Terminado', 'W-Tul Picos', 'W-Tul Bodega Fiscal')
-  
 
--- PICK_LOK
+/* ========== */
+UPDATE UOM
+  SET UOM.conversion_qty = 576
+FROM item_unit_of_measure UOM
+WHERE UOM.sequence = 3 -- 2=CJ, 3=TARIMA
+  AND UOM.item LIKE '11869-11991-%'
+
+/* ========== */
+
+SELECT * FROM SHIPPING_LOAD WHERE internal_load_num='42452'
+
+UPDATE SHIPPING_LOAD 
+  SET leading_sts=700, trailing_sts=700
+WHERE internal_load_num='42452'
 
 
-SELECT 
-    WI.ITEM, 
-    CAST(WI.quantity AS INT) AS QUANTITY, 
-   CASE WHEN LI.LOCATION IS NULL THEN 'BANDA' ELSE LI.LOCATION END AS LOC,
-    LI.internal_location_inv, 
-    LI.ON_HAND_QTY, 
-    LI.ALLOCATED_QTY
-FROM work_instruction WI
-LEFT JOIN LOCATION_INVENTORY LI 
-    ON WI.item = LI.item
-    AND LI.WAREHOUSE = 'Mariano'
-    AND (LI.LOCATION = 'BANDA' OR LI.LOCATION IS NULL)
-WHERE 
-  WI.instruction_type = 'Detail'
-AND (LI.on_hand_qty < WI.quantity OR LI.on_hand_qty is null )
-  AND  WI.work_unit = 'FMA0003719137';
+
+/* ========== */
+UPDATE location_inventory 
+SET LOGISTICS_UNIT = 'FMA0002772080', VOLUME_UM = 'CM3'
+WHERE   warehouse='Mariano'  AND internal_location_inv IN ('56217267')

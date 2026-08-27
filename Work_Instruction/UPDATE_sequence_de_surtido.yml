@@ -1,0 +1,25 @@
+id: UPDATE_sequence_de_surtido
+
+nombre: Actualizar Secuencia de Trabajo
+
+descripcion: Actualiza la secuencia de las instrucciones de trabajo de tipo Detail de una unidad de trabajo en Mariano, asignando una nueva secuencia ordenada por ubicación de origen.
+
+proposito: Corregir o reordenar la secuencia de ejecución de las instrucciones de una unidad de trabajo.
+
+database: sql-server
+
+tablas: [work_instruction]
+
+parametros: [work_unit]
+
+tags: [utilidad, utils, secuencia, work-instruction, actualizacion, trabajo, Mariano]
+
+alias: [actualizar secuencia, corregir secuencia, reordenar trabajo, actualizar orden de trabajo]
+
+ultima_verificacion: 2026-08-27
+
+estatus: estable
+
+publicar: true
+
+notas: "La nueva secuencia comienza en 0 y se genera mediante ROW_NUMBER(), ordenando por from_loc e internal_instruction_num. La consulta actualiza únicamente instrucciones de tipo Detail de la unidad de trabajo indicada en Mariano."

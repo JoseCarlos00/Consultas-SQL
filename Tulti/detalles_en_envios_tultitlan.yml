@@ -1,4 +1,4 @@
-id: SQL
+id: detalles_en_envios_tultitlan
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

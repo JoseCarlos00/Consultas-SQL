@@ -1,4 +1,4 @@
-id: Formatear_fechas_SQL-server
+id: Cambio_de_huella_por_num_recibo
 
 nombre: 
 
@@ -20,6 +20,6 @@ ultima_verificacion:
 
 estatus: estable
 
-publicar: true
+publicar: false
 
 notas: ""

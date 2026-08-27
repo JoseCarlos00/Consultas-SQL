@@ -1,4 +1,4 @@
---------------- PIRMER PASO  ---------------
+--------------- PRiMER PASO  ---------------
 ------  QUITAR DE IN TRANSIT DE REC
 -- UPDATE LOCATION_INVENTORY
 SET ON_HAND_QTY = 0, ALLOCATED_QTY = 0

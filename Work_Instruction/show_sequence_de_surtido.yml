@@ -1,0 +1,25 @@
+id: show_sequence_de_surtido
+
+nombre: Visualizar Secuencia de Trabajo
+
+descripcion: Muestra las instrucciones de trabajo de tipo Detail de una unidad de trabajo en Mariano, indicando la secuencia actual y la secuencia propuesta calculada a partir de la ubicación de origen.
+
+proposito: Revisar cómo quedaría reordenada la secuencia de las instrucciones de una unidad de trabajo antes de realizar la actualización.
+
+database: sql-server
+
+tablas: [work_instruction]
+
+parametros: [work_unit]
+
+tags: [utilidad, utils, secuencia, work-instruction, trabajo, Mariano]
+
+alias: [visualizar secuencia, revisar secuencia, secuencia de trabajo, revisar orden de trabajo]
+
+ultima_verificacion: 2026-08-27
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta muestra sequence_actual y sequence_nuevo. La nueva secuencia comienza en 0 y se calcula ordenando las instrucciones por from_loc."

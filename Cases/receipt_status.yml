@@ -1,25 +1,13 @@
-id: Notes
-
+id: receipt_status
 nombre: 
-
 descripcion:
-
 proposito:
-
 database: sql-server
-
 tablas: []
-
 parametros: []
-
 tags: []
-
 alias: []
-
 ultima_verificacion:
-
 estatus: estable
-
-publicar: true
-
+publicar: false
 notas: ""

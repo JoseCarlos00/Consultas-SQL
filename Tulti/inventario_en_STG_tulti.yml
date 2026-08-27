@@ -1,0 +1,25 @@
+id: inventario_en_STG_tulti
+
+nombre: Inventario en STG que No Debe Estar
+
+descripcion: Lista el inventario ubicado en STG-01 de Tultitlán que no está asociado a un detalle de pedido en los estados considerados como pendientes de surtido.
+
+proposito: Detectar inventario en STG-01 que aparentemente no debería permanecer en dicha ubicación de acuerdo con los pedidos activos relacionados con el artículo.
+
+database: sql-server
+
+tablas: [location_inventory, shipment_detail]
+
+parametros: []
+
+tags: [utilidad, utils, auditoria, inventario, STG, Tultitlan]
+
+alias: [inventario en STG, inventario no debe estar en STG, inventario incorrecto en STG, inventario STG Tultitlan]
+
+ultima_verificacion: 2026-08-27
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta revisa únicamente inventario de Tultitlán ubicado en STG-01 con IN_TRANSIT_QTY igual a 0. Se excluyen los artículos que tienen algún shipment_detail en Tultitlán con status1 entre 650 y 899, excluyendo 900 y 999."
