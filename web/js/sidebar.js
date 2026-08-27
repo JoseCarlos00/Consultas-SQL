@@ -12,19 +12,22 @@ export function renderFavoritesToggle(els, favorites, onChange) {
 
   document.getElementById('favorites-btn').addEventListener('click', () => {
     state.showFavoritesOnly = !state.showFavoritesOnly;
+    state.activeCategory = null;
     onChange();
   });
 }
 
 export function renderCategories(els, onChange) {
   const counts = {};
+  
   state.all.forEach((q) => { counts[q.categoria] = (counts[q.categoria] || 0) + 1; });
+
   const categories = Object.keys(counts).sort();
 
   els.categoryList.innerHTML = [
     `<li><button class="drawer-item ${!state.activeCategory ? 'active' : ''}" data-category="">Todas<span class="count">${state.all.length}</span></button></li>`,
     ...categories.map((cat) => `
-      <li><button class="drawer-item ${state.activeCategory === cat ? 'active' : ''}" data-category="${escapeHtml(cat)}">${escapeHtml(cat)}<span class="count">${counts[cat]}</span></button></li>
+      <li><button class="drawer-item ${state.activeCategory === cat ? 'active' : ''}" data-category="${escapeHtml(cat)}"> <span class="category-item">${escapeHtml(cat)}</span> <span class="count">${counts[cat]}</span> </button></li>
     `),
   ].join('');
 
