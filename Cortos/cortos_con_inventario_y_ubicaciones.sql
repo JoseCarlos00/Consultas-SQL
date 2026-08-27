@@ -4,7 +4,7 @@ SELECT
     RESULTADO.DESCRIPTION,
     CAST(RESULTADO.RECHAZADA AS INT) AS RECHAZADA,
     CAST(RESULTADO.DISP AS INT) AS DISP,
-    CAST(RESULTADO.IT AS INT) AS IT,
+    LOCATIONS,
 
     CASE
         WHEN RESULTADO.WORK_ZONE IN (
@@ -50,7 +50,7 @@ FROM (
         CORTOS.RECHAZADA,
         DISPONIBLE.DISP,
         PRIORIDAD.WORK_ZONE,
-        PRIORIDAD.IT
+        DISPONIBLE.LOCATIONS
 
     FROM (
          /* CORTOS */
@@ -75,40 +75,53 @@ FROM (
     /* DISPONIBLE */
     INNER JOIN (
 
-        SELECT
-            LI.ITEM,
-            SUM(
-                (LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY)
-                - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)
-            ) AS DISP
+      SELECT 
+          ITEM,
+          DISP,
+          
+          STRING_AGG(INV. LOCATION, ' | ')
+              WITHIN GROUP (ORDER BY INV.LOCATION) AS LOCATIONS
+      FROM (
+          SELECT
+          LI.ITEM,
+          LI.LOCATION,
+          SUM(
+              (LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY)
+              - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)
+          ) AS DISP
 
-        FROM location_inventory LI
 
-        INNER JOIN location L
-            ON L.LOCATION = LI.LOCATION
+          FROM location_inventory LI
 
-        WHERE LI.WAREHOUSE = 'Mariano'
+          INNER JOIN location L
+          ON L.LOCATION = LI.LOCATION
+
+          WHERE LI.WAREHOUSE = 'Mariano'
           AND LI.COMPANY = 'FM'
           AND L.WAREHOUSE = 'Mariano'
           AND L.LOCATION_CLASS = 'Inventory'
 
           AND L.LOCATION NOT IN (
-            'MERMA-00',
-            'MERMA-01',
-            'MERMA-02',
-            'MERMA-03',
-            'INTERNET-01'
-        )
+          'MERMA-00',
+          'MERMA-01',
+          'MERMA-02',
+          'MERMA-03',
+          'INTERNET-01'
+          )
 
 
-        GROUP BY
-            LI.ITEM
+          GROUP BY
+              LI.ITEM, LI.location
 
-        HAVING
-            SUM(
-                (LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY)
-                - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)
-            ) > 0
+          HAVING
+          SUM(
+              (LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY)
+              - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)
+          ) > 0
+
+      ) AS INV
+
+      GROUP BY ITEM, DISP
 
     ) AS DISPONIBLE
         ON DISPONIBLE.ITEM = CORTOS.ITEM
@@ -173,4 +186,4 @@ ORDER BY
     RESULTADO.WORK_ZONE,
     RESULTADO.ARTICULO
 
--- @headers: BODEGA,ARTICULO,DESCRIPTION,RECHAZADA,DISP,IT,PISO,
+-- @headers: BODEGA,ARTICULO,DESCRIPTION,RECHAZADA,DISP,LOCATIONS,PISO,

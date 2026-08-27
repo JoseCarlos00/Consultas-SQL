@@ -9,10 +9,8 @@ SELECT
     TH.work_unit AS WORK_UNIT,
     SD.shipment_id AS SHIPMENT_ID,
 
-    STRING_AGG(
-        CAST(SC.parent_container_id AS VARCHAR(MAX)),
-        ', '
-    ) AS CONTAINER_IDS,
+    STRING_AGG(CAST(SC.parent_container_id AS VARCHAR(MAX)),', ')
+        WITHIN GROUP (ORDER BY SC.parent_container_id) AS CONTAINER_IDS,
     
     CONCAT(
         ' Qty: ', CAST(MAX(SC.quantity) AS INT),
