@@ -14,7 +14,7 @@ parametros: []
 
 tags: [surtido, contenedores, shipment, Rutina]
 
-alias: [revisar contenedores, estado de contenedores, contenedores de surtido]
+alias: [revisar contenedores, estado de contenedores, contenedores de surtido, show container detail]
 
 ultima_verificacion: 2026-08-26
 

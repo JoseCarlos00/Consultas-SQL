@@ -63,3 +63,5 @@ typings/
 # *.rar
 *.ziz
 /sql-test/*
+
+__pycache__
