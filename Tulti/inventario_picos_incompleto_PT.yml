@@ -1,0 +1,25 @@
+id: inventario_picos_incompleto_PT
+
+nombre: Inventario de PICOS Incompleto en Producto Terminado
+
+descripcion: Lista el inventario de artículos de PICOS ubicado en Producto Terminado de Tultitlán cuya existencia física no corresponde a un número entero de cajas completas, mostrando las cantidades de inventario, la huella de caja, las cajas equivalentes y el grupo del artículo.
+
+proposito: Identificar inventario de PICOS almacenado en Producto Terminado que corresponde a cajas incompletas o fraccionadas.
+
+database: sql-server
+
+tablas: [location_inventory, location, item_unit_of_measure, item]
+
+parametros: []
+
+tags: [utilidad, utils, inventario, PICOS, producto-terminado, cajas-incompletas, Tultitlan]
+
+alias: [PICOS incompletos, inventario incompleto PICOS, cajas incompletas PICOS, PICOS PT, inventario PICOS Producto Terminado, Reporte]
+
+ultima_verificacion: 2026-08-27
+
+estatus: estable
+
+publicar: true
+
+notas: "Solo se muestran artículos cuya cantidad física no forma un número entero de cajas, mediante CAJAS <> ROUND(CAJAS, 0)."
