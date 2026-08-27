@@ -22,15 +22,20 @@ const els = {
 
 function renderAll() {
   const favorites = getFavorites();
+  
   renderFavoritesToggle(els, favorites, renderAll);
   renderCategories(els, renderAll);
   renderTags(els, renderAll);
+
   renderCards(els, favorites, {
+    showToast: (msg) => showToast(els.toast, msg),
+
     onOpenDetail: (id) => openDetail(els, id, {
       showToast: (msg) => showToast(els.toast, msg),
       isFavorite,
       onToggleFavorite: handleToggleFavorite,
     }),
+    
     onToggleFavorite: handleToggleFavorite,
   });
 }
