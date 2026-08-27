@@ -1,0 +1,37 @@
+id: contenedores_surtidos_por_usuario
+
+nombre: Contenedores de Surtido por Usuario
+
+descripcion: Consulta las confirmaciones de surtido registradas en transaction_history para un usuario, mostrando el artículo, cantidad surtida, ubicación de picking, unidad de trabajo, pedido y los contenedores de surtido relacionados.
+
+proposito: Revisar las confirmaciones de surtido realizadas por un usuario en Mariano, relacionando la transacción de surtido con el pedido y los contenedores asociados.
+
+database: sql-server
+
+tablas: [transaction_history, shipment_detail, shipping_container]
+
+parametros:
+
+  - descripcion: Patrón del pedido que se desea consultar.
+
+    ejemplo: "3405-%"
+
+    ubicacion: "TH.reference_id LIKE '3405-%'"
+
+  - descripcion: Usuario cuyas confirmaciones de surtido se desean consultar..
+
+    ejemplo: "Mariano06"
+
+    ubicacion: "TH.user_name = 'Mariano06'"
+
+tags: [surtido, confirmaciones, usuarios, transaction_history, contenedores, pedidos, auditoria, Mariano, Reporte]
+
+alias: [confirmaciones de surtido, surtido por usuario, confirmaciones por usuario, surtido usuario, historial de surtido]
+
+ultima_verificacion: 2026-08-26
+
+estatus: estable
+
+publicar: true
+
+notas: "La consulta utiliza transaction_history con transaction_type = 130 y direction = From para identificar confirmaciones de surtido. Se excluyen las zonas de Pick and Drop y los registros de shipment_detail con status1 = 999. La relación con shipping_container se realiza mediante la línea interna del pedido y la cantidad confirmada, por lo que la asociación de contenedores es aproximada y puede no representar una relación exacta en todos los casos."
