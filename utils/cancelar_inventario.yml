@@ -1,25 +1,25 @@
-id: cancelar_inventario
+id: preparar_transferencia_desurtido
 
-nombre: 
+nombre: Preparar Transferencia de Desurtido
 
-descripcion:
+descripcion: Genera las líneas necesarias para devolver al picking el inventario de un pedido cancelado que ya había sido surtido.
 
-proposito:
+proposito: Preparar una lista de transferencias para regresar el inventario descontado del picking a la ubicación de asignación permanente del artículo cuando se cancela un pedido ya surtido.
 
 database: sql-server
 
-tablas: []
+tablas: [shipment_detail, item_location_assignment]
 
 parametros: []
 
-tags: []
+tags: [desurtido, transferencia, picking, pedidos-cancelados, inventario, utilidad, utils]
 
-alias: []
+alias: [desurtir pedido, preparar desurtido, transferencia de desurtido, regresar inventario a picking]
 
 ultima_verificacion:
 
 estatus: estable
 
-publicar: false
+publicar: true
 
-notas: ""
+notas: "Se utiliza como procedimiento de recuperación cuando un pedido ya surtido debe cancelarse y el WMS no dispone de una función nativa para desurtirlo. FROM_LOC se determina según el status1 de la línea: EMP-01 para estados mayores a 301 y hasta 600, y STG-01 para estado 650. TO_LOC corresponde a la allocation_loc de la asignación PZ del artículo. El resultado se utiliza como lista preparada para realizar las transferencias que devuelven el inventario al picking. El procedimiento contempla primero eliminar el pedido y posteriormente realizar las transferencias."
