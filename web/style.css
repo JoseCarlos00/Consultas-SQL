@@ -67,7 +67,7 @@ body {
 
 .catalog-header {
   border-bottom: 1px solid var(--line-strong);
-  padding: 2rem 2rem 1.25rem;
+  padding: 1.5rem 2rem 1.25rem;
   background: var(--paper);
   flex-shrink: 0; /* nunca se comprime ni se mueve */
 }
@@ -357,6 +357,20 @@ body {
   margin: 0 0 0.35rem;
   color: var(--ink);
   line-height: 1.25;
+
+  span {
+    display:inline-block;
+    width:12px;
+    margin-left:4px;
+  }
+
+  a {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+    color: var(--ink);
+    line-height: 1.25;
+  }
 }
 
 .card-desc {
@@ -429,6 +443,20 @@ body {
   font-size: 14px;
 }
 
+/* ---------- Modal de SQL (independiente del panel de detalle) ---------- */
+
+.sql-modal-panel {
+  max-width: 950px;   /* el doble aprox. de los 640px del detail-panel */
+  width: 92vw;
+  padding: 1.75rem 1.9rem 1.5rem;
+}
+
+.sql-modal-panel .sql-preview pre {
+  max-height: 70vh;    /* el doble aprox. de los 320px originales */
+  font-size: 13px;
+}
+
+
 /* ---------- Panel de detalle ---------- */
 
 .detail-overlay {
@@ -451,9 +479,68 @@ body {
   border-radius: var(--radius);
   max-width: 640px;
   width: 100%;
-  padding: 1.75rem 1.9rem 1.5rem;
+
+  padding: 0; /* el padding se mueve a .detail-panel-main */
   position: relative;
+  display: flex; /* ya no bloque simple */
+  align-items: stretch;
+  transition: max-width 0.15s ease;
 }
+
+.detail-panel.with-sql {
+  max-width: 1140px; /* 640 (contenido) + 500 (preview) */
+}
+
+.detail-panel-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 1.75rem 1.9rem 1.5rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.detail-sql-preview {
+  flex: 0 0 500px;
+  width: 500px;
+  border-left: 1px solid var(--line);
+  display: none;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.detail-sql-preview.open {
+  display: flex;
+}
+
+.detail-sql-preview-header {
+  padding: 1rem 1.1rem 0.75rem;
+  border-bottom: 1px dashed var(--line);
+  flex-shrink: 0;
+}
+
+.detail-sql-preview-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.5rem 0.5rem;
+}
+
+.detail-sql-preview-body pre {
+   --paper: #F2F0E8;
+  --ink: #1F2A3C;
+
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  background: var(--ink);
+  color: #E9E6DC;
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  white-space: pre;
+  max-height: none;
+}
+
 
 .detail-close {
   position: absolute;
@@ -595,6 +682,8 @@ body {
 .sql-preview.open { display: block; }
 
 .sql-preview pre {
+  --paper: #F2F0E8;
+  --ink: #1F2A3C;
   font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.55;

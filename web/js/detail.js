@@ -4,21 +4,7 @@ import { ESTATUS_LABEL } from './cards.js';
 import { createActionButton } from './components/buttons.js';
 import { copyHeaders, copySQL, createUrl, fetchSql } from './hooks/sql.js';
 
-export async function viewSQL(q) {
-	const { rawUrl, githubUrl } = createUrl(q);
 
-	const preview = document.getElementById('sql-preview');
-	preview.classList.toggle('open');
-
-	if (preview.classList.contains('open') && !preview.dataset.loaded) {
-		const text = await fetchSql(rawUrl);
-		preview.innerHTML =
-			text !== null
-				? `<pre>${escapeHtml(text)}</pre>`
-				: `<p class="sql-error">No se pudo obtener el SQL desde GitHub. Ábrelo directamente: <a href="${githubUrl}" target="_blank" rel="noopener">${githubUrl}</a></p>`;
-		preview.dataset.loaded = '1';
-	}
-}
 
 export function openDetail(els, id, { showToast, isFavorite, onToggleFavorite }) {
 	const q = state.all.find((item) => item.id === id);
@@ -28,36 +14,17 @@ export function openDetail(els, id, { showToast, isFavorite, onToggleFavorite })
 	const stale = isStale(q);
 	const favorited = isFavorite(q.id);
 
-	const btnViewSql = createActionButton('Ver SQL', () => viewSQL(q), { primary: true });
-
-	const btnCopySql = createActionButton('Copiar SQL', async () => {
-		const success = await copySQL(q);
-
-		showToast(success ? 'SQL copiado' : 'No se pudo obtener el SQL');
-	});
-
-	const btnCopyHeader = createActionButton(
-		'Copiar headers',
-		() => {
-			const success = copyHeaders(q);
-
-			if (success) showToast('Headers copiados');
-		},
-		{
-			disabled: !q.headers?.length,
-			title: 'Esta consulta no tiene @headers',
-		},
-	);
+	const { btnViewSql, btnCopySql, btnCopyHeader, btnCopySqlPreview, btnCopyHeaderPreview } = createButtons(q, els);
 
 	els.detailPanel.innerHTML = /*html*/ `
+	<div class="detail-panel-main">
     <button class="detail-close" id="detail-close" aria-label="Cerrar">✕</button>
-    <button class="star-btn detail-star ${favorited ? 'active' : ''}" id="detail-star" aria-label="${favorited ? 'Quitar de favoritos' : 'Agregar a favoritos'}" aria-pressed="${favorited}">${favorited ? '★' : '☆'}</button>
-    <p class="detail-tab">${escapeHtml(q.categoria)} / ${escapeHtml(q.id)}</p>
-
-
-    <h2 class="detail-title">${escapeHtml(q.nombre)}</h2>
+		<button class="star-btn detail-star ${favorited ? 'active' : ''}" id="detail-star" aria-label="${favorited ? 'Quitar de favoritos' : 'Agregar a favoritos'}" aria-pressed="${favorited}">${favorited ? '★' : '☆'}</button>
     
-    <p class="detail-desc">${escapeHtml(q.descripcion)}</p>
+		<p class="detail-tab">${escapeHtml(q.categoria)} / ${escapeHtml(q.id)}</p>
+    <h2 class="detail-title">${escapeHtml(q.nombre)}</h2>
+
+     <p class="detail-desc">${escapeHtml(q.descripcion)}</p>
 
     <div class="detail-section">
       <p class="detail-section-label">Proposito</p>
@@ -133,12 +100,18 @@ export function openDetail(els, id, { showToast, isFavorite, onToggleFavorite })
 				: ''
 		}
 
-    <div class="detail-actions action-buttons">
-    </div>
+    <div class="detail-actions action-buttons"></div>
+  </div>
 
-    <div class="sql-preview" id="sql-preview">
+	<div class="detail-sql-preview" id="detail-sql-preview">
+    <div class="detail-sql-preview-header">
+      <p class="detail-section-label">SQL</p>
+    </div>
+		<div class="detail-actions action-buttons" style=" margin: 0; padding: 0; padding: 8px 0 0 16px;"></div>
+    <div class="detail-sql-preview-body" id="detail-sql-preview-body">
       <p class="sql-loading">Cargando SQL…</p>
     </div>
+  </div>
   `;
 
 	els.overlay.classList.add('open');
@@ -150,16 +123,92 @@ export function openDetail(els, id, { showToast, isFavorite, onToggleFavorite })
 	});
 
 	const panelButtons = els.detailPanel.querySelector('.detail-actions.action-buttons');
+	const panelButtonsPreview = els.detailPanel.querySelector('.detail-sql-preview .detail-actions.action-buttons');
 
 	if (panelButtons) {
 		panelButtons.append(btnViewSql, btnCopySql, btnCopyHeader);
 		panelButtons.insertAdjacentHTML(
 			'beforeend',
-			`<a class="action-btn" href="${githubUrl}" target="_blank" rel="noopener">Abrir en GitHub</a>`,
+			/*html*/`<a class="action-btn" href="${githubUrl}" target="_blank" rel="noopener">Abrir en GitHub</a>`,
 		);
 	}
+	
+	if (panelButtonsPreview) {
+		panelButtonsPreview.append(btnCopySqlPreview, btnCopyHeaderPreview);
+	}
+}
+
+function createButtons(q, els) {
+	const btnViewSql = createActionButton('Ver SQL', () => viewSQL(q, els), { primary: true });
+
+	const btnCopySql = createActionButton('Copiar SQL', async () => {
+		const success = await copySQL(q);
+
+		showToast(success ? 'SQL copiado' : 'No se pudo obtener el SQL');
+	});
+
+	const btnCopyHeader = createActionButton(
+		'Copiar headers',
+		() => {
+			const success = copyHeaders(q);
+
+			if (success) showToast('Headers copiados');
+		},
+		{
+			disabled: !q.headers?.length,
+			title: 'Esta consulta no tiene @headers',
+		},
+	);
+
+	const btnCopySqlPreview = createActionButton('Copiar SQL', async () => {
+		const success = await copySQL(q);
+
+		showToast(success ? 'SQL copiado' : 'No se pudo obtener el SQL');
+	});
+
+	const btnCopyHeaderPreview = createActionButton(
+		'Copiar headers',
+		() => {
+			const success = copyHeaders(q);
+
+			if (success) showToast('Headers copiados');
+		},
+		{
+			disabled: !q.headers?.length,
+			title: 'Esta consulta no tiene @headers',
+		},
+	);
+
+	return {
+		btnViewSql,
+		btnCopySql,
+		btnCopyHeader,
+		btnCopySqlPreview,
+		btnCopyHeaderPreview,
+	};
 }
 
 export function closeDetail(els) {
 	els.overlay.classList.remove('open');
+	els.detailPanel.classList.remove('with-sql');
+}
+
+export async function viewSQL(q, els) {
+	const { rawUrl, githubUrl } = createUrl(q);
+
+	const previewCol = document.getElementById('detail-sql-preview');
+	const previewBody = document.getElementById('detail-sql-preview-body');
+	const panel = els.detailPanel;
+
+	const isOpen = previewCol.classList.toggle('open');
+	panel.classList.toggle('with-sql', isOpen);
+
+	if (isOpen && !previewCol.dataset.loaded) {
+		const text = await fetchSql(rawUrl);
+		previewBody.innerHTML =
+			text !== null
+				? `<pre>${escapeHtml(text)}</pre>`
+				: `<p class="sql-error">No se pudo obtener el SQL desde GitHub. Ábrelo directamente: <a href="${githubUrl}" target="_blank" rel="noopener">${githubUrl}</a></p>`;
+		previewCol.dataset.loaded = '1';
+	}
 }

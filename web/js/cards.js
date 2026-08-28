@@ -1,8 +1,9 @@
 import { state } from './state.js';
 import { escapeHtml, isStale } from './utils.js';
 import { getFiltered } from './catalog.js';
-import { copyHeaders, copySQL } from './hooks/sql.js';
+import { copyHeaders, copySQL, createUrl } from './hooks/sql.js';
 import { createActionButton } from './components/buttons.js';
+import { openSqlModal } from './sqlModal.js';
 
 const ESTATUS_LABEL = {
 	estable: 'Estable',
@@ -38,6 +39,7 @@ export function renderCards(els, favorites, { showToast, onOpenDetail, onToggleF
 
 function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite }) {
 	const stale = isStale(q);
+	const { githubUrl } = createUrl(q);
 
 	const card = document.createElement('article');
 
@@ -47,7 +49,7 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
 	card.setAttribute('role', 'button');
 	card.setAttribute('aria-label', `Ver detalle de ${q.nombre}`);
 
-	card.innerHTML = `
+	card.innerHTML = /*html*/ `
         <button
             class="star-btn ${favorited ? 'active' : ''}"
             data-id="${escapeHtml(q.id)}"
@@ -59,7 +61,14 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
 
         <p class="card-tab">${escapeHtml(q.categoria)}</p>
 
-        <h3 class="card-title">${escapeHtml(q.nombre)}</h3>
+        <h3 class="card-title">
+					<a href="${githubUrl}" target="_blank" rel="noopener">
+						${escapeHtml(q.nombre)}
+						<span>
+							${arrowSquare}
+						</span>
+					</a>
+				</h3>
 
         <p class="card-desc">${escapeHtml(q.descripcion)}</p>
 
@@ -103,7 +112,12 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
 		},
 	);
 
-	metaRow.append(btnCopySql, btnCopyHeader);
+	const btnViewSql = createActionButton('Ver SQL', (e) => {
+		e.stopPropagation();
+		openSqlModal(q);
+	});
+
+	metaRow.append(btnCopySql, btnCopyHeader, btnViewSql);
 
 	card.addEventListener('click', () => {
 		onOpenDetail(q.id);
@@ -121,7 +135,28 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
 		onToggleFavorite(q.id);
 	});
 
+	card.querySelector('.card-title a').addEventListener('click', (e) => {
+		e.stopPropagation();
+	});
+
+	const titleLink = card.querySelector('.card-title a');
+
+	titleLink.addEventListener('click', (e) => {
+		e.stopPropagation();
+	});
+
+	titleLink.addEventListener('keydown', (e) => {
+		e.stopPropagation();
+	});
+
 	return card;
 }
+
+const arrowSquare = /*html*/ `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+	<path fill="currentColor" d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0-201.4 201.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3 448 192c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 96C35.8 96 0 131.8 0 176L0 432c0 44.2 35.8 80 80 80l256 0c44.2 0 80-35.8 80-80l0-80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 80c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l80 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 96z"/>
+</svg>
+`;
+
 
 export { ESTATUS_LABEL };

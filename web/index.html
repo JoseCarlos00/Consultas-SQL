@@ -59,6 +59,16 @@
     <div class="detail-panel" id="detail-panel"></div>
   </div>
 
+  <div class="detail-overlay" id="sql-overlay">
+    <div class="detail-panel sql-modal-panel" id="sql-modal-panel">
+      <button class="detail-close" id="sql-modal-close" aria-label="Cerrar">✕</button>
+      <p class="detail-tab" id="sql-modal-title"></p>
+      <div class="sql-preview open" id="sql-modal-preview">
+        <p class="sql-loading">Cargando SQL…</p>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
