@@ -446,14 +446,39 @@ body {
 /* ---------- Modal de SQL (independiente del panel de detalle) ---------- */
 
 .sql-modal-panel {
-  max-width: 950px;   /* el doble aprox. de los 640px del detail-panel */
-  width: 92vw;
+  max-width: 1280px;
+  width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column; /* faltaba: evita que herede la fila de .detail-panel */
   padding: 1.75rem 1.9rem 1.5rem;
 }
 
-.sql-modal-panel .sql-preview pre {
-  max-height: 70vh;    /* el doble aprox. de los 320px originales */
+.sql-modal-preview {
+  flex: 1;
+  min-width: 0;   /* clave: evita que el <pre> empuje el ancho del panel */
+  min-height: 0;
+  margin-top: 0.5rem;
+}
+
+.sql-modal-preview pre {
+  font-family: var(--font-mono);
   font-size: 13px;
+  line-height: 1.6;
+  background: var(--ink);
+  color: #E9E6DC;
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  overflow: auto;      /* esto ya lo tenías, y es correcto para el scroll interno */
+  white-space: pre;
+  height: 100%;
+  max-height: none;
+}
+
+.sql-modal-panel .detail-tab {
+  color: var(--ink);
+  font-size: 12px;
+  margin: 0.5rem 0 0.5rem 0.5rem ;
 }
 
 

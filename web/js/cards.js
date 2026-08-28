@@ -62,8 +62,9 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
         <p class="card-tab">${escapeHtml(q.categoria)}</p>
 
         <h3 class="card-title">
+					${escapeHtml(q.nombre)}
+
 					<a href="${githubUrl}" target="_blank" rel="noopener">
-						${escapeHtml(q.nombre)}
 						<span>
 							${arrowSquare}
 						</span>
@@ -118,6 +119,8 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
 	});
 
 	metaRow.append(btnCopySql, btnCopyHeader, btnViewSql);
+
+	// const panelActionButtons = 
 
 	card.addEventListener('click', () => {
 		onOpenDetail(q.id);
