@@ -85,7 +85,7 @@ export function openDetail(els, id, { showToast, isFavorite, onToggleFavorite })
     ${
 			q.tags && q.tags.length
 				? /*html*/ `
-    <div class="detail-section">
+    <div class="detail-section" hidden>
       <p class="detail-section-label">Etiquetas</p>
       <div class="detail-badges">${q.tags.map((t) => `<span class="tag-chip" style="cursor:default">${escapeHtml(t)}</span>`).join('')}</div>
     </div>`

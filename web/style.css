@@ -4,6 +4,7 @@
   --ink: #1F2A3C;
   --ink-soft: #52586A;
   --ink-faint: #8B8F9C;
+  --ink-faint-card: #45464b;
   --line: #D8D4C6;
   --line-strong: #B9B4A0;
   --ochre: #A9782B;
@@ -29,6 +30,7 @@
   --ink: #c9d1d9;
   --ink-soft: #8b949e;
   --ink-faint: #6e7681;
+  --ink-faint-card: #7b95e9;
   --line: #30363d;
   --line-strong: #444c56;
   --ochre: #58a6ff;
@@ -105,7 +107,7 @@ body {
 
 .catalog-title {
   font-family: var(--font-display);
-  font-size: 34px;
+  font-size: 28px;
   font-weight: 600;
   margin: 0 0 0.15rem;
   color: var(--ink);
@@ -344,7 +346,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--ink-faint-card);
   margin: 0 0 0.5rem;
 }
 
@@ -597,7 +599,7 @@ body {
   font-size: 12px;
   line-height: 1.55;
   background: var(--ink);
-  color: #E9E6DC;
+  color: var(--paper);
   padding: 1rem;
   border-radius: var(--radius);
   overflow-x: auto;
