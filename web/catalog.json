@@ -362,62 +362,6 @@
       "ruta": "Cortos/cortos_por_bodega.sql"
     },
     {
-      "id": "validacion_dimensiones_banda",
-      "nombre": "Validación de Dimensiones para Banda",
-      "descripcion": "Reporte de artículos de categoría BANDA que presentan dimensiones fuera de los límites permitidos para su manejo en la banda física, considerando las unidades PZ y CJ.",
-      "proposito": "Identificar artículos BANDA que no cumplen con las dimensiones máximas permitidas para la banda y determinar si la presentación PZ, CJ o ambas se encuentran fuera de los límites.",
-      "database": "sql-server",
-      "tablas": [
-        "item",
-        "item_unit_of_measure",
-        "location_inventory",
-        "location"
-      ],
-      "parametros": [
-        {
-          "descripcion": "Límites máximos de dimensiones permitidos para la banda física.",
-          "ejemplo": "Largo <= 70, Ancho <= 58, Altura <= 69",
-          "ubicacion": "Condiciones de validación de DIMENSIONES_PZ y DIMENSIONES_CJ."
-        }
-      ],
-      "tags": [
-        "utilidad",
-        "utils",
-        "inventario",
-        "banda",
-        "dimensiones",
-        "articulos",
-        "item_unit_of_measure"
-      ],
-      "alias": [
-        "validar dimensiones banda",
-        "dimensiones banda",
-        "articulos para banda",
-        "validacion banda",
-        "dimensiones de articulos",
-        "medidas banda"
-      ],
-      "headers": [
-        "ITEM",
-        "DESCRIPTION",
-        "DIMENSIONES_PZ",
-        "DIMENSIONES_CJ",
-        "LENGTH_PZ",
-        "WIDTH_PZ",
-        "HEIGHT_PZ",
-        "LENGTH_CJ",
-        "WIDTH_CJ",
-        "HEIGHT_CJ"
-      ],
-      "estatus": "estable",
-      "publicar": true,
-      "ultima_verificacion": "2026-08-25",
-      "ultima_modificacion": "2026-08-26",
-      "notas": "Consulta utilizada para revisar las dimensiones registradas en item_unit_of_measure de artículos de categoría BANDA. Se evalúan las unidades PZ y CJ contra los límites físicos de la banda: largo máximo 70, ancho máximo 58 y altura máxima 69. El filtro final muestra artículos donde al menos una de las presentaciones disponibles no cumple las dimensiones requeridas. El bloque de inventario disponible utiliza AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y considera únicamente ubicaciones de clase Inventory.",
-      "categoria": "Cross_Reference",
-      "ruta": "Cross_Reference/validacion_dimensiones_banda.SQL"
-    },
-    {
       "id": "articulos_en_fiscal_por_bodega",
       "nombre": "Artículos en Fiscal por Bodega",
       "descripcion": "Lista los artículos que tienen inventario en las ubicaciones del tercer piso del almacén, denominado Fiscal, mostrando su ubicación, inventario disponible en piezas y equivalencia en cajas, y relacionándolos con una bodega o zona de picking seleccionada.",
@@ -688,6 +632,62 @@
       "notas": "La consulta agrupa las unidades de medida de cada artículo en una sola columna HUELLA utilizando STRING_AGG y separa cada unidad mediante ' / '. Se limita a artículos de la compañía FM, excluyendo la categoría Bulk, y a registros de UOM pertenecientes también a FM. El patrón de ITEM puede modificarse para consultar otros grupos de artículos.",
       "categoria": "Item_Unit_of_Measure",
       "ruta": "Item_Unit_of_Measure/consulta_huella_articulos.sql"
+    },
+    {
+      "id": "validacion_dimensiones_banda",
+      "nombre": "Validación de Dimensiones para Banda",
+      "descripcion": "Reporte de artículos de categoría BANDA que presentan dimensiones fuera de los límites permitidos para su manejo en la banda física, considerando las unidades PZ y CJ.",
+      "proposito": "Identificar artículos BANDA que no cumplen con las dimensiones máximas permitidas para la banda y determinar si la presentación PZ, CJ o ambas se encuentran fuera de los límites.",
+      "database": "sql-server",
+      "tablas": [
+        "item",
+        "item_unit_of_measure",
+        "location_inventory",
+        "location"
+      ],
+      "parametros": [
+        {
+          "descripcion": "Límites máximos de dimensiones permitidos para la banda física.",
+          "ejemplo": "Largo <= 70, Ancho <= 58, Altura <= 69",
+          "ubicacion": "Condiciones de validación de DIMENSIONES_PZ y DIMENSIONES_CJ."
+        }
+      ],
+      "tags": [
+        "utilidad",
+        "utils",
+        "inventario",
+        "banda",
+        "dimensiones",
+        "articulos",
+        "item_unit_of_measure"
+      ],
+      "alias": [
+        "validar dimensiones banda",
+        "dimensiones banda",
+        "articulos para banda",
+        "validacion banda",
+        "dimensiones de articulos",
+        "medidas banda"
+      ],
+      "headers": [
+        "ITEM",
+        "DESCRIPTION",
+        "DIMENSIONES_PZ",
+        "DIMENSIONES_CJ",
+        "LENGTH_PZ",
+        "WIDTH_PZ",
+        "HEIGHT_PZ",
+        "LENGTH_CJ",
+        "WIDTH_CJ",
+        "HEIGHT_CJ"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-08-25",
+      "ultima_modificacion": "2026-08-28",
+      "notas": "Consulta utilizada para revisar las dimensiones registradas en item_unit_of_measure de artículos de categoría BANDA. Se evalúan las unidades PZ y CJ contra los límites físicos de la banda: largo máximo 70, ancho máximo 58 y altura máxima 69. El filtro final muestra artículos donde al menos una de las presentaciones disponibles no cumple las dimensiones requeridas. El bloque de inventario disponible utiliza AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y considera únicamente ubicaciones de clase Inventory.",
+      "categoria": "Item_Unit_of_Measure",
+      "ruta": "Item_Unit_of_Measure/validacion_dimensiones_banda.SQL"
     },
     {
       "id": "auditoria_configuracion_ubicaciones",
