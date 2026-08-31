@@ -1,13 +1,25 @@
-id: reabastos_2
+id: huellas_tarimas_1_2_3_cajas
+
 nombre: 
+
 descripcion:
+
 proposito:
+
 database: sql-server
+
 tablas: []
+
 parametros: []
+
 tags: []
+
 alias: []
+
 ultima_verificacion:
-estatus: estable
+
+estatus: experimental
+
 publicar: false
+
 notas: ""

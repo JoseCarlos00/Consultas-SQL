@@ -1,13 +1,13 @@
-id: comparativo_tul-mar_2
-nombre:
+id: reabastos
+nombre: 
 descripcion:
 proposito:
-database: sql-serve
+database: sql-server
 tablas: []
 parametros: []
 tags: []
 alias: []
 ultima_verificacion:
-estatus: experimental
+estatus: estable
 publicar: false
 notas: ""

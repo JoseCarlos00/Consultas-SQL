@@ -1,25 +1,13 @@
-id: huellas_tarimas_1_2_3_cajas_2
-
-nombre: 
-
+id: comparativo_tul-mar
+nombre:
 descripcion:
-
 proposito:
-
-database: sql-server
-
+database: sql-serve
 tablas: []
-
 parametros: []
-
 tags: []
-
 alias: []
-
 ultima_verificacion:
-
 estatus: experimental
-
 publicar: false
-
 notas: ""
