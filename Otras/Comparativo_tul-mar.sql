@@ -20,7 +20,7 @@ CASE
         NULL
 END AS LOCATION
 
--- Buesqueda de localizaciones en MAriano
+-- Busqueda de localizaciones en Mariano
 FROM 
 (
   SELECT

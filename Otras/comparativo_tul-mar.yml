@@ -1,25 +1,13 @@
 id: comparativo_tul-mar
-
-nombre: 
-
+nombre:
 descripcion:
-
 proposito:
-
-database: sql-server
-
+database: sql-serve
 tablas: []
-
 parametros: []
-
 tags: []
-
 alias: []
-
 ultima_verificacion:
-
 estatus: experimental
-
 publicar: false
-
 notas: ""

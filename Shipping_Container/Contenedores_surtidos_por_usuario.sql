@@ -49,14 +49,7 @@ WHERE TH.warehouse = 'Mariano'
 
 
 GROUP BY
-    TH.internal_id,
-    TH.activity_date_time,
-    TH.location,
-    TH.quantity,
-    TH.item,
-    TH.user_name,
-    TH.work_unit,
-    SD.shipment_id
+    TH.internal_id, TH.activity_date_time, TH.location, TH.quantity, TH.item, TH.user_name, TH.work_unit, SD.shipment_id
 
 ORDER BY
     TH.internal_id;
