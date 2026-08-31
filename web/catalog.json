@@ -1373,7 +1373,7 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-31",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_modificacion": "2026-08-31",
       "notas": "Por defecto la consulta revisa los últimos 7 días mediante DATEADD(DAY, -7, GETDATE()), pero el valor puede modificarse según el periodo que se necesite revisar. Se consideran únicamente contenedores cerrados de Tultitlán (status 900) pertenecientes a pedidos de tipo TR-TUL-ME cuyo receipt_id comienza con E-. Los contenedores cerrados pueden tener el sufijo P, el cual se elimina antes de compararlos contra receipt_container. En Mariano se considera recibido cuando existe un registro con receipt_id LIKE 'TR_E-%' y parent = 0. La comprobación se realiza a nivel de contenedor mediante NOT EXISTS para evitar duplicados.",
       "categoria": "Receipt",
       "ruta": "Receipt/contenedores_sin_recibo_mariano.sql"
@@ -1576,10 +1576,10 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-26",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_modificacion": null,
       "notas": "La consulta utiliza transaction_history con transaction_type = 130 y direction = From para identificar confirmaciones de surtido. Se excluyen las zonas de Pick and Drop y los registros de shipment_detail con status1 = 999. La relación con shipping_container se realiza mediante la línea interna del pedido y la cantidad confirmada, por lo que la asociación de contenedores es aproximada y puede no representar una relación exacta en todos los casos.",
       "categoria": "Shipping_Container",
-      "ruta": "Shipping_Container/Contenedores_surtidos_por_usuario.sql"
+      "ruta": "Shipping_Container/contenedores_surtidos_por_usuario.sql"
     },
     {
       "id": "tareas_surtidas_por_bodega",
