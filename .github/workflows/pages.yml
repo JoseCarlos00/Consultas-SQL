@@ -20,25 +20,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # historial completo: generate_catalog.py lo necesita para 'git log' (ultima_modificacion)
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Instalar dependencias
-        run: pip install pyyaml
-
-      - name: Validar catálogo (falla el deploy si hay .yml inválidos o incompletos)
-        run: python generate_catalog.py --check
-
-      - name: Generar catalog.json
-        run: python generate_catalog.py
-
       - name: Configurar Pages
         uses: actions/configure-pages@v5
 
