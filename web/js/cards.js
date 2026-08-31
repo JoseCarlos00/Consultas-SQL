@@ -76,10 +76,6 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
         <div class="card-meta-row"></div>
 
         <div class="card-footer">
-            <span class="card-tags">
-                ${(q.tags || []).slice(0, 3).map(escapeHtml).join(' · ')}
-            </span>
-
             <span class="card-verified">
                 ${q.ultima_verificacion ? 'ver. ' + q.ultima_verificacion : 'sin verificar'}
                 ${stale ? ' <span class="stale-flag">⚠</span>' : ''}
@@ -115,12 +111,10 @@ function createCard(q, favorited, { showToast, onOpenDetail, onToggleFavorite })
 
 	const btnViewSql = createActionButton('Ver SQL', (e) => {
 		e.stopPropagation();
-		openSqlModal(q);
+		openSqlModal(q, showToast);
 	});
 
 	metaRow.append(btnCopySql, btnCopyHeader, btnViewSql);
-
-	// const panelActionButtons = 
 
 	card.addEventListener('click', () => {
 		onOpenDetail(q.id);

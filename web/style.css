@@ -582,6 +582,12 @@ body {
   font-size: 14px;
 }
 
+.overlay-close {
+  border: none;
+  right: 0;
+  top: 0;
+}
+
 .detail-tab {
   font-family: var(--font-mono);
   font-size: 11px;

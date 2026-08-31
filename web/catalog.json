@@ -1361,10 +1361,18 @@
         "contenedores Tultitlan sin recibo",
         "picos sin recibo"
       ],
-      "headers": [],
+      "headers": [
+        "PARENT_CONTAINER_ID",
+        "ITEM",
+        "QUANTITY",
+        "LOC_PERMANENT",
+        "CONTAINER",
+        "DATE_STAMP",
+        "SHIPMENT_ID"
+      ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-26",
+      "ultima_verificacion": "2026-08-31",
       "ultima_modificacion": "2026-08-26",
       "notas": "Por defecto la consulta revisa los últimos 7 días mediante DATEADD(DAY, -7, GETDATE()), pero el valor puede modificarse según el periodo que se necesite revisar. Se consideran únicamente contenedores cerrados de Tultitlán (status 900) pertenecientes a pedidos de tipo TR-TUL-ME cuyo receipt_id comienza con E-. Los contenedores cerrados pueden tener el sufijo P, el cual se elimina antes de compararlos contra receipt_container. En Mariano se considera recibido cuando existe un registro con receipt_id LIKE 'TR_E-%' y parent = 0. La comprobación se realiza a nivel de contenedor mediante NOT EXISTS para evitar duplicados.",
       "categoria": "Receipt",

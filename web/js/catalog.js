@@ -5,7 +5,9 @@ export async function loadCatalog() {
   if (!res.ok) throw new Error('No se pudo cargar catalog.json');
 
   state.catalog = await res.json();
-  state.all = state.catalog.consultas || [];
+  state.all = (state.catalog.consultas || []).sort((a, b) =>
+		a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }),
+	);
   state.repo = state.catalog.repo || state.repo;
   state.branch = state.catalog.branch || state.branch;
 
