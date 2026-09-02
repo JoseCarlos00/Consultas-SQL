@@ -26,8 +26,7 @@ FROM (
 
   WHERE LI.warehouse='Mariano'
     AND L.location LIKE '3%'
-
-    LI.COMPANY = 'FM'
+    AND LI.COMPANY = 'FM'
   
   GROUP BY LI.LOCATION, LI.ITEM, LI.ITEM_DESC, LI.COMPANY, LI.ON_HAND_QTY, LI.internal_location_inv, UOM.conversion_qty, LI.logistics_Unit
 
