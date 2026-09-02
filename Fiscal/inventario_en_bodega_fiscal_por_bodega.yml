@@ -1,6 +1,6 @@
-id: articulos_en_fiscal_por_bodega
+id: inventario_en_bodega_fiscal_por_bodega
 
-nombre: Artículos en Fiscal por Bodega
+nombre: Inventario en Bodega Fiscal por Bodega
 
 descripcion: Lista los artículos que tienen inventario en las ubicaciones del tercer piso del almacén, denominado Fiscal, mostrando su ubicación, inventario disponible en piezas y equivalencia en cajas, y relacionándolos con una bodega o zona de picking seleccionada.
 

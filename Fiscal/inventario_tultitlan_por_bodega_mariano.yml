@@ -1,0 +1,25 @@
+id: inventario_tultitlan_por_bodega_mariano
+
+nombre: Inventario de Tultitlán por Bodega de Mariano
+
+descripcion: Muestra el inventario disponible en Tultitlán de los artículos asociados a una bodega específica de Mariano, mostrando las piezas en existencia y su equivalente en cajas.
+
+proposito: Consultar el inventario existente en Producto Terminado y PICOS de Tultitlán para los artículos que pertenecen a una WORK_ZONE seleccionada en Mariano.
+
+database: sql-server
+
+tablas: [location_inventory, location, item_unit_of_measure]
+
+parametros: [work_zone]
+
+tags: [inventario, Tultitlan, Mariano, producto-terminado, PICOS, bodega, Reporte]
+
+alias: [inventario Tultitlan por bodega, inventario de bodega en Tultitlan, existencias Tultitlan, inventario PT y PICOS]
+
+ultima_verificacion: 2026-09-02
+
+estatus: estable
+
+publicar: true
+
+notas: "El parámetro WORK_ZONE corresponde a la bodega de Mariano utilizada para identificar los artículos relacionados. En Tultitlán solo se considera inventario de clase Inventory, excluyendo ubicaciones de tipo Piso y limitado a las zonas W-Tul Producto Terminado y W-Tul Picos."
