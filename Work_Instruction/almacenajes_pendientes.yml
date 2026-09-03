@@ -1,4 +1,4 @@
-id: almacenajes_pendientes
+-id: almacenajes_pendientes
 
 nombre: Almacenajes Pendientes
 
@@ -16,7 +16,7 @@ tags: [almacenaje, pendientes, trabajos-activos, recibos, Mariano, Reporte]
 
 alias: [almacenaje pendiente, almacenajes pendientes, trabajos de almacenaje, pendientes de almacenaje]
 
-ultima_verificacion: 2026-08-18
+ultima_verificacion: 2026-09-02
 
 estatus: estable
 
