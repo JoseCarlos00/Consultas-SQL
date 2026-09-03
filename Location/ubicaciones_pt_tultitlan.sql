@@ -9,4 +9,4 @@ WHERE warehouse='Tultitlan' AND work_zone = 'W-Tul Producto Terminado'
  
 ORDER BY location
 
--- @header: Warehouse, Location, Status, Work_zone
+-- @headers: Warehouse, Location, Status, Work_zone
