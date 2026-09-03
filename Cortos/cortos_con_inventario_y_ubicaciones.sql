@@ -4,7 +4,7 @@ SELECT
     RESULTADO.DESCRIPTION,
     CAST(RESULTADO.RECHAZADA AS INT) AS RECHAZADA,
     CAST(RESULTADO.DISP AS INT) AS DISP,
-    LOCATIONS,
+    RESULTADO.LOCATIONS,
 
     CASE
         WHEN RESULTADO.WORK_ZONE IN (
@@ -40,7 +40,20 @@ SELECT
         THEN '2'
 
         ELSE ''
-    END AS PISO
+    END AS PISO,
+
+    CASE
+        WHEN RESULTADO.PERMANENT = 'Y' 
+            AND RESULTADO.RECHAZADA > RESULTADO.AV
+            THEN 'X'
+
+        WHEN RESULTADO.PERMANENT = 'Y'
+            AND RESULTADO.RECHAZADA <= RESULTADO.AV
+            THEN 'OK'
+
+        ELSE ''
+    END AS VALIDACION
+
 
 FROM (
    
@@ -50,6 +63,8 @@ FROM (
         CORTOS.RECHAZADA,
         DISPONIBLE.DISP,
         PRIORIDAD.WORK_ZONE,
+        PRIORIDAD.PERMANENT,
+        PRIORIDAD.AV,
         DISPONIBLE.LOCATIONS
 
     FROM (
@@ -138,14 +153,16 @@ FROM (
         SELECT
             ITEM,
             WORK_ZONE,
-            IT
+            PERMANENT,
+            AV
 
         FROM (
 
             SELECT
                 LI.ITEM,
                 L.WORK_ZONE,
-                LI.IN_TRANSIT_QTY AS IT,
+                LI.PERMANENT,
+                (LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY) - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY) AS AV,
 
                 ROW_NUMBER() OVER (
                     PARTITION BY LI.ITEM
