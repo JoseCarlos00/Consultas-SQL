@@ -77,14 +77,20 @@ FROM (
 
       SELECT 
           ITEM,
-          DISP,
+          SUM(DISP) AS DISP,
           
-          STRING_AGG(INV. LOCATION, ' | ')
-              WITHIN GROUP (ORDER BY INV.LOCATION) AS LOCATIONS
+          STRING_AGG(
+            CASE 
+                WHEN PERMANENT <> 'Y' THEN LOCATION
+            END,
+            ' | '
+        ) WITHIN GROUP (ORDER BY LOCATION) AS LOCATIONS
+
       FROM (
           SELECT
           LI.ITEM,
           LI.LOCATION,
+          LI.PERMANENT,
           SUM(
               (LI.ON_HAND_QTY + LI.IN_TRANSIT_QTY)
               - (LI.ALLOCATED_QTY + LI.SUSPENSE_QTY)
@@ -111,7 +117,7 @@ FROM (
 
 
           GROUP BY
-              LI.ITEM, LI.location
+              LI.ITEM, LI.LOCATION, LI.PERMANENT
 
           HAVING
           SUM(
@@ -121,7 +127,7 @@ FROM (
 
       ) AS INV
 
-      GROUP BY ITEM, DISP
+      GROUP BY ITEM
 
     ) AS DISPONIBLE
         ON DISPONIBLE.ITEM = CORTOS.ITEM
