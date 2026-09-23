@@ -83,7 +83,7 @@ FROM
 
             CAST(
                 SUM(LI.ON_HAND_QTY) / UOM.conversion_qty
-                AS DECIMAL(5,2)
+                AS DECIMAL(10,2)
             ) AS CAJAS,
 
             LI.internal_location_inv,
