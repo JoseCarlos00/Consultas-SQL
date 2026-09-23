@@ -1,14 +1,14 @@
 id: check-in
 
-nombre: 
+nombre: Check In
 
-descripcion:
+descripcion: Test
 
 proposito:
 
 database: sql-server
 
-tablas: []
+tablas: ["test"]
 
 parametros: []
 
@@ -18,8 +18,8 @@ alias: []
 
 ultima_verificacion:
 
-estatus: estable
+estatus: experimental
 
-publicar: false
+publicar: true
 
 notas: ""

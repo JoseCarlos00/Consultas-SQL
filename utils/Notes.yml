@@ -1,14 +1,14 @@
 id: Notes
 
-nombre: 
+nombre: Notes sql
 
-descripcion:
+descripcion: Test
 
 proposito:
 
 database: sql-server
 
-tablas: []
+tablas: ["test"]
 
 parametros: []
 
@@ -18,8 +18,8 @@ alias: []
 
 ultima_verificacion:
 
-estatus: estable
+estatus: experimental
 
-publicar: false
+publicar: true
 
 notas: ""
