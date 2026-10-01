@@ -1,0 +1,25 @@
+id: faltante_inventario_emp_01
+
+nombre: Faltante de Inventario en EMP-01
+
+descripcion: Compara la cantidad de artículos contenida en shipping containers con estatus 401 o 600 contra el inventario físico registrado en la ubicación EMP-01 de Mariano, mostrando los artículos cuya existencia es insuficiente o inexistente.
+
+proposito: Detectar diferencias entre la cantidad pendiente en shipping containers y el inventario disponible en EMP-01.
+
+database: sql-server
+
+tablas: [shipping_container, location_inventory]
+
+parametros: []
+
+tags: [rutina, runtime, inventario, faltantes, shipping-container, EMP-01, Mariano]
+
+alias: [faltante EMP-01, faltantes de inventario EMP-01, inventario faltante, diferencias EMP-01]
+
+ultima_verificacion: 2026-10-01
+
+estatus: estable
+
+publicar: true
+
+notas: "Agrupa la cantidad de shipping containers de Mariano con status 401 o 600 y container_id NULL por artículo. La comparación se realiza contra ON_HAND_QTY de EMP-01. Se reportan artículos sin registro de inventario en EMP-01 o cuya existencia es menor que la cantidad indicada en los shipping containers."
