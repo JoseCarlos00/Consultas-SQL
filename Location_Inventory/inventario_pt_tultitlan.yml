@@ -1,0 +1,25 @@
+id: inventario_pt_tultitlan
+
+nombre: Inventario de Producto Terminado Tultitlán
+
+descripcion: Muestra el inventario disponible de los artículos ubicados en el área de Producto Terminado de Tultitlán, agrupado por artículo, descripción, compañía y grupo (item_category4).
+
+proposito: Consultar el inventario disponible de Producto Terminado en Tultitlán para revisar las existencias por artículo y su grupo.
+
+database: sql-server
+
+tablas: [location_inventory, location, item]
+
+parametros: []
+
+tags: [inventario, producto-terminado, PT, Tultitlan, Reporte]
+
+alias: [inventario PT, inventario producto terminado, inventario PT Tultitlan, existencias PT Tultitlan]
+
+ultima_verificacion: 2026-10-01
+
+estatus: estable
+
+publicar: true
+
+notas: "Considera únicamente ubicaciones de W-Tul Producto Terminado de Tultitlán, excluyendo las de clase Shipping Dock, las de tipo Piso y las ubicaciones cuyo nombre comienza con AMZ. También excluye la compañía AMD. AV se calcula como (ON_HAND_QTY + IN_TRANSIT_QTY) - (ALLOCATED_QTY + SUSPENSE_QTY). El grupo corresponde a ITEM_CATEGORY4 de artículos de compañía FM que no son Bulk."
