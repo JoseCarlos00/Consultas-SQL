@@ -2,7 +2,7 @@
   "generado": true,
   "repo": "JoseCarlos00/Consultas-SQL",
   "branch": "main",
-  "total": 44,
+  "total": 49,
   "consultas": [
     {
       "id": "capacidades_permanentes",
@@ -306,12 +306,12 @@
         "RECHAZADA",
         "DISP",
         "LOCATIONS",
-        "PISO"
+        "ZONA"
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-26",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-09-23",
+      "ultima_modificacion": "2026-09-02",
       "notas": "La cantidad RECHAZADA se obtiene sumando TOTAL_QTY de los detalles de pedido con STATUS1 = 100 y ALLOCATION_REJECTED_QTY > 0. DISP representa el inventario disponible y se calcula como (ON_HAND_QTY + IN_TRANSIT_QTY) - (ALLOCATED_QTY + SUSPENSE_QTY), considerando únicamente ubicaciones de clase Inventory y excluyendo MERMA-00, MERMA-01, MERMA-02, MERMA-03 e INTERNET-01. LOCATIONS muestra las ubicaciones que tienen disponibilidad mayor a cero. La BODEGA corresponde a la WORK_ZONE de la ubicación prioritaria del artículo, determinada mediante ROW_NUMBER(), dando prioridad a ubicaciones PERMANENT = 'Y' y posteriormente a las zonas de bodega y No Banda. PISO clasifica las WORK_ZONE de Mariano en Piso 1 o Piso 2.",
       "categoria": "Cortos",
       "ruta": "Cortos/cortos_con_inventario_y_ubicaciones.sql"
@@ -346,7 +346,7 @@
       ],
       "headers": [
         "BODEGA",
-        "ARTICULO",
+        "ITEM",
         "DESCRIPTION",
         "RECHAZADA",
         "DISP",
@@ -355,15 +355,15 @@
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-25",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-09-25",
+      "ultima_modificacion": "2026-09-25",
       "notas": "RECHAZADA se obtiene sumando TOTAL_QTY de las líneas con STATUS1 = 100 y ALLOCATION_REJECTED_QTY mayor a cero. DISP corresponde al inventario disponible calculado como (ON_HAND_QTY + IN_TRANSIT_QTY) - (ALLOCATED_QTY + SUSPENSE_QTY), considerando ubicaciones de clase Inventory y mostrando únicamente artículos cuyo total disponible es mayor a cero. La bodega corresponde a la WORK_ZONE de la ubicación prioritaria del artículo. La prioridad se determina mediante ROW_NUMBER(), dando preferencia a ubicaciones con PERMANENT = 'Y', después a ubicaciones de bodegas W-Mar o W-Mar No Banda, y posteriormente a otras ubicaciones con WORK_ZONE. IT corresponde al IN_TRANSIT_QTY de la ubicación prioritaria. PISO se determina a partir de la WORK_ZONE.",
       "categoria": "Cortos",
       "ruta": "Cortos/cortos_por_bodega.sql"
     },
     {
-      "id": "articulos_en_fiscal_por_bodega",
-      "nombre": "Artículos en Fiscal por Bodega",
+      "id": "inventario_en_bodega_fiscal_por_bodega",
+      "nombre": "Inventario en Bodega Fiscal por Bodega",
       "descripcion": "Lista los artículos que tienen inventario en las ubicaciones del tercer piso del almacén, denominado Fiscal, mostrando su ubicación, inventario disponible en piezas y equivalencia en cajas, y relacionándolos con una bodega o zona de picking seleccionada.",
       "proposito": "Identificar qué artículos de una bodega o zona determinada también tienen inventario ubicado en Fiscal, para consultar y comparar el inventario existente en el tercer piso del almacén.",
       "database": "sql-server",
@@ -412,11 +412,55 @@
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-26",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-09-23",
+      "ultima_modificacion": "2026-09-23",
       "notas": "Fiscal corresponde al tercer piso del almacén y se identifica mediante ubicaciones cuyo código comienza con 3. La consulta toma los artículos que existen en la zona de trabajo indicada y busca sus registros de inventario en Fiscal. El filtro de compañía normalmente se utiliza con FM, pero puede comentarse para consultar otras compañías.",
       "categoria": "Fiscal",
-      "ruta": "Fiscal/articulos_en_fiscal_por_bodega.sql"
+      "ruta": "Fiscal/inventario_en_bodega_fiscal_por_bodega.sql"
+    },
+    {
+      "id": "inventario_tultitlan_por_bodega_mariano",
+      "nombre": "Inventario de Tultitlán por Bodega de Mariano",
+      "descripcion": "Muestra el inventario disponible en Tultitlán de los artículos asociados a una bodega específica de Mariano, mostrando las piezas en existencia y su equivalente en cajas.",
+      "proposito": "Consultar el inventario existente en Producto Terminado y PICOS de Tultitlán para los artículos que pertenecen a una WORK_ZONE seleccionada en Mariano.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "location",
+        "item_unit_of_measure"
+      ],
+      "parametros": [
+        "work_zone"
+      ],
+      "tags": [
+        "inventario",
+        "Tultitlan",
+        "Mariano",
+        "producto-terminado",
+        "PICOS",
+        "bodega",
+        "Reporte"
+      ],
+      "alias": [
+        "inventario Tultitlan por bodega",
+        "inventario de bodega en Tultitlan",
+        "existencias Tultitlan",
+        "inventario PT y PICOS"
+      ],
+      "headers": [
+        "ITEM",
+        "ITEM_DESC",
+        "COMPANY",
+        "OH",
+        "CAJAS"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-09-02",
+      "ultima_modificacion": "2026-09-02",
+      "notas": "El parámetro WORK_ZONE corresponde a la bodega de Mariano utilizada para identificar los artículos relacionados. En Tultitlán solo se considera inventario de clase Inventory, excluyendo ubicaciones de tipo Piso y limitado a las zonas W-Tul Producto Terminado y W-Tul Picos.",
+      "categoria": "Fiscal",
+      "ruta": "Fiscal/inventario_tultitlan_por_bodega_mariano.sql"
     },
     {
       "id": "saldo_cajas_fiscal_bf",
@@ -684,10 +728,10 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-25",
-      "ultima_modificacion": "2026-08-28",
+      "ultima_modificacion": "2026-08-31",
       "notas": "Consulta utilizada para revisar las dimensiones registradas en item_unit_of_measure de artículos de categoría BANDA. Se evalúan las unidades PZ y CJ contra los límites físicos de la banda: largo máximo 70, ancho máximo 58 y altura máxima 69. El filtro final muestra artículos donde al menos una de las presentaciones disponibles no cumple las dimensiones requeridas. El bloque de inventario disponible utiliza AV = ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY y considera únicamente ubicaciones de clase Inventory.",
       "categoria": "Item_Unit_of_Measure",
-      "ruta": "Item_Unit_of_Measure/validacion_dimensiones_banda.SQL"
+      "ruta": "Item_Unit_of_Measure/validacion_dimensiones_banda.sql"
     },
     {
       "id": "auditoria_configuracion_ubicaciones",
@@ -824,11 +868,16 @@
         "ubicaciones producto terminado",
         "PT Tultitlan"
       ],
-      "headers": [],
+      "headers": [
+        "Warehouse",
+        "Location",
+        "Status",
+        "Work_zone"
+      ],
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-25",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_modificacion": "2026-09-03",
       "notas": "La consulta considera ubicaciones de W-Tul Producto Terminado, excluyendo las de clase Shipping Dock, las de tipo Piso y las ubicaciones cuyo nombre comienza con AMZ. Los resultados se ordenan por ubicación.",
       "categoria": "Location",
       "ruta": "Location/ubicaciones_pt_tultitlan.sql"
@@ -1027,6 +1076,46 @@
       "ruta": "Location_Inventory/consulta_inventario_personalizada.sql"
     },
     {
+      "id": "inventario_pt_tultitlan",
+      "nombre": "Inventario de Producto Terminado Tultitlán",
+      "descripcion": "Muestra el inventario disponible de los artículos ubicados en el área de Producto Terminado de Tultitlán, agrupado por artículo, descripción, compañía y grupo (item_category4).",
+      "proposito": "Consultar el inventario disponible de Producto Terminado en Tultitlán para revisar las existencias por artículo y su grupo.",
+      "database": "sql-server",
+      "tablas": [
+        "location_inventory",
+        "location",
+        "item"
+      ],
+      "parametros": [],
+      "tags": [
+        "inventario",
+        "producto-terminado",
+        "PT",
+        "Tultitlan",
+        "Reporte"
+      ],
+      "alias": [
+        "inventario PT",
+        "inventario producto terminado",
+        "inventario PT Tultitlan",
+        "existencias PT Tultitlan"
+      ],
+      "headers": [
+        "ITEM",
+        "DESCRIPTION",
+        "COMPANY",
+        "AV",
+        "GRUPO"
+      ],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-10-01",
+      "ultima_modificacion": "2026-10-01",
+      "notas": "Considera únicamente ubicaciones de W-Tul Producto Terminado de Tultitlán, excluyendo las de clase Shipping Dock, las de tipo Piso y las ubicaciones cuyo nombre comienza con AMZ. También excluye la compañía AMD. AV se calcula como (ON_HAND_QTY + IN_TRANSIT_QTY) - (ALLOCATED_QTY + SUSPENSE_QTY). El grupo corresponde a ITEM_CATEGORY4 de artículos de compañía FM que no son Bulk.",
+      "categoria": "Location_Inventory",
+      "ruta": "Location_Inventory/inventario_pt_tultitlan.sql"
+    },
+    {
       "id": "inventario_ubicaciones_almacenaje",
       "nombre": "Inventario de almacenaje",
       "descripcion": "Lista el inventario con existencia en ubicaciones Almacenaje del almacén Mariano, mostrando la ubicación, artículo, existencias en piezas y cajas, bodega, ubicación de picking y piso.",
@@ -1057,8 +1146,8 @@
       "headers": [],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-09-23",
+      "ultima_modificacion": "2026-09-23",
       "notas": "Solo considera ubicaciones que comienzan con ALMACENAJE y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
       "categoria": "Location_Inventory",
       "ruta": "Location_Inventory/inventario_ubicaciones_almacenaje.sql"
@@ -1093,8 +1182,8 @@
       "headers": [],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-09-23",
+      "ultima_modificacion": "2026-09-23",
       "notas": "Solo considera ubicaciones cuyo nombre comienza con HOT y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2 y se presenta con dos decimales. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
       "categoria": "Location_Inventory",
       "ruta": "Location_Inventory/inventario_ubicaciones_HOT.sql"
@@ -1129,8 +1218,8 @@
       "headers": [],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-09-23",
+      "ultima_modificacion": "2026-09-23",
       "notas": "Solo considera ubicaciones cuyo nombre comienza con PICOS y tienen ON_HAND_QTY mayor a cero. CAJAS se calcula usando UOM sequence 2 y se presenta con dos decimales. WORK_ZONE y ZONA se obtienen a partir de la zona prioritaria asociada al artículo.",
       "categoria": "Location_Inventory",
       "ruta": "Location_Inventory/inventario_ubicaciones_PICOS.sql"
@@ -1169,11 +1258,24 @@
         "consulta personalizada de inventario",
         "utilidad de inventario"
       ],
-      "headers": [],
+      "headers": [
+        "WORK_ZONE",
+        "LOCATION",
+        "ITEM",
+        "DESCRIPTION",
+        "COMPANY",
+        "AV",
+        "OH",
+        "AL",
+        "IT",
+        "SU",
+        "CAJAS",
+        "LICENSE_PLATE"
+      ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-10-01",
+      "ultima_modificacion": "2026-10-01",
       "notas": "Consulta base para realizar búsquedas y modificaciones personalizadas sobre inventario. Agrupa la información por WORK_ZONE, LOCATION, ITEM y COMPANY, consolidando AV, OH, AL, IT y SU. AV se calcula como ON_HAND_QTY + IN_TRANSIT_QTY - ALLOCATED_QTY - SUSPENSE_QTY. CAJAS se calcula utilizando UOM sequence 2. Si existen varias license plates para una misma combinación de ubicación y artículo, se muestra 'Multiple'; si existe una sola, se muestra su valor. W-Mar Bodega 2 se utiliza como límite de seguridad durante las pruebas para evitar obtener demasiados resultados y puede sustituirse por otra WORK_ZONE. También pueden agregarse filtros adicionales sobre ubicación o artículo según la necesidad de la consulta.",
       "categoria": "Location_Inventory",
       "ruta": "Location_Inventory/inventory_agrupado.sql"
@@ -1444,6 +1546,41 @@
       "ruta": "Rutime/desactivar_ubicaciones_vacias_activas.sql"
     },
     {
+      "id": "faltante_inventario_emp_01",
+      "nombre": "Faltante de Inventario en EMP-01",
+      "descripcion": "Compara la cantidad de artículos contenida en shipping containers con estatus 401 o 600 contra el inventario físico registrado en la ubicación EMP-01 de Mariano, mostrando los artículos cuya existencia es insuficiente o inexistente.",
+      "proposito": "Detectar diferencias entre la cantidad pendiente en shipping containers y el inventario disponible en EMP-01.",
+      "database": "sql-server",
+      "tablas": [
+        "shipping_container",
+        "location_inventory"
+      ],
+      "parametros": [],
+      "tags": [
+        "rutina",
+        "runtime",
+        "inventario",
+        "faltantes",
+        "shipping-container",
+        "EMP-01",
+        "Mariano"
+      ],
+      "alias": [
+        "faltante EMP-01",
+        "faltantes de inventario EMP-01",
+        "inventario faltante",
+        "diferencias EMP-01"
+      ],
+      "headers": [],
+      "estatus": "estable",
+      "publicar": true,
+      "ultima_verificacion": "2026-10-01",
+      "ultima_modificacion": "2026-10-01",
+      "notas": "Agrupa la cantidad de shipping containers de Mariano con status 401 o 600 y container_id NULL por artículo. La comparación se realiza contra ON_HAND_QTY de EMP-01. Se reportan artículos sin registro de inventario en EMP-01 o cuya existencia es menor que la cantidad indicada en los shipping containers.",
+      "categoria": "Rutime",
+      "ruta": "Rutime/faltante_inventario_emp_01.sql"
+    },
+    {
       "id": "revisar_contenedores_con_status_diferente",
       "nombre": "Revisar Contenedores de Surtido con Status Diferente",
       "descripcion": "Consulta el estado de las líneas de pedido y sus contenedores relacionados.",
@@ -1487,7 +1624,7 @@
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-26",
+      "ultima_verificacion": "2026-10-29",
       "ultima_modificacion": "2026-08-26",
       "notas": "Las consultas de uso más frecuente utilizan SD.status1 = 600 combinado con SC.status = 401 o SC.status = 650. La primera variante permite revisar contenedores en status 401 y la segunda contenedores en status 650. Se pueden consultar los identificadores internos de las líneas, el pedido, estados, artículo, cantidades y datos del contenedor.",
       "categoria": "Rutime",
@@ -1525,8 +1662,8 @@
       "headers": [],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-26",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-09-23",
+      "ultima_modificacion": "2026-09-23",
       "notas": "La consulta considera únicamente líneas de pedido con STATUS1 = 100 y almacén Mariano. El parámetro item permite consultar un artículo específico y shipment_id identifica el pedido. TOTAL representa la cantidad solicitada y CAJAS su equivalente calculado a partir de la huella.",
       "categoria": "Shipment_Detail",
       "ruta": "Shipment_Detail/cantidad_solicitada_por_articulo.sql"
@@ -1576,7 +1713,7 @@
       "estatus": "estable",
       "publicar": true,
       "ultima_verificacion": "2026-08-26",
-      "ultima_modificacion": null,
+      "ultima_modificacion": "2026-08-31",
       "notas": "La consulta utiliza transaction_history con transaction_type = 130 y direction = From para identificar confirmaciones de surtido. Se excluyen las zonas de Pick and Drop y los registros de shipment_detail con status1 = 999. La relación con shipping_container se realiza mediante la línea interna del pedido y la cantidad confirmada, por lo que la asociación de contenedores es aproximada y puede no representar una relación exacta en todos los casos.",
       "categoria": "Shipping_Container",
       "ruta": "Shipping_Container/contenedores_surtidos_por_usuario.sql"
@@ -1739,14 +1876,14 @@
         "AL",
         "IT",
         "SU",
-        "HUELLA",
+        "HUELLA_CJ",
         "CAJAS",
         "GRUPO"
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-27",
-      "ultima_modificacion": "2026-08-27",
+      "ultima_verificacion": "2026-09-25",
+      "ultima_modificacion": "2026-09-25",
       "notas": "Solo se muestran artículos cuya cantidad física no forma un número entero de cajas, mediante CAJAS <> ROUND(CAJAS, 0).",
       "categoria": "Tulti",
       "ruta": "Tulti/inventario_picos_incompleto_PT.sql"
@@ -1830,6 +1967,48 @@
       "ruta": "Utils/cancelar_inventario.sql"
     },
     {
+      "id": "check-in",
+      "nombre": "Check In",
+      "descripcion": "Test",
+      "proposito": null,
+      "database": "sql-server",
+      "tablas": [
+        "test"
+      ],
+      "parametros": [],
+      "tags": [],
+      "alias": [],
+      "headers": [],
+      "estatus": "experimental",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": null,
+      "notas": "",
+      "categoria": "Utils",
+      "ruta": "Utils/check-in.sql"
+    },
+    {
+      "id": "Notes",
+      "nombre": "Notes sql",
+      "descripcion": "Test",
+      "proposito": null,
+      "database": "sql-server",
+      "tablas": [
+        "test"
+      ],
+      "parametros": [],
+      "tags": [],
+      "alias": [],
+      "headers": [],
+      "estatus": "experimental",
+      "publicar": true,
+      "ultima_verificacion": null,
+      "ultima_modificacion": null,
+      "notas": "",
+      "categoria": "Utils",
+      "ruta": "Utils/Notes.sql"
+    },
+    {
       "id": "almacenajes_pendientes",
       "nombre": "Almacenajes Pendientes",
       "descripcion": "Lista los trabajos activos de tipo Almacenaje en Mariano, mostrando las piezas pendientes de depositar, su equivalente en cajas, la zona, compañía y tipo de recibo. La zona se determina a partir de la ubicación prioritaria del artículo.",
@@ -1869,8 +2048,8 @@
       ],
       "estatus": "estable",
       "publicar": true,
-      "ultima_verificacion": "2026-08-18",
-      "ultima_modificacion": "2026-08-26",
+      "ultima_verificacion": "2026-10-08",
+      "ultima_modificacion": "2026-10-08",
       "notas": "FROM_QTY representa trabajo aún no confirmado y TO_QTY trabajo confirmado pendiente de depósito; ambos se suman para obtener la cantidad total del trabajo. UOM sequence 2 corresponde a cajas. La zona se obtiene de la ubicación prioritaria del artículo y se clasifica en Piso 1 o Piso 2.",
       "categoria": "Work_Instruction",
       "ruta": "Work_Instruction/almacenajes_pendientes.sql"
