@@ -28,35 +28,51 @@ FROM (
           ELSE ''
       END
     ) AS CAPACIDAD,
-    CASE WHEN 
-      (LI.ON_HAND_QTY / (UOM.HUELLA_CJ * ILC.MAXIMUM_QTY)) * 100 IS NOT NULL 
-      OR 
-      (LI.ON_HAND_QTY / UOM.CAPACIDAD_TOTAL) * 100 IS NOT NULL
-    THEN
-      CONCAT(
-      CAST(
-          CASE 
+
+    CASE 
+      WHEN UOM.CAPACIDAD_TYPE = 'CJ' THEN 
+          CONCAT(
+              CAST(
+                  (
+                      LI.ON_HAND_QTY / 
+                      NULLIF(UOM.HUELLA_CJ * ILC.MAXIMUM_QTY, 0)
+                  ) * 100 AS DECIMAL(10, 2)
+              ),
+              ' %'
+          )
+
+      WHEN UOM.CAPACIDAD_TYPE = 'PZ' THEN 
+          CONCAT(
+              CAST(
+                  (
+                      LI.ON_HAND_QTY / 
+                      NULLIF(UOM.CAPACIDAD_TOTAL, 0)
+                  ) * 100 AS DECIMAL(10, 2)
+              ),
+              ' %'
+          )
+
+      ELSE NULL
+    END AS PORCENTAJE,
+
+    CAST(
+        CASE 
             WHEN UOM.CAPACIDAD_TYPE = 'CJ' THEN 
-              (LI.ON_HAND_QTY / (UOM.HUELLA_CJ * ILC.MAXIMUM_QTY)) * 100
+                (
+                    LI.ON_HAND_QTY / 
+                    NULLIF(UOM.HUELLA_CJ * ILC.MAXIMUM_QTY, 0)
+                ) * 100
+
             WHEN UOM.CAPACIDAD_TYPE = 'PZ' THEN 
-              (LI.ON_HAND_QTY / UOM.CAPACIDAD_TOTAL) * 100
-            ELSE 
-              NULL
-          END 
-          AS DECIMAL(10, 2)
-        ), 
-        ' %'
-      ) ELSE NULL END AS PORCENTAJE,
-      CAST(
-          CASE 
-            WHEN UOM.CAPACIDAD_TYPE = 'CJ' THEN 
-              (LI.ON_HAND_QTY / (UOM.HUELLA_CJ * ILC.MAXIMUM_QTY)) * 100
-            WHEN UOM.CAPACIDAD_TYPE = 'PZ' THEN 
-              (LI.ON_HAND_QTY / UOM.CAPACIDAD_TOTAL) * 100
-            ELSE 
-              NULL
-          END 
-          AS DECIMAL(10, 2)) AS PORCENTAJE_NUMERIC,
+                (
+                    LI.ON_HAND_QTY / 
+                    NULLIF(UOM.CAPACIDAD_TOTAL, 0)
+                ) * 100
+
+            ELSE NULL
+        END 
+    AS DECIMAL(10, 2)) AS PORCENTAJE_NUMERIC,
+
       CAST(DISP.DISPONIBLE AS INT) AS INV_DISPONIBLE
 
   FROM location_inventory LI
