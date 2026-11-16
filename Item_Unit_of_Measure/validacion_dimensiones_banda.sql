@@ -1,11 +1,11 @@
 SELECT 
   ITEM,
   DESCRIPTION,
-  DIMENSIONES_PZ,
+--   DIMENSIONES_PZ,
   DIMENSIONES_CJ,
-  LENGTH_PZ,
-  WIDTH_PZ,
-  HEIGHT_PZ,
+--   LENGTH_PZ,
+--   WIDTH_PZ,
+--   HEIGHT_PZ,
   LENGTH_CJ,
   WIDTH_CJ,
   HEIGHT_CJ
@@ -20,7 +20,7 @@ FROM (
       MAX(CASE 
           WHEN UOM.QUANTITY_UM = 'PZ' THEN
               CASE 
-                  WHEN UOM.LENGTH <= 70 AND UOM.WIDTH <= 58 AND UOM.HEIGHT <= 69 
+                  WHEN UOM.LENGTH <= 73 AND UOM.WIDTH <= 60 AND UOM.HEIGHT <= 70 
                   THEN 'OK'
                   ELSE 'FUERA DE LIMITES'
               END
@@ -29,7 +29,7 @@ FROM (
        MAX(CASE 
           WHEN UOM.QUANTITY_UM = 'CJ' THEN
               CASE 
-                  WHEN UOM.LENGTH <= 70 AND UOM.WIDTH <= 58 AND UOM.HEIGHT <= 69
+                  WHEN UOM.LENGTH <= 73 AND UOM.WIDTH <= 60 AND UOM.HEIGHT <= 70
                   THEN 'OK'
                   ELSE 'FUERA DE LIMITES'
               END
@@ -43,7 +43,7 @@ FROM (
                   CAST(UOM.LENGTH AS DECIMAL(10,2)),
                   ' CM ',
                   CASE 
-                      WHEN UOM.LENGTH <= 70 THEN 'OK'
+                      WHEN UOM.LENGTH <= 73 THEN 'OK'
                       ELSE 'X'
                   END
               )
@@ -56,7 +56,7 @@ FROM (
                   CAST(UOM.WIDTH AS DECIMAL(10,2)),
                   ' CM ',
                   CASE 
-                      WHEN UOM.WIDTH <= 58 THEN 'OK'
+                      WHEN UOM.WIDTH <= 60 THEN 'OK'
                       ELSE 'X'
                   END
               )
@@ -69,7 +69,7 @@ FROM (
                   CAST(UOM.HEIGHT AS DECIMAL(10,2)),
                   ' CM ',
                   CASE 
-                      WHEN UOM.HEIGHT <= 69 THEN 'OK'
+                      WHEN UOM.HEIGHT <= 70 THEN 'OK'
                       ELSE 'X'
                   END
               )
@@ -83,7 +83,7 @@ FROM (
                   CAST(UOM.LENGTH AS DECIMAL(10,2)),
                   ' CM ',
                   CASE 
-                      WHEN UOM.LENGTH <= 70 THEN 'OK'
+                      WHEN UOM.LENGTH <= 73 THEN 'OK'
                       ELSE 'X'
                   END
               )
@@ -96,7 +96,7 @@ FROM (
                   CAST(UOM.WIDTH AS DECIMAL(10,2)),
                   ' CM ',
                   CASE 
-                      WHEN UOM.WIDTH <= 58 THEN 'OK'
+                      WHEN UOM.WIDTH <= 60 THEN 'OK'
                       ELSE 'X'
                   END
               )
@@ -109,7 +109,7 @@ FROM (
                   CAST(UOM.HEIGHT AS DECIMAL(10,2)),
                   ' CM ',
                   CASE 
-                      WHEN UOM.HEIGHT <= 69 THEN 'OK'
+                      WHEN UOM.HEIGHT <= 70 THEN 'OK'
                       ELSE 'X'
                   END
               )
@@ -159,7 +159,7 @@ FROM (
 ) AS CP
 
 
-WHERE NOT (DIMENSIONES_PZ = 'OK' AND DIMENSIONES_CJ = 'OK')
+WHERE NOT  DIMENSIONES_CJ = 'OK'
  --  AND ITEM LIKE '10034-%'
 
 -- @headers: ITEM,DESCRIPTION,DIMENSIONES_PZ,DIMENSIONES_CJ,LENGTH_PZ,WIDTH_PZ,HEIGHT_PZ,LENGTH_CJ,WIDTH_CJ,HEIGHT_CJ,
