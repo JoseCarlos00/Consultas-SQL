@@ -38,18 +38,20 @@ FROM (
 	INNER JOIN item I ON I.item = LI.item AND I.company = 'FM'
 
 	WHERE LI.warehouse = 'Tultitlan'
-    AND L.WORK_ZONE = 'W-Tul Producto Terminado'
+    AND L.warehouse = 'Tultitlan'
+    -- AND L.WORK_ZONE = 'W-Tul Producto Terminado'
+    -- AND L.WORK_ZONE = 'W-Tul Picos'
+    AND L.WORK_ZONE IN ('W-Tul Producto Terminado', 'W-Tul Picos') 
+
     AND I.item_category1 <> 'Bulk'
     AND I.item_category4 <> 'ZMUEBLE TDAS'
-    -- AND L.WORK_ZONE = 'W-Tul Picos'
-    -- AND (L.WORK_ZONE = 'W-Tul Producto Terminado' OR L.WORK_ZONE = 'W-Tul Picos') 
         -- AND (I.ITEM_CATEGORY4 LIKE '%NAV%' OR I.ITEM_CATEGORY4 LIKE '%MUERTOS%' )
 
 	GROUP BY  
     LI.WAREHOUSE, LI.LOCATION, LI.ITEM, LI.ITEM_COLOR, LI.COMPANY, LI.ON_HAND_QTY, LI.ALLOCATED_QTY, LI.IN_TRANSIT_QTY, LI.SUSPENSE_QTY, LI.internal_location_inv, LI.logistics_Unit, UOM.sequence, UOM.conversion_qty, I.company, I.ITEM_CATEGORY4, L.WORK_ZONE
 ) AS PRINCIPAL
 
-WHERE CAJAS <> ROUND(CAJAS, 0)
+WHERE (CAJAS <> ROUND(CAJAS, 0) OR WORK_ZONE = 'W-Tul Picos')
 -- AND CAJAS < 1 
 
 GROUP BY  WAREHOUSE, WORK_ZONE, LOCATION, ITEM, ITEM_COLOR, COMPANY, HUELLA_CJ, CAJAS, GRUPO
